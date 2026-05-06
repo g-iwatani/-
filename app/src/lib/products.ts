@@ -917,6 +917,140 @@ export const products: Product[] = [
     tagsJa: ["シニア", "段差対策", "国産"],
     tagsEn: ["senior", "step-support", "japanese"],
   },
+  // ─── 食器・給仕(医療効能は謳わない) ───────────────────────
+  {
+    id: "outward-hound-slow-bowl",
+    brand: "Outward Hound",
+    brandCountry: "US",
+    nameJa: "ファンフィーダー(スローフィーダーボウル)",
+    nameEn: "Fun Feeder Slow Bowl",
+    descJa:
+      "迷路状の凹凸で食事ペースを自然に落とす。早食い・退屈に。",
+    descEn:
+      "Maze-pattern bowl that naturally slows fast eaters and busts boredom.",
+    category: "env",
+    sizes: [
+      { label: "Mini", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Standard", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["fast-eater", "picky-eater", "lonely-when-alone"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 1980, priceUsd: 13, region: "global" },
+      { shop: "楽天", url: "#", priceJpy: 2180, region: "jp" },
+    ],
+    popularity: 76,
+    imagePalette: { from: "#A8C77A", to: "#4F6A2C" },
+    imageEmoji: "🍽️",
+    tagsJa: ["スローフィーダー", "食事の工夫"],
+    tagsEn: ["slow-feeder", "feeding"],
+  },
+  {
+    id: "richell-bowl-stand",
+    brand: "Richell",
+    brandCountry: "JP",
+    nameJa: "高さ調整できる食器スタンド",
+    nameEn: "Height-Adjustable Bowl Stand",
+    descJa:
+      "首と背中の負担を減らす高さ調整スタンド。シニア犬・大型犬・うつむき食いの子に。",
+    descEn:
+      "Adjustable stand that reduces neck and back strain at meals.",
+    category: "env",
+    sizes: [
+      { label: "S", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "M", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "L", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["picky-eater", "senior-dog"],
+    fitsBreedSizes: ["small", "medium", "large", "giant"],
+    buyOptions: [{ shop: "楽天", url: "#", priceJpy: 3800, region: "jp" }],
+    popularity: 60,
+    imagePalette: { from: "#D8C0A4", to: "#7A5938" },
+    imageEmoji: "🍱",
+    tagsJa: ["食器スタンド", "シニア"],
+    tagsEn: ["feeding stand", "senior"],
+  },
+  // ─── 子犬向け ───────────────────────
+  {
+    id: "puppia-soft-harness",
+    brand: "Puppia",
+    brandCountry: "KR",
+    nameJa: "ソフトハーネス",
+    nameEn: "Soft Harness",
+    descJa:
+      "首に圧をかけない胴ベルト式のソフトハーネス。子犬や小型犬の散歩デビューに。",
+    descEn:
+      "Padded vest-style harness — gentle on the neck for small dogs and puppies.",
+    category: "env",
+    sizes: [
+      { label: "XS", chestMin: 26, chestMax: 36, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "S", chestMin: 36, chestMax: 46, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "M", chestMin: 46, chestMax: 58, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "L", chestMin: 58, chestMax: 70, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["puppy", "small-breed", "slips-off"],
+    fitsBreedSizes: ["tiny", "small", "medium"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 2380, priceUsd: 16, region: "global" },
+    ],
+    popularity: 80,
+    imagePalette: { from: "#F4C7CB", to: "#9C5A66" },
+    imageEmoji: "🎀",
+    tagsJa: ["子犬", "ソフト", "首に優しい"],
+    tagsEn: ["puppy", "soft", "neck-friendly"],
+  },
+  {
+    id: "ruffwear-stash-bag",
+    brand: "Ruffwear",
+    brandCountry: "US",
+    nameJa: "スタッシュバッグ(ウンチ袋ホルダー)",
+    nameEn: "Stash Bag",
+    descJa:
+      "リードに付ける処理袋ホルダー。長時間散歩・ドッグラン派の必需品。",
+    descEn:
+      "Leash-mounted poop-bag holder for long walks and the dog park.",
+    category: "env",
+    sizes: [
+      { label: "One Size", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["long-walker", "active-sports"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large", "giant"],
+    buyOptions: [
+      { shop: "公式", url: "#", priceJpy: 1980, priceUsd: 14, region: "global" },
+    ],
+    popularity: 55,
+    imagePalette: { from: "#5C7548", to: "#2E3D24" },
+    imageEmoji: "👜",
+    tagsJa: ["長時間散歩", "アウトドア"],
+    tagsEn: ["long-walks", "outdoor"],
+  },
+  {
+    id: "ruffwear-quencher-bowl",
+    brand: "Ruffwear",
+    brandCountry: "US",
+    nameJa: "クエンチャー 折りたたみボウル",
+    nameEn: "Quencher Travel Bowl",
+    descJa:
+      "コンパクトに折りたためる携帯ボウル。アウトドア・長時間散歩・夏場の水分補給に。",
+    descEn:
+      "Packable bowl for hydration on long walks, hikes, and hot days.",
+    category: "env",
+    sizes: [
+      { label: "Small", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Medium", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["long-walker", "active-sports", "hot-summer"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large"],
+    buyOptions: [
+      { shop: "公式", url: "#", priceJpy: 2480, priceUsd: 17, region: "global" },
+      { shop: "Amazon", url: "#", priceJpy: 2680, priceUsd: 18, region: "global" },
+    ],
+    popularity: 62,
+    imagePalette: { from: "#5C8DBA", to: "#2D4F73" },
+    imageEmoji: "🥣",
+    tagsJa: ["携帯ボウル", "アウトドア"],
+    tagsEn: ["travel-bowl", "outdoor"],
+  },
 ];
 
 export function getProduct(id: string): Product | undefined {

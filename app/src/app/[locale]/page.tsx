@@ -1,10 +1,29 @@
 import Link from "next/link";
-import { ConcernCard } from "@/components/ConcernCard";
-import { ProductCard } from "@/components/ProductCard";
-import { getPopularConcerns } from "@/lib/concerns";
-import { getPopularProducts } from "@/lib/products";
-import { getDictionary, hasLocale } from "./dictionaries";
 import { notFound } from "next/navigation";
+import { BreedChip } from "@/components/BreedChip";
+import { ConcernChip } from "@/components/ConcernChip";
+import { MiniProductCard } from "@/components/MiniProductCard";
+import { Rail, RailItem } from "@/components/Rail";
+import { breeds, getPopularBreeds } from "@/lib/breeds";
+import {
+  concerns,
+  getConcernsByCategory,
+  getPopularConcerns,
+} from "@/lib/concerns";
+import { listBrands, products } from "@/lib/products";
+import { getDictionary, hasLocale } from "./dictionaries";
+
+function productsByConcern(concernId: string) {
+  return products
+    .filter((p) => p.concerns.includes(concernId))
+    .sort((a, b) => b.popularity - a.popularity);
+}
+
+function productsByCategory(category: "apparel" | "toy" | "env") {
+  return products
+    .filter((p) => p.category === category)
+    .sort((a, b) => b.popularity - a.popularity);
+}
 
 export default async function HomePage({
   params,
@@ -14,36 +33,127 @@ export default async function HomePage({
   const dict = await getDictionary(locale);
   const root = `/${locale}`;
 
-  const popularConcerns = getPopularConcerns(6);
-  const popularProducts = getPopularProducts(4);
+  const popularBreeds = getPopularBreeds();
+  const allBreeds = breeds.filter((b) => b.id !== "mix" && !b.id.startsWith("unknown-"));
+  const popularConcerns = getPopularConcerns(8);
 
-  // 商品をProductMatch型に揃える(レコメンド色を入れずに人気順をそのまま表示)
-  const popularMatches = popularProducts.map((product) => ({
-    product,
-    bestSize: undefined,
-    concernHits: [],
-    concernMatchRatio: 0,
-    popularityScore: product.popularity,
-    totalScore: product.popularity,
-  }));
+  const rails: Array<{
+    title: string;
+    subtitle?: string;
+    concernId?: string;
+    category?: "apparel" | "toy" | "env";
+    custom?: { products: typeof products };
+  }> = [
+    {
+      title: locale === "ja" ? "服(全般)" : "Apparel",
+      subtitle:
+        locale === "ja"
+          ? "シーズン・体型に合わせて選べる定番"
+          : "Year-round and seasonal apparel staples",
+      category: "apparel",
+    },
+    {
+      title:
+        locale === "ja"
+          ? "MIX犬・小型犬向けの服"
+          : "Apparel for small and mixed breeds",
+      concernId: "small-breed",
+    },
+    {
+      title:
+        locale === "ja"
+          ? "頑丈で長持ちするおもちゃ"
+          : "Tough, long-lasting toys",
+      concernId: "destroys-toys",
+    },
+    {
+      title: locale === "ja" ? "暑がりさんの夏支度" : "Beat the summer heat",
+      concernId: "hot-summer",
+    },
+    {
+      title: locale === "ja" ? "冬の防寒コート" : "Winter warmth",
+      concernId: "cold-winter",
+    },
+    {
+      title:
+        locale === "ja"
+          ? "雨の日の散歩を快適に"
+          : "Make rainy walks easy",
+      concernId: "rainy-walk",
+    },
+    {
+      title: locale === "ja" ? "留守番が苦手な子に" : "For dogs who hate alone time",
+      concernId: "lonely-when-alone",
+    },
+    {
+      title:
+        locale === "ja"
+          ? "引っ張り癖を直したい"
+          : "For pullers on the leash",
+      concernId: "pulls-leash",
+    },
+    {
+      title: locale === "ja" ? "シニア犬向けケア" : "Senior-dog support",
+      concernId: "senior-dog",
+    },
+    {
+      title:
+        locale === "ja"
+          ? "ご飯のお悩みに(食器・給仕)"
+          : "Mealtime helpers (bowls and feeders)",
+      subtitle:
+        locale === "ja"
+          ? "早食い・偏食・うつむき食いなどの工夫"
+          : "Slow feeders, height-adjustable stands and more",
+      concernId: "picky-eater",
+    },
+    {
+      title: locale === "ja" ? "子犬を迎えたばかりの方へ" : "New-puppy starters",
+      concernId: "puppy",
+    },
+    {
+      title:
+        locale === "ja"
+          ? "長時間散歩派の装備"
+          : "Gear for long-walk lifestyles",
+      concernId: "long-walker",
+    },
+    {
+      title: locale === "ja" ? "おもちゃ全般" : "All toys",
+      category: "toy",
+    },
+    {
+      title:
+        locale === "ja"
+          ? "ハーネス・装備一覧"
+          : "Harnesses & gear",
+      category: "env",
+    },
+  ];
+
+  const visibleRails = rails.filter((r) => {
+    if (r.concernId) return productsByConcern(r.concernId).length > 0;
+    if (r.category) return productsByCategory(r.category).length > 0;
+    return true;
+  });
 
   return (
-    <div>
+    <div className="pb-12">
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <div className="mx-auto max-w-6xl px-5 pt-12 pb-16 md:pt-20 md:pb-24">
+        <div className="mx-auto max-w-7xl px-5 pt-10 pb-10 md:pt-16 md:pb-14">
           <div className="grid gap-10 md:grid-cols-[3fr_2fr] md:items-center">
-            <div className="space-y-6">
+            <div className="space-y-5">
               <p className="inline-flex items-center rounded-full bg-primary-soft px-3 py-1 text-xs font-bold uppercase tracking-wide text-primary">
                 {dict.hero.eyebrow}
               </p>
-              <h1 className="whitespace-pre-line text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
+              <h1 className="whitespace-pre-line text-3xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
                 {dict.hero.title}
               </h1>
-              <p className="max-w-xl text-base leading-relaxed text-muted-fg md:text-lg">
+              <p className="max-w-xl text-sm leading-relaxed text-muted-fg md:text-base">
                 {dict.hero.subtitle}
               </p>
-              <div className="flex flex-wrap items-center gap-3 pt-2">
+              <div className="flex flex-wrap items-center gap-3 pt-1">
                 <Link
                   href={`${root}/search`}
                   className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-fg shadow-md shadow-primary/20 transition-transform hover:-translate-y-0.5"
@@ -66,97 +176,158 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* Value props */}
-      <section className="mx-auto max-w-6xl px-5 pb-12">
-        <h2 className="text-xl font-extrabold tracking-tight text-foreground md:text-2xl">
-          {dict.value_props.title}
-        </h2>
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
-          {dict.value_props.items.map((item, idx) => (
-            <div
-              key={idx}
-              className="rounded-3xl border border-card-border bg-card p-6"
-            >
-              <div className="grid h-10 w-10 place-items-center rounded-xl bg-accent-soft text-accent">
-                <span className="text-lg font-extrabold">{idx + 1}</span>
-              </div>
-              <h3 className="mt-4 text-base font-bold text-foreground">
-                {item.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-fg">
-                {item.body}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Popular concerns */}
-      <section
-        id="popular-concerns"
-        className="mx-auto max-w-6xl px-5 pt-12 pb-8"
+      {/* Popular breeds rail */}
+      <Rail
+        title={locale === "ja" ? "人気の犬種から探す" : "Popular breeds"}
+        subtitle={
+          locale === "ja"
+            ? "うちの子の犬種をタップ"
+            : "Tap your dog's breed"
+        }
+        viewAllHref={`${root}/search`}
+        viewAllLabel={locale === "ja" ? "全犬種を見る" : "All breeds"}
       >
-        <div className="flex items-end justify-between gap-4">
-          <div>
-            <h2 className="text-xl font-extrabold tracking-tight text-foreground md:text-2xl">
-              {dict.popular_concerns.title}
-            </h2>
-            <p className="mt-1 text-sm text-muted-fg">
-              {dict.popular_concerns.subtitle}
-            </p>
-          </div>
-          <Link
-            href={`${root}/search`}
-            className="hidden text-sm font-semibold text-primary hover:underline md:inline"
-          >
-            {dict.popular_concerns.view_all} →
-          </Link>
-        </div>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {popularConcerns.map((concern) => (
-            <ConcernCard
-              key={concern.id}
+        {[...popularBreeds, ...allBreeds.slice(0, 24)].map((breed) => (
+          <RailItem key={`pop-${breed.id}`}>
+            <BreedChip breed={breed} locale={locale} />
+          </RailItem>
+        ))}
+      </Rail>
+
+      {/* Popular concerns rail */}
+      <Rail
+        title={
+          locale === "ja"
+            ? "今みんなが悩んでいること"
+            : "What dog parents are working on"
+        }
+        subtitle={
+          locale === "ja"
+            ? "悩みをタップして関連商品をチェック"
+            : "Tap a problem to see relevant items"
+        }
+        viewAllHref={`${root}/search`}
+      >
+        {popularConcerns.map((concern) => (
+          <RailItem key={`con-${concern.id}`}>
+            <ConcernChip
               concern={concern}
               locale={locale}
               href={`${root}/results?concerns=${concern.id}`}
             />
-          ))}
+          </RailItem>
+        ))}
+      </Rail>
+
+      {/* Product rails */}
+      {visibleRails.map((rail, idx) => {
+        let items: typeof products = [];
+        if (rail.concernId) items = productsByConcern(rail.concernId);
+        else if (rail.category) items = productsByCategory(rail.category);
+        if (items.length === 0) return null;
+        const href = rail.concernId
+          ? `${root}/results?concerns=${rail.concernId}`
+          : `${root}/results`;
+        return (
+          <Rail
+            key={`rail-${idx}`}
+            title={rail.title}
+            subtitle={rail.subtitle}
+            viewAllHref={href}
+          >
+            {items.map((p) => (
+              <RailItem key={`${idx}-${p.id}`}>
+                <MiniProductCard
+                  product={p}
+                  locale={locale}
+                  href={`${root}/products/${p.id}`}
+                />
+              </RailItem>
+            ))}
+          </Rail>
+        );
+      })}
+
+      {/* Concern category rails (size, season, behavior, purpose) */}
+      {(["size", "season", "behavior", "purpose"] as const).map((cat) => {
+        const items = getConcernsByCategory(cat);
+        if (items.length === 0) return null;
+        const titles: Record<typeof cat, { ja: string; en: string }> = {
+          size: { ja: "サイズ・体型のお悩み", en: "Size & fit concerns" },
+          season: { ja: "季節・天気のお悩み", en: "Seasonal concerns" },
+          behavior: { ja: "行動・性格のお悩み", en: "Behavior concerns" },
+          purpose: { ja: "用途・場面別", en: "By purpose" },
+        };
+        return (
+          <Rail
+            key={`con-cat-${cat}`}
+            title={locale === "ja" ? titles[cat].ja : titles[cat].en}
+          >
+            {items.map((concern) => (
+              <RailItem key={`cat-${cat}-${concern.id}`}>
+                <ConcernChip
+                  concern={concern}
+                  locale={locale}
+                  href={`${root}/results?concerns=${concern.id}`}
+                />
+              </RailItem>
+            ))}
+          </Rail>
+        );
+      })}
+
+      {/* Brands rail */}
+      <Rail
+        title={locale === "ja" ? "ブランド一覧" : "Brands we cover"}
+        subtitle={
+          locale === "ja"
+            ? "国内外のブランドを横断して比較"
+            : "Compare across global brands"
+        }
+        viewAllHref={`${root}/results`}
+      >
+        {listBrands().map((brand) => (
+          <RailItem key={`brand-${brand}`}>
+            <Link
+              href={`${root}/results?brand=${encodeURIComponent(brand)}`}
+              className="flex h-20 w-[160px] items-center justify-center rounded-2xl border border-card-border bg-card px-4 text-sm font-bold text-foreground transition-all hover:-translate-y-0.5 hover:border-primary hover:text-primary md:h-24 md:w-[180px]"
+            >
+              {brand}
+            </Link>
+          </RailItem>
+        ))}
+      </Rail>
+
+      {/* Bottom CTA */}
+      <section className="mx-auto mt-20 max-w-4xl px-5">
+        <div className="rounded-3xl bg-primary p-8 text-primary-fg md:p-12">
+          <h2 className="text-2xl font-extrabold tracking-tight md:text-3xl">
+            {locale === "ja"
+              ? "うちの子に何が合うか、まだ迷ってる?"
+              : "Still wondering what fits your dog?"}
+          </h2>
+          <p className="mt-2 text-sm opacity-90 md:text-base">
+            {locale === "ja"
+              ? "犬種・採寸・困りごとを入れるだけで、複数ブランドを横断したレコメンドが出ます。"
+              : "Plug in breed, measurements, and concerns. We surface matching items across many brands."}
+          </p>
+          <Link
+            href={`${root}/search`}
+            className="mt-6 inline-flex items-center justify-center rounded-full bg-background px-6 py-3 text-sm font-bold text-foreground transition-transform hover:-translate-y-0.5"
+          >
+            {dict.hero.cta_primary} →
+          </Link>
         </div>
       </section>
 
-      {/* Popular products */}
-      <section className="mx-auto max-w-6xl px-5 pt-12 pb-20">
-        <div className="flex items-end justify-between gap-4">
-          <div>
-            <h2 className="text-xl font-extrabold tracking-tight text-foreground md:text-2xl">
-              {dict.popular_products.title}
-            </h2>
-            <p className="mt-1 text-sm text-muted-fg">
-              {dict.popular_products.subtitle}
-            </p>
-          </div>
-          <Link
-            href={`${root}/results`}
-            className="hidden text-sm font-semibold text-primary hover:underline md:inline"
-          >
-            {dict.popular_products.view_all} →
-          </Link>
-        </div>
-        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {popularMatches.map((match) => (
-            <ProductCard
-              key={match.product.id}
-              match={match}
-              locale={locale}
-              dict={dict}
-              href={`${root}/products/${match.product.id}`}
-            />
-          ))}
-        </div>
-      </section>
+      {/* hidden anchor for #popular-concerns scroll target */}
+      <span id="popular-concerns" className="block h-0" aria-hidden="true" />
     </div>
   );
 }
+
+// concerns referenced for typing only
+void concerns;
 
 function HeroIllustration() {
   return (
@@ -174,7 +345,6 @@ function HeroIllustration() {
         xmlns="http://www.w3.org/2000/svg"
         className="relative h-full w-full"
       >
-        {/* Background paw shapes */}
         <g opacity="0.18" fill="#d97a4e">
           <ellipse cx="60" cy="80" rx="14" ry="12" />
           <ellipse cx="80" cy="60" rx="6" ry="8" />
@@ -187,8 +357,6 @@ function HeroIllustration() {
           <ellipse cx="358" cy="302" rx="6" ry="8" />
           <ellipse cx="328" cy="296" rx="6" ry="8" />
         </g>
-
-        {/* Dog silhouette card */}
         <g transform="translate(80,90)">
           <rect
             x="0"
@@ -200,7 +368,6 @@ function HeroIllustration() {
             stroke="#ead9c2"
             strokeWidth="2"
           />
-          {/* Stylized dog face */}
           <g transform="translate(120,110)">
             <ellipse cx="0" cy="20" rx="62" ry="56" fill="#fce6d8" />
             <ellipse cx="-30" cy="-10" rx="20" ry="32" fill="#d97a4e" />
@@ -215,16 +382,6 @@ function HeroIllustration() {
               fill="none"
               strokeLinecap="round"
             />
-          </g>
-          <g
-            transform="translate(120,206)"
-            fontFamily="-apple-system, BlinkMacSystemFont, sans-serif"
-            fontSize="11"
-            fill="#6b5848"
-            textAnchor="middle"
-            fontWeight="600"
-          >
-            <text>うちの子にぴったり</text>
           </g>
         </g>
       </svg>

@@ -179,6 +179,55 @@ export const concerns: Concern[] = [
     popularity: 56,
     iconKey: "leaf",
   },
+  // ─ 食事・採食まわり(医療/効能訴求はせず、給仕方法・食器のみ扱う)─
+  {
+    id: "picky-eater",
+    category: "behavior",
+    labelJa: "ご飯をなかなか食べない / 好き嫌いが激しい",
+    labelEn: "Picky eater / refuses meals",
+    descJa:
+      "食器の高さ・形・素材を見直す、知育系のスローフィーダーで興味を引くなど、給仕の工夫で改善することがあります。",
+    descEn:
+      "Try a different bowl height, shape, or material — and slow / puzzle feeders to make eating engaging.",
+    popularity: 64,
+    iconKey: "compass",
+  },
+  {
+    id: "fast-eater",
+    category: "behavior",
+    labelJa: "早食いが心配",
+    labelEn: "Eats too fast",
+    descJa:
+      "スローフィーダー型のボウルやノーズワークマットでペースを落とす。",
+    descEn:
+      "Slow-feeder bowls and snuffle mats slow the pace.",
+    popularity: 50,
+    iconKey: "shield",
+  },
+  {
+    id: "puppy",
+    category: "purpose",
+    labelJa: "子犬を迎えたばかり",
+    labelEn: "Just got a puppy",
+    descJa:
+      "サイズが日々変わる時期。フィット調整しやすい服、噛んでもよいおもちゃ、お留守番グッズ。",
+    descEn:
+      "Sizes change weekly. Adjustable clothes, chew-friendly toys, and home-alone gear.",
+    popularity: 78,
+    iconKey: "sparkles",
+  },
+  {
+    id: "long-walker",
+    category: "purpose",
+    labelJa: "長時間散歩する",
+    labelEn: "Long-walk lifestyle",
+    descJa:
+      "通気性とフィットの良い装備、給水ボウル、肉球ケア。",
+    descEn:
+      "Breathable, well-fitted gear plus collapsible bowls and paw care.",
+    popularity: 60,
+    iconKey: "footprints",
+  },
 ];
 
 export function getConcern(id: string): Concern | undefined {
