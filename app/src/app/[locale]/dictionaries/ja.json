@@ -1,0 +1,134 @@
+{
+  "brand": {
+    "name": "わんプロブレム",
+    "tagline": "ワンちゃんの困りごとに、世界中のブランドから答えを。"
+  },
+  "nav": {
+    "search": "悩みから探す",
+    "browse": "商品を見る",
+    "guides": "犬種ガイド",
+    "about": "サイトについて"
+  },
+  "hero": {
+    "eyebrow": "MIX犬・小型犬・大型犬すべてに",
+    "title": "ワンちゃんの「困った」を、\nぴったりの商品で解決。",
+    "subtitle": "犬種・体型・困りごとを入力するだけ。複数のブランドから本当に合う商品が見つかります。発送はせず、ぜんぶ各ブランドの公式サイトに送客するだけの中立メディアです。",
+    "cta_primary": "うちの子に合うものを探す",
+    "cta_secondary": "人気の悩みから見る"
+  },
+  "popular_concerns": {
+    "title": "みんなが悩んでいること",
+    "subtitle": "他の飼い主さんが抱えている代表的な困りごと",
+    "view_all": "すべての悩みを見る"
+  },
+  "popular_products": {
+    "title": "今週よく見られている商品",
+    "subtitle": "他のワンちゃんに選ばれているアイテム",
+    "view_all": "もっと見る"
+  },
+  "value_props": {
+    "title": "わんプロブレムの3つの特徴",
+    "items": [
+      {
+        "title": "MIX犬にもぴったり",
+        "body": "親犬種を2つ入力するか採寸を入れるだけで、複数ブランドの中から最適サイズを推定します。"
+      },
+      {
+        "title": "発送はしません",
+        "body": "中立な紹介メディアです。気に入った商品は各ブランドの公式サイトでご購入いただきます。"
+      },
+      {
+        "title": "悩みから探せる",
+        "body": "「散歩で引っ張る」「暑がり」など、飼い主の悩みからピッタリの商品をレコメンドします。"
+      }
+    ]
+  },
+  "search": {
+    "title": "ワンちゃんの情報を教えてください",
+    "step": "ステップ {current} / {total}",
+    "back": "戻る",
+    "next": "次へ",
+    "complete": "結果を見る",
+    "skip": "スキップする",
+    "step_breed": {
+      "title": "犬種を選んでください",
+      "subtitle": "MIX犬の場合は親犬種を1つまたは2つ選択できます",
+      "search_placeholder": "犬種を検索",
+      "mix_hint": "MIX犬ですか? 親犬種を2つ選んでください",
+      "no_breed": "犬種が分からない / 採寸だけで探す"
+    },
+    "step_size": {
+      "title": "体型を教えてください",
+      "subtitle": "正確な採寸があるとベストフィットが見つかります",
+      "weight_label": "体重",
+      "weight_unit": "kg",
+      "chest_label": "胸囲",
+      "back_label": "背丈",
+      "neck_label": "首回り",
+      "size_unit": "cm",
+      "use_average": "犬種の平均値を使う"
+    },
+    "step_concerns": {
+      "title": "気になっていることを選んでください",
+      "subtitle": "複数選んでも大丈夫です。一つも選ばずに進むこともできます。"
+    }
+  },
+  "results": {
+    "title": "あなたのワンちゃんに合いそうな商品",
+    "count": "{count} 件",
+    "sort": {
+      "label": "並び替え",
+      "popular": "人気順",
+      "match": "悩みマッチ順",
+      "fit": "サイズフィット順",
+      "price_asc": "価格が安い順",
+      "price_desc": "価格が高い順"
+    },
+    "filter": {
+      "title": "絞り込み",
+      "category": "カテゴリ",
+      "category_apparel": "服",
+      "category_toy": "おもちゃ",
+      "category_env": "環境対応",
+      "price": "価格",
+      "brand": "ブランド",
+      "reset": "リセット",
+      "apply": "適用する"
+    },
+    "empty": "条件に合う商品が見つかりませんでした。フィルタを緩めてお試しください。",
+    "view_filters": "絞り込み"
+  },
+  "product_card": {
+    "fit_score": "フィット度 {score}%",
+    "concern_match": "悩みマッチ {count} / {total}",
+    "view_detail": "詳しく見る",
+    "buy_at": "{shop} で見る",
+    "price_from": "{price} 〜",
+    "size_recommended": "推奨サイズ: {size}"
+  },
+  "product_detail": {
+    "size_chart": "サイズチャート",
+    "size_recommended_for_dog": "あなたのワンちゃんへの推奨サイズ",
+    "fit_score": "フィット度",
+    "addresses_concerns": "解決できる悩み",
+    "buy_options": "購入できるショップ",
+    "external_disclaimer": "リンク先は各ブランド/モールの公式ページです。購入や決済は各サイトのルールに従います。",
+    "back_to_results": "結果一覧に戻る"
+  },
+  "footer": {
+    "tagline": "ワンちゃんの困りごとから、ぴったりを探すアグリゲーター。",
+    "links_title": "サイト",
+    "policy_title": "ご利用について",
+    "links": {
+      "home": "ホーム",
+      "search": "悩みから探す",
+      "guides": "犬種ガイド",
+      "about": "サイトについて",
+      "privacy": "プライバシーポリシー",
+      "terms": "利用規約",
+      "affiliate_disclosure": "アフィリエイト開示",
+      "contact": "お問い合わせ"
+    },
+    "copyright": "© {year} わんプロブレム"
+  }
+}

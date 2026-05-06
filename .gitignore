@@ -1,0 +1,25 @@
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+
+# Aggregate Node artifacts (delegated to app/.gitignore for finer rules)
+node_modules/
+.next/
+.turbo/
+out/
+build/
+
+# Logs
+*.log
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Vercel
+.vercel/
+
+# TypeScript caches
+*.tsbuildinfo

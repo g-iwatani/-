@@ -1,0 +1,134 @@
+{
+  "brand": {
+    "name": "WanProblem",
+    "tagline": "Match your dog's troubles with the right gear from anywhere."
+  },
+  "nav": {
+    "search": "Find by problem",
+    "browse": "Browse",
+    "guides": "Breed guides",
+    "about": "About"
+  },
+  "hero": {
+    "eyebrow": "For mixes, smalls, and giants alike",
+    "title": "Solve your dog's daily struggles\nwith the right product.",
+    "subtitle": "Tell us your dog's breed, body, and what's bothering them. We surface the best-matching products across many brands. We don't ship anything — we just help you find them and link out to the brand's official site.",
+    "cta_primary": "Find what fits my dog",
+    "cta_secondary": "Browse popular problems"
+  },
+  "popular_concerns": {
+    "title": "What dog parents struggle with",
+    "subtitle": "The top concerns other owners are working through",
+    "view_all": "See all problems"
+  },
+  "popular_products": {
+    "title": "Trending this week",
+    "subtitle": "Items other dogs are wearing and loving",
+    "view_all": "See more"
+  },
+  "value_props": {
+    "title": "Three things that make WanProblem different",
+    "items": [
+      {
+        "title": "Built for mixed breeds too",
+        "body": "Pick one or two parent breeds, or just enter measurements. We estimate the best fit across multiple brands' size charts."
+      },
+      {
+        "title": "We don't ship a thing",
+        "body": "We are a neutral aggregator. When you find what you want, you buy directly from the brand's own site."
+      },
+      {
+        "title": "Search by what's bothering you",
+        "body": "From 'pulls on walks' to 'overheats easily', we surface products by the actual problem you're solving."
+      }
+    ]
+  },
+  "search": {
+    "title": "Tell us about your dog",
+    "step": "Step {current} of {total}",
+    "back": "Back",
+    "next": "Next",
+    "complete": "See results",
+    "skip": "Skip",
+    "step_breed": {
+      "title": "Pick a breed",
+      "subtitle": "If your dog is mixed, choose one or two parent breeds",
+      "search_placeholder": "Search breeds",
+      "mix_hint": "Mixed breed? Pick two parent breeds",
+      "no_breed": "Don't know the breed / use measurements only"
+    },
+    "step_size": {
+      "title": "Measurements",
+      "subtitle": "Accurate measurements give the best fit suggestions",
+      "weight_label": "Weight",
+      "weight_unit": "kg",
+      "chest_label": "Chest",
+      "back_label": "Back",
+      "neck_label": "Neck",
+      "size_unit": "cm",
+      "use_average": "Use breed average"
+    },
+    "step_concerns": {
+      "title": "What's on your mind?",
+      "subtitle": "Pick as many as you like, or skip and we'll show popular items."
+    }
+  },
+  "results": {
+    "title": "Products that should suit your dog",
+    "count": "{count} items",
+    "sort": {
+      "label": "Sort",
+      "popular": "Popular",
+      "match": "Best problem match",
+      "fit": "Best fit",
+      "price_asc": "Price: low to high",
+      "price_desc": "Price: high to low"
+    },
+    "filter": {
+      "title": "Filter",
+      "category": "Category",
+      "category_apparel": "Apparel",
+      "category_toy": "Toys",
+      "category_env": "Environment & gear",
+      "price": "Price",
+      "brand": "Brand",
+      "reset": "Reset",
+      "apply": "Apply"
+    },
+    "empty": "No products match. Try loosening the filters.",
+    "view_filters": "Filter"
+  },
+  "product_card": {
+    "fit_score": "Fit {score}%",
+    "concern_match": "Solves {count}/{total}",
+    "view_detail": "View details",
+    "buy_at": "View on {shop}",
+    "price_from": "From {price}",
+    "size_recommended": "Suggested size: {size}"
+  },
+  "product_detail": {
+    "size_chart": "Size chart",
+    "size_recommended_for_dog": "Suggested size for your dog",
+    "fit_score": "Fit score",
+    "addresses_concerns": "Problems it helps with",
+    "buy_options": "Where to buy",
+    "external_disclaimer": "Links go to each brand or marketplace's own site. Purchases are governed by their terms.",
+    "back_to_results": "Back to results"
+  },
+  "footer": {
+    "tagline": "An aggregator that matches your dog's troubles to the right gear.",
+    "links_title": "Site",
+    "policy_title": "Policies",
+    "links": {
+      "home": "Home",
+      "search": "Find by problem",
+      "guides": "Breed guides",
+      "about": "About",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "affiliate_disclosure": "Affiliate disclosure",
+      "contact": "Contact"
+    },
+    "copyright": "© {year} WanProblem"
+  }
+}
