@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
 import { notFound } from "next/navigation";
-import "../globals.css";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import {
@@ -11,14 +9,11 @@ import {
   locales,
 } from "./dictionaries";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
 export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
+
+export const dynamicParams = false;
 
 export async function generateMetadata({
   params,
@@ -44,15 +39,10 @@ export default async function LocaleLayout({
   const dict = await getDictionary(locale);
 
   return (
-    <html
-      lang={locale}
-      className={`${geistSans.variable} h-full antialiased`}
-    >
-      <body className="min-h-full bg-grain bg-background flex flex-col">
-        <Header locale={locale} dict={dict} />
-        <main className="flex-1">{children}</main>
-        <Footer locale={locale} dict={dict} />
-      </body>
-    </html>
+    <>
+      <Header locale={locale} dict={dict} />
+      <main className="flex-1">{children}</main>
+      <Footer locale={locale} dict={dict} />
+    </>
   );
 }
