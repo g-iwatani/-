@@ -5,6 +5,11 @@
 
 複数のブランドを横断して、犬種・体型(MIX犬対応)・困りごとから最適な犬用品を探せる紹介(アフィリエイト)型メディア。発送・在庫は持たず、各ブランドの公式サイトに送客するだけの中立アグリゲーター。
 
+## Live
+
+- Production: https://swart-kappa-13.vercel.app/
+- Vercel project: `g-iwatani/-` / branch `claude/build-new-website-3AHnd`
+
 ## スコープ(MVP)
 
 - スコープ: **服 + おもちゃ + 環境対応グッズ**(医療色のあるカテゴリは意図的に除外)
