@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Dictionary, Locale } from "@/app/[locale]/dictionaries";
 import type { Concern } from "@/lib/concerns";
 import { format } from "@/lib/format";
@@ -26,14 +26,16 @@ type Props = {
   };
 };
 
-const sortOptions: { key: SortKey; labelKey: keyof Dictionary["results"]["sort"] }[] =
-  [
-    { key: "match", labelKey: "match" },
-    { key: "fit", labelKey: "fit" },
-    { key: "popular", labelKey: "popular" },
-    { key: "price_asc", labelKey: "price_asc" },
-    { key: "price_desc", labelKey: "price_desc" },
-  ];
+const sortOptions: {
+  key: SortKey;
+  labelKey: keyof Dictionary["results"]["sort"];
+}[] = [
+  { key: "match", labelKey: "match" },
+  { key: "fit", labelKey: "fit" },
+  { key: "popular", labelKey: "popular" },
+  { key: "price_asc", labelKey: "price_asc" },
+  { key: "price_desc", labelKey: "price_desc" },
+];
 
 const categoryOrder: ProductCategory[] = ["apparel", "toy", "env"];
 
@@ -50,6 +52,20 @@ export function ResultsView({
     "all",
   );
   const [activeBrand, setActiveBrand] = useState<string | "all">("all");
+  const [showFilterSheet, setShowFilterSheet] = useState(false);
+  const [priceMax, setPriceMax] = useState<number | null>(null);
+
+  // Lock body scroll when sheet is open
+  useEffect(() => {
+    if (showFilterSheet) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showFilterSheet]);
 
   const sorted = useMemo(
     () => sortMatches(initialMatches, sort),
@@ -62,20 +78,40 @@ export function ResultsView({
         return false;
       if (activeBrand !== "all" && m.product.brand !== activeBrand)
         return false;
+      if (priceMax != null) {
+        const lowestPrice = Math.min(
+          ...m.product.buyOptions.map((b) => b.priceJpy),
+        );
+        if (lowestPrice > priceMax) return false;
+      }
       return true;
     });
-  }, [sorted, activeCategory, activeBrand]);
+  }, [sorted, activeCategory, activeBrand, priceMax]);
 
-  const countByCategory: Record<ProductCategory, number> = {
-    apparel: sorted.filter((m) => m.product.category === "apparel").length,
-    toy: sorted.filter((m) => m.product.category === "toy").length,
-    env: sorted.filter((m) => m.product.category === "env").length,
-  };
+  const countByCategory: Record<ProductCategory, number> = useMemo(
+    () => ({
+      apparel: sorted.filter((m) => m.product.category === "apparel").length,
+      toy: sorted.filter((m) => m.product.category === "toy").length,
+      env: sorted.filter((m) => m.product.category === "env").length,
+    }),
+    [sorted],
+  );
+
+  const activeFiltersCount =
+    (activeCategory !== "all" ? 1 : 0) +
+    (activeBrand !== "all" ? 1 : 0) +
+    (priceMax != null ? 1 : 0);
+
+  function resetFilters() {
+    setActiveCategory("all");
+    setActiveBrand("all");
+    setPriceMax(null);
+  }
 
   return (
-    <div className="mx-auto max-w-7xl px-5 pt-8 pb-16">
+    <div className="mx-auto max-w-7xl px-5 pt-5 pb-16">
       <header className="space-y-3">
-        <h1 className="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+        <h1 className="text-2xl font-extrabold tracking-tight text-foreground md:text-4xl">
           {dict.results.title}
         </h1>
         {measurementsSummary && (
@@ -87,109 +123,131 @@ export function ResultsView({
         )}
       </header>
 
-      {/* Category tabs (Trivago-style top-level switching) */}
-      <div className="mt-6 flex flex-wrap gap-2 border-b border-border pb-3">
-        <CategoryTab
-          active={activeCategory === "all"}
-          onClick={() => setActiveCategory("all")}
-          label={locale === "ja" ? "すべて" : "All"}
-          count={sorted.length}
-        />
-        {categoryOrder.map((cat) => (
+      {/* Sticky filter / sort bar */}
+      <div className="sticky top-14 z-20 -mx-5 mt-4 border-b border-border bg-background/90 px-5 py-3 backdrop-blur-md">
+        {/* Category tabs */}
+        <div className="flex gap-2 overflow-x-auto pb-2" style={{ scrollbarWidth: "none" }}>
           <CategoryTab
-            key={cat}
-            active={activeCategory === cat}
-            onClick={() => setActiveCategory(cat)}
-            label={
-              cat === "apparel"
-                ? dict.results.filter.category_apparel
-                : cat === "toy"
-                  ? dict.results.filter.category_toy
-                  : dict.results.filter.category_env
-            }
-            count={countByCategory[cat]}
+            active={activeCategory === "all"}
+            onClick={() => setActiveCategory("all")}
+            label={locale === "ja" ? "すべて" : "All"}
+            count={sorted.length}
           />
-        ))}
-      </div>
+          {categoryOrder.map((cat) => (
+            <CategoryTab
+              key={cat}
+              active={activeCategory === cat}
+              onClick={() => setActiveCategory(cat)}
+              label={
+                cat === "apparel"
+                  ? dict.results.filter.category_apparel
+                  : cat === "toy"
+                    ? dict.results.filter.category_toy
+                    : dict.results.filter.category_env
+              }
+              count={countByCategory[cat]}
+            />
+          ))}
+        </div>
 
-      <div className="mt-6 grid gap-8 md:grid-cols-[260px_1fr]">
-        {/* Sidebar (filters) */}
-        <aside className="space-y-6">
-          <div className="rounded-3xl border border-card-border bg-card p-5">
-            <h2 className="text-xs font-bold uppercase tracking-wide text-muted-fg">
-              {dict.results.sort.label}
-            </h2>
-            <div className="mt-3 space-y-1.5">
-              {sortOptions.map((opt) => (
-                <label
-                  key={opt.key}
-                  className={`flex cursor-pointer items-center gap-2 rounded-xl px-2 py-1.5 text-sm transition-colors ${
-                    sort === opt.key
-                      ? "bg-primary-soft text-primary"
-                      : "text-muted-fg hover:text-foreground"
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="sort"
-                    value={opt.key}
-                    checked={sort === opt.key}
-                    onChange={() => setSort(opt.key)}
-                    className="accent-primary"
-                  />
-                  {dict.results.sort[opt.labelKey]}
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-3xl border border-card-border bg-card p-5">
-            <h2 className="text-xs font-bold uppercase tracking-wide text-muted-fg">
-              {dict.results.filter.brand}
-            </h2>
-            <div className="mt-3 space-y-1">
-              <BrandRow
-                label={locale === "ja" ? "すべて" : "All"}
-                active={activeBrand === "all"}
-                onClick={() => setActiveBrand("all")}
-              />
-              {brands.map((b) => (
-                <BrandRow
-                  key={b}
-                  label={b}
-                  active={activeBrand === b}
-                  onClick={() => setActiveBrand(b)}
-                />
-              ))}
-            </div>
-          </div>
-        </aside>
-
-        {/* Results */}
-        <div>
-          <p className="mb-4 text-sm text-muted-fg">
+        {/* Sort + Filter button row */}
+        <div className="mt-2 flex items-center justify-between gap-2">
+          <p className="text-xs font-semibold text-muted-fg">
             {format(dict.results.count, { count: filtered.length })}
           </p>
-
-          {filtered.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-border bg-card p-10 text-center text-muted-fg">
-              {dict.results.empty}
-            </div>
-          ) : (
-            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-              {filtered.map((match) => (
-                <ProductCard
-                  key={match.product.id}
-                  match={match}
-                  locale={locale}
-                  dict={dict}
-                  href={`/${locale}/products/${match.product.id}`}
-                />
+          <div className="flex items-center gap-2">
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value as SortKey)}
+              className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-bold text-foreground focus:border-primary focus:outline-none"
+            >
+              {sortOptions.map((opt) => (
+                <option key={opt.key} value={opt.key}>
+                  {dict.results.sort.label}: {dict.results.sort[opt.labelKey]}
+                </option>
               ))}
-            </div>
-          )}
+            </select>
+            <button
+              type="button"
+              onClick={() => setShowFilterSheet(true)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-bold text-foreground hover:border-primary"
+            >
+              ⚙ {dict.results.filter.title}
+              {activeFiltersCount > 0 && (
+                <span className="ml-1 rounded-full bg-primary px-1.5 py-0.5 text-[10px] text-primary-fg">
+                  {activeFiltersCount}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
+
+        {/* Active filter chips */}
+        {activeFiltersCount > 0 && (
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {activeBrand !== "all" && (
+              <ActiveChip
+                label={activeBrand}
+                onRemove={() => setActiveBrand("all")}
+              />
+            )}
+            {priceMax != null && (
+              <ActiveChip
+                label={
+                  locale === "ja"
+                    ? `〜¥${priceMax.toLocaleString()}`
+                    : `Under ¥${priceMax.toLocaleString()}`
+                }
+                onRemove={() => setPriceMax(null)}
+              />
+            )}
+            <button
+              type="button"
+              onClick={resetFilters}
+              className="inline-flex items-center rounded-full bg-muted px-2.5 py-1 text-[11px] font-bold text-muted-fg hover:text-foreground"
+            >
+              {dict.results.filter.reset}
+            </button>
+          </div>
+        )}
       </div>
+
+      {/* Results */}
+      <div className="mt-5">
+        {filtered.length === 0 ? (
+          <div className="rounded-3xl border border-dashed border-border bg-card p-10 text-center text-muted-fg">
+            {dict.results.empty}
+          </div>
+        ) : (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {filtered.map((match) => (
+              <ProductCard
+                key={match.product.id}
+                match={match}
+                locale={locale}
+                dict={dict}
+                href={`/${locale}/products/${match.product.id}`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Filter bottom sheet (mobile) / modal (desktop) */}
+      {showFilterSheet && (
+        <FilterSheet
+          locale={locale}
+          dict={dict}
+          brands={brands}
+          activeBrand={activeBrand}
+          onBrandChange={setActiveBrand}
+          priceMax={priceMax}
+          onPriceMaxChange={setPriceMax}
+          onClose={() => setShowFilterSheet(false)}
+          onReset={resetFilters}
+          resultCount={filtered.length}
+        />
+      )}
     </div>
   );
 }
@@ -209,7 +267,7 @@ function CategoryTab({
     <button
       type="button"
       onClick={onClick}
-      className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+      className={`flex-none rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
         active
           ? "bg-foreground text-background"
           : "bg-card text-muted-fg hover:text-foreground"
@@ -217,7 +275,7 @@ function CategoryTab({
     >
       {label}
       <span
-        className={`rounded-full px-2 py-0.5 text-xs ${
+        className={`ml-1.5 rounded-full px-1.5 text-xs ${
           active ? "bg-background/20" : "bg-muted"
         }`}
       >
@@ -227,27 +285,172 @@ function CategoryTab({
   );
 }
 
-function BrandRow({
+function ActiveChip({
   label,
-  active,
-  onClick,
+  onRemove,
 }: {
   label: string;
-  active: boolean;
-  onClick: () => void;
+  onRemove: () => void;
 }) {
   return (
     <button
       type="button"
-      onClick={onClick}
-      className={`flex w-full items-center rounded-xl px-2 py-1.5 text-sm transition-colors ${
-        active
-          ? "bg-primary-soft text-primary"
-          : "text-muted-fg hover:text-foreground"
-      }`}
+      onClick={onRemove}
+      className="inline-flex items-center gap-1 rounded-full bg-primary px-2.5 py-1 text-[11px] font-bold text-primary-fg"
     >
       {label}
+      <span aria-hidden="true">×</span>
     </button>
+  );
+}
+
+function FilterSheet({
+  locale,
+  dict,
+  brands,
+  activeBrand,
+  onBrandChange,
+  priceMax,
+  onPriceMaxChange,
+  onClose,
+  onReset,
+  resultCount,
+}: {
+  locale: Locale;
+  dict: Dictionary;
+  brands: string[];
+  activeBrand: string | "all";
+  onBrandChange: (b: string | "all") => void;
+  priceMax: number | null;
+  onPriceMaxChange: (p: number | null) => void;
+  onClose: () => void;
+  onReset: () => void;
+  resultCount: number;
+}) {
+  const priceBuckets: Array<{ value: number | null; labelJa: string; labelEn: string }> = [
+    { value: null, labelJa: "すべて", labelEn: "Any" },
+    { value: 3000, labelJa: "〜¥3,000", labelEn: "Under ¥3,000" },
+    { value: 5000, labelJa: "〜¥5,000", labelEn: "Under ¥5,000" },
+    { value: 10000, labelJa: "〜¥10,000", labelEn: "Under ¥10,000" },
+    { value: 20000, labelJa: "〜¥20,000", labelEn: "Under ¥20,000" },
+  ];
+
+  return (
+    <div
+      className="fixed inset-0 z-40 flex items-end justify-center md:items-center"
+      role="dialog"
+      aria-modal="true"
+    >
+      <button
+        type="button"
+        aria-label="close"
+        onClick={onClose}
+        className="absolute inset-0 bg-foreground/40 backdrop-blur-sm"
+      />
+      <div className="relative w-full max-w-lg overflow-hidden rounded-t-3xl bg-background md:max-h-[85vh] md:rounded-3xl">
+        {/* Drag handle */}
+        <div className="flex justify-center pt-2 md:hidden">
+          <span
+            aria-hidden="true"
+            className="h-1 w-10 rounded-full bg-border"
+          />
+        </div>
+
+        <header className="flex items-center justify-between border-b border-border px-5 py-4">
+          <h2 className="text-base font-extrabold text-foreground">
+            {dict.results.filter.title}
+          </h2>
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-full p-1 text-muted-fg hover:bg-muted hover:text-foreground"
+            aria-label="close"
+          >
+            ✕
+          </button>
+        </header>
+
+        <div className="max-h-[60vh] overflow-y-auto px-5 py-4">
+          {/* Price */}
+          <section className="mb-6">
+            <h3 className="mb-2 text-xs font-bold uppercase tracking-wide text-muted-fg">
+              {dict.results.filter.price}
+            </h3>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {priceBuckets.map((b) => {
+                const active = priceMax === b.value;
+                return (
+                  <button
+                    key={b.labelJa}
+                    type="button"
+                    onClick={() => onPriceMaxChange(b.value)}
+                    className={`rounded-2xl border px-3 py-2 text-xs font-bold transition-all ${
+                      active
+                        ? "border-primary bg-primary-soft text-primary"
+                        : "border-border bg-card text-muted-fg hover:border-primary"
+                    }`}
+                  >
+                    {locale === "ja" ? b.labelJa : b.labelEn}
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* Brand */}
+          <section>
+            <h3 className="mb-2 text-xs font-bold uppercase tracking-wide text-muted-fg">
+              {dict.results.filter.brand}
+            </h3>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => onBrandChange("all")}
+                className={`rounded-2xl border px-3 py-2 text-xs font-bold transition-all ${
+                  activeBrand === "all"
+                    ? "border-primary bg-primary-soft text-primary"
+                    : "border-border bg-card text-muted-fg hover:border-primary"
+                }`}
+              >
+                {locale === "ja" ? "すべて" : "All"}
+              </button>
+              {brands.map((b) => (
+                <button
+                  key={b}
+                  type="button"
+                  onClick={() => onBrandChange(b)}
+                  className={`truncate rounded-2xl border px-3 py-2 text-xs font-bold transition-all ${
+                    activeBrand === b
+                      ? "border-primary bg-primary-soft text-primary"
+                      : "border-border bg-card text-muted-fg hover:border-primary"
+                  }`}
+                >
+                  {b}
+                </button>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        <footer className="flex items-center justify-between gap-3 border-t border-border bg-background px-5 py-4">
+          <button
+            type="button"
+            onClick={onReset}
+            className="text-xs font-semibold text-muted-fg hover:text-foreground"
+          >
+            {dict.results.filter.reset}
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="flex-1 rounded-full bg-primary px-6 py-2.5 text-sm font-bold text-primary-fg shadow-md shadow-primary/20"
+          >
+            {format(dict.results.count, { count: resultCount })}{" "}
+            {locale === "ja" ? "を見る" : "results"}
+          </button>
+        </footer>
+      </div>
+    </div>
   );
 }
 
@@ -271,9 +474,12 @@ function DogProfileChip({
         <span className="rounded-full bg-accent-soft px-3 py-1 font-semibold text-accent">
           📏{" "}
           {[
-            summary.chest != null && `${locale === "ja" ? "胸囲" : "chest"} ${summary.chest}cm`,
-            summary.back != null && `${locale === "ja" ? "背丈" : "back"} ${summary.back}cm`,
-            summary.neck != null && `${locale === "ja" ? "首回り" : "neck"} ${summary.neck}cm`,
+            summary.chest != null &&
+              `${locale === "ja" ? "胸囲" : "chest"} ${summary.chest}cm`,
+            summary.back != null &&
+              `${locale === "ja" ? "背丈" : "back"} ${summary.back}cm`,
+            summary.neck != null &&
+              `${locale === "ja" ? "首回り" : "neck"} ${summary.neck}cm`,
           ]
             .filter(Boolean)
             .join(" / ")}

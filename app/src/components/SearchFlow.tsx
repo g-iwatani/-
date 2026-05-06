@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
 import type { Dictionary, Locale } from "@/app/[locale]/dictionaries";
-import type { Breed } from "@/lib/breeds";
+import type { Breed, BreedSize } from "@/lib/breeds";
 import type { Concern, ConcernCategory } from "@/lib/concerns";
 import { format } from "@/lib/format";
 
@@ -15,6 +15,26 @@ type Props = {
 };
 
 type Step = 0 | 1 | 2;
+
+const breedSizeLabel: Record<
+  BreedSize | "all",
+  { ja: string; en: string; weight: string }
+> = {
+  all: { ja: "すべて", en: "All", weight: "" },
+  tiny: { ja: "超小型", en: "Tiny", weight: "〜4kg" },
+  small: { ja: "小型", en: "Small", weight: "4-10kg" },
+  medium: { ja: "中型", en: "Medium", weight: "10-25kg" },
+  large: { ja: "大型", en: "Large", weight: "25-45kg" },
+  giant: { ja: "超大型", en: "Giant", weight: "45kg+" },
+};
+
+const breedColorBySize: Record<BreedSize, { from: string; to: string; emoji: string }> = {
+  tiny: { from: "#FCE6D8", to: "#D97A4E", emoji: "🐕" },
+  small: { from: "#FFE5C7", to: "#C9844C", emoji: "🐶" },
+  medium: { from: "#E8DFCE", to: "#8B7355", emoji: "🦮" },
+  large: { from: "#C9B89E", to: "#5C4A36", emoji: "🐕‍🦺" },
+  giant: { from: "#A89376", to: "#3F3120", emoji: "🐺" },
+};
 
 const concernCategoryOrder: ConcernCategory[] = [
   "size",
@@ -55,30 +75,86 @@ export function SearchFlow({ locale, dict, breeds, concerns }: Props) {
   const router = useRouter();
   const [step, setStep] = useState<Step>(0);
   const [breedQuery, setBreedQuery] = useState("");
+  const [activeBreedSize, setActiveBreedSize] = useState<BreedSize | "all">(
+    "all",
+  );
   const [selectedBreedIds, setSelectedBreedIds] = useState<string[]>([]);
   const [chest, setChest] = useState<string>("");
   const [back, setBack] = useState<string>("");
   const [neck, setNeck] = useState<string>("");
   const [weight, setWeight] = useState<string>("");
   const [selectedConcerns, setSelectedConcerns] = useState<string[]>([]);
+  const [concernQuery, setConcernQuery] = useState("");
+  const [activeConcernCategory, setActiveConcernCategory] =
+    useState<ConcernCategory | "all">("all");
   const [isPending, startTransition] = useTransition();
+
+  const popularBreedIds = useMemo(
+    () => breeds.filter((b) => b.popular).map((b) => b.id),
+    [breeds],
+  );
 
   const filteredBreeds = useMemo(() => {
     const q = breedQuery.trim().toLowerCase();
-    if (!q) return breeds;
     return breeds.filter((b) => {
+      if (b.id === "mix") return false;
+      if (activeBreedSize !== "all" && b.size !== activeBreedSize) return false;
+      if (!q) return true;
       return (
         b.nameJa.toLowerCase().includes(q) ||
         b.nameEn.toLowerCase().includes(q) ||
         b.id.toLowerCase().includes(q)
       );
     });
-  }, [breeds, breedQuery]);
+  }, [breeds, breedQuery, activeBreedSize]);
+
+  const popularBreedsToShow = useMemo(
+    () =>
+      breeds.filter(
+        (b) =>
+          popularBreedIds.includes(b.id) &&
+          (activeBreedSize === "all" || b.size === activeBreedSize) &&
+          (!breedQuery.trim() ||
+            b.nameJa.toLowerCase().includes(breedQuery.toLowerCase()) ||
+            b.nameEn.toLowerCase().includes(breedQuery.toLowerCase())),
+      ),
+    [breeds, popularBreedIds, activeBreedSize, breedQuery],
+  );
+
+  const filteredConcerns = useMemo(() => {
+    const q = concernQuery.trim().toLowerCase();
+    return concerns.filter((c) => {
+      if (activeConcernCategory !== "all" && c.category !== activeConcernCategory)
+        return false;
+      if (!q) return true;
+      return (
+        c.labelJa.toLowerCase().includes(q) ||
+        c.labelEn.toLowerCase().includes(q) ||
+        c.descJa.toLowerCase().includes(q) ||
+        c.descEn.toLowerCase().includes(q)
+      );
+    });
+  }, [concerns, concernQuery, activeConcernCategory]);
+
+  const concernCountByCategory: Record<ConcernCategory, number> = useMemo(() => {
+    const counts: Record<ConcernCategory, number> = {
+      size: 0,
+      season: 0,
+      behavior: 0,
+      purpose: 0,
+    };
+    for (const c of concerns) counts[c.category]++;
+    return counts;
+  }, [concerns]);
+
+  const selectedBreedDetails = breeds.filter((b) =>
+    selectedBreedIds.includes(b.id),
+  );
 
   function toggleBreed(id: string) {
     setSelectedBreedIds((prev) => {
       if (prev.includes(id)) return prev.filter((p) => p !== id);
-      if (prev.length >= 2) return [prev[1]!, id]; // 最大2つ、古いほうを捨てる
+      if (prev.length >= 2) return [prev[1]!, id];
       return [...prev, id];
     });
   }
@@ -135,9 +211,9 @@ export function SearchFlow({ locale, dict, breeds, concerns }: Props) {
   const progressPct = ((step + 1) / totalSteps) * 100;
 
   return (
-    <div className="mx-auto max-w-3xl px-5 pt-10 pb-16">
-      <div className="rounded-3xl border border-card-border bg-card p-6 md:p-10">
-        <div className="mb-6 flex items-center justify-between gap-4">
+    <div className="mx-auto max-w-3xl px-5 pt-6 pb-32">
+      <div className="rounded-3xl border border-card-border bg-card p-5 md:p-8">
+        <div className="mb-5 flex items-center justify-between gap-4">
           <p className="text-xs font-semibold uppercase tracking-wide text-muted-fg">
             {format(dict.search.step, {
               current: step + 1,
@@ -152,8 +228,11 @@ export function SearchFlow({ locale, dict, breeds, concerns }: Props) {
           </div>
         </div>
 
+        {/* ============================================ */}
+        {/* Step 0: Breed selection */}
+        {/* ============================================ */}
         {step === 0 && (
-          <section className="space-y-6">
+          <section className="space-y-5">
             <header>
               <h2 className="text-2xl font-extrabold tracking-tight text-foreground">
                 {dict.search.step_breed.title}
@@ -163,52 +242,157 @@ export function SearchFlow({ locale, dict, breeds, concerns }: Props) {
               </p>
             </header>
 
-            <input
-              type="search"
-              value={breedQuery}
-              onChange={(e) => setBreedQuery(e.target.value)}
-              placeholder={dict.search.step_breed.search_placeholder}
-              className="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/30"
-            />
+            {/* Sticky search */}
+            <div className="sticky top-16 z-10 -mx-5 bg-card px-5 pt-2 pb-3 md:-mx-8 md:px-8">
+              <div className="relative">
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted-fg"
+                >
+                  🔍
+                </span>
+                <input
+                  type="search"
+                  value={breedQuery}
+                  onChange={(e) => setBreedQuery(e.target.value)}
+                  placeholder={dict.search.step_breed.search_placeholder}
+                  className="w-full rounded-2xl border border-border bg-background py-3 pl-11 pr-4 text-sm outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/30"
+                />
+              </div>
 
-            <p className="text-xs text-muted-fg">
-              {dict.search.step_breed.mix_hint}
-              {selectedBreedIds.length > 0 && (
-                <span className="ml-2 font-semibold text-primary">
+              {/* Size category chips */}
+              <div className="mt-3 flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
+                {(["all", "tiny", "small", "medium", "large", "giant"] as const).map(
+                  (size) => {
+                    const active = activeBreedSize === size;
+                    const lbl = breedSizeLabel[size];
+                    return (
+                      <button
+                        key={size}
+                        type="button"
+                        onClick={() => setActiveBreedSize(size)}
+                        className={`flex-none rounded-full border px-3.5 py-1.5 text-xs font-bold transition-all ${
+                          active
+                            ? "border-foreground bg-foreground text-background"
+                            : "border-border bg-background text-muted-fg hover:border-primary"
+                        }`}
+                      >
+                        {locale === "ja" ? lbl.ja : lbl.en}
+                        {lbl.weight && (
+                          <span className="ml-1 opacity-70">{lbl.weight}</span>
+                        )}
+                      </button>
+                    );
+                  },
+                )}
+              </div>
+
+              {/* MIX hint */}
+              <p className="mt-2 text-[11px] text-muted-fg">
+                {dict.search.step_breed.mix_hint}{" "}
+                <span className="font-bold text-primary">
                   ({selectedBreedIds.length}/2)
                 </span>
-              )}
-            </p>
-
-            <div className="grid max-h-96 gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
-              {filteredBreeds.map((breed) => {
-                const selected = selectedBreedIds.includes(breed.id);
-                const name = locale === "ja" ? breed.nameJa : breed.nameEn;
-                return (
-                  <button
-                    key={breed.id}
-                    type="button"
-                    onClick={() => toggleBreed(breed.id)}
-                    aria-pressed={selected}
-                    className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-left text-sm transition-all ${
-                      selected
-                        ? "border-primary bg-primary-soft text-primary"
-                        : "border-border bg-background text-foreground hover:border-primary"
-                    }`}
-                  >
-                    <span className="font-semibold">{name}</span>
-                    <span className="text-[10px] uppercase tracking-wide text-muted-fg">
-                      {breed.size}
-                    </span>
-                  </button>
-                );
-              })}
+              </p>
             </div>
+
+            {/* Selected chips */}
+            {selectedBreedDetails.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {selectedBreedDetails.map((b) => (
+                  <button
+                    key={b.id}
+                    type="button"
+                    onClick={() => toggleBreed(b.id)}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-xs font-bold text-primary-fg"
+                  >
+                    {locale === "ja" ? b.nameJa : b.nameEn}
+                    <span aria-hidden="true">×</span>
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Popular breeds (visual chips) */}
+            {popularBreedsToShow.length > 0 && (
+              <div className="space-y-2">
+                <h3 className="text-[11px] font-bold uppercase tracking-wide text-muted-fg">
+                  {locale === "ja" ? "🔥 人気の犬種" : "🔥 Popular"}
+                </h3>
+                <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
+                  {popularBreedsToShow.map((breed) => (
+                    <BreedTile
+                      key={`pop-${breed.id}`}
+                      breed={breed}
+                      locale={locale}
+                      selected={selectedBreedIds.includes(breed.id)}
+                      onClick={() => toggleBreed(breed.id)}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* All filtered */}
+            <div className="space-y-2">
+              <div className="flex items-baseline justify-between">
+                <h3 className="text-[11px] font-bold uppercase tracking-wide text-muted-fg">
+                  {locale === "ja"
+                    ? `すべて (${filteredBreeds.length})`
+                    : `All (${filteredBreeds.length})`}
+                </h3>
+              </div>
+
+              {filteredBreeds.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-border bg-background p-6 text-center text-sm text-muted-fg">
+                  {locale === "ja"
+                    ? "該当する犬種がありません"
+                    : "No breeds match"}
+                </div>
+              ) : (
+                <div className="grid max-h-[420px] gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
+                  {filteredBreeds.map((breed) => {
+                    const selected = selectedBreedIds.includes(breed.id);
+                    const name = locale === "ja" ? breed.nameJa : breed.nameEn;
+                    const sizeLabel = breedSizeLabel[breed.size];
+                    return (
+                      <button
+                        key={breed.id}
+                        type="button"
+                        onClick={() => toggleBreed(breed.id)}
+                        aria-pressed={selected}
+                        className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-left text-sm transition-all ${
+                          selected
+                            ? "border-primary bg-primary-soft text-primary"
+                            : "border-border bg-background text-foreground hover:border-primary"
+                        }`}
+                      >
+                        <span className="truncate font-semibold">{name}</span>
+                        <span className="ml-2 flex-none text-[10px] uppercase tracking-wide text-muted-fg">
+                          {locale === "ja" ? sizeLabel.ja : sizeLabel.en}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={next}
+              className="block w-full rounded-2xl border border-dashed border-border bg-background px-4 py-3 text-center text-sm font-semibold text-muted-fg transition-colors hover:border-primary hover:text-primary"
+            >
+              {dict.search.step_breed.no_breed} →
+            </button>
           </section>
         )}
 
+        {/* ============================================ */}
+        {/* Step 1: Measurements */}
+        {/* ============================================ */}
         {step === 1 && (
-          <section className="space-y-6">
+          <section className="space-y-5">
             <header>
               <h2 className="text-2xl font-extrabold tracking-tight text-foreground">
                 {dict.search.step_size.title}
@@ -218,47 +402,80 @@ export function SearchFlow({ locale, dict, breeds, concerns }: Props) {
               </p>
             </header>
 
+            <MeasurementGuide locale={locale} />
+
             {selectedBreedIds.length > 0 && (
               <button
                 type="button"
                 onClick={applyBreedAverage}
-                className="rounded-full border border-border bg-background px-4 py-2 text-xs font-semibold text-muted-fg transition-colors hover:border-primary hover:text-primary"
+                className="flex w-full items-center justify-between rounded-2xl border-2 border-dashed border-primary bg-primary-soft px-4 py-3 text-left text-sm font-bold text-primary transition-all hover:bg-primary hover:text-primary-fg"
               >
-                ⤴ {dict.search.step_size.use_average}
+                <span>
+                  ⤴ {dict.search.step_size.use_average}
+                  <span className="ml-2 text-xs font-normal opacity-70">
+                    {selectedBreedDetails
+                      .map((b) => (locale === "ja" ? b.nameJa : b.nameEn))
+                      .join(" × ")}
+                  </span>
+                </span>
+                <span aria-hidden="true">→</span>
               </button>
             )}
 
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-3 sm:grid-cols-2">
               <NumberField
                 label={dict.search.step_size.weight_label}
                 unit={dict.search.step_size.weight_unit}
                 value={weight}
                 onChange={setWeight}
+                hint={locale === "ja" ? "おおよそでOK" : "Approximate is fine"}
               />
               <NumberField
                 label={dict.search.step_size.chest_label}
                 unit={dict.search.step_size.size_unit}
                 value={chest}
                 onChange={setChest}
+                hint={
+                  locale === "ja"
+                    ? "前足の付け根まわりが基本"
+                    : "Around the body, behind the front legs"
+                }
               />
               <NumberField
                 label={dict.search.step_size.back_label}
                 unit={dict.search.step_size.size_unit}
                 value={back}
                 onChange={setBack}
+                hint={
+                  locale === "ja" ? "首の根本〜尻尾まで" : "Base of neck to tail"
+                }
               />
               <NumberField
                 label={dict.search.step_size.neck_label}
                 unit={dict.search.step_size.size_unit}
                 value={neck}
                 onChange={setNeck}
+                hint={
+                  locale === "ja"
+                    ? "首輪のサイズ目安"
+                    : "Where the collar sits"
+                }
               />
             </div>
+
+            <p className="text-[11px] text-muted-fg">
+              {locale === "ja"
+                ? "※ どの値も省略OK。あとでも変更できます。"
+                : "※ Any field is optional. You can change later."}
+            </p>
           </section>
         )}
 
+        {/* ============================================ */}
+        {/* Step 2: Concerns */}
+        {/* ============================================ */}
         {step === 2 && (
-          <section className="space-y-6">
+          <section className="space-y-5">
             <header>
               <h2 className="text-2xl font-extrabold tracking-tight text-foreground">
                 {dict.search.step_concerns.title}
@@ -268,53 +485,120 @@ export function SearchFlow({ locale, dict, breeds, concerns }: Props) {
               </p>
             </header>
 
-            {concernCategoryOrder.map((cat) => {
-              const items = concerns.filter((c) => c.category === cat);
-              if (items.length === 0) return null;
-              return (
-                <div key={cat} className="space-y-3">
-                  <h3 className="text-xs font-bold uppercase tracking-wide text-muted-fg">
-                    {locale === "ja"
-                      ? concernCategoryLabel[cat].ja
-                      : concernCategoryLabel[cat].en}
-                  </h3>
-                  <div className="grid gap-2 sm:grid-cols-2">
-                    {items.map((concern) => {
-                      const selected = selectedConcerns.includes(concern.id);
-                      const label =
-                        locale === "ja" ? concern.labelJa : concern.labelEn;
-                      const icon = concernIcon[concern.iconKey] ?? "•";
-                      return (
-                        <button
-                          key={concern.id}
-                          type="button"
-                          onClick={() => toggleConcern(concern.id)}
-                          aria-pressed={selected}
-                          className={`flex items-start gap-3 rounded-2xl border px-4 py-3 text-left transition-all ${
-                            selected
-                              ? "border-primary bg-primary-soft"
-                              : "border-border bg-background hover:border-primary"
+            {/* Sticky search + tabs */}
+            <div className="sticky top-16 z-10 -mx-5 bg-card px-5 pt-2 pb-3 md:-mx-8 md:px-8">
+              <div className="relative">
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted-fg"
+                >
+                  🔍
+                </span>
+                <input
+                  type="search"
+                  value={concernQuery}
+                  onChange={(e) => setConcernQuery(e.target.value)}
+                  placeholder={
+                    locale === "ja" ? "悩みを検索" : "Search concerns"
+                  }
+                  className="w-full rounded-2xl border border-border bg-background py-3 pl-11 pr-4 text-sm outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/30"
+                />
+              </div>
+
+              <div className="mt-3 flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
+                <CatChip
+                  active={activeConcernCategory === "all"}
+                  onClick={() => setActiveConcernCategory("all")}
+                  label={locale === "ja" ? "すべて" : "All"}
+                  count={concerns.length}
+                />
+                {concernCategoryOrder.map((cat) => (
+                  <CatChip
+                    key={cat}
+                    active={activeConcernCategory === cat}
+                    onClick={() => setActiveConcernCategory(cat)}
+                    label={
+                      locale === "ja"
+                        ? concernCategoryLabel[cat].ja
+                        : concernCategoryLabel[cat].en
+                    }
+                    count={concernCountByCategory[cat]}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Selected chips */}
+            {selectedConcerns.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {selectedConcerns.map((cid) => {
+                  const c = concerns.find((x) => x.id === cid);
+                  if (!c) return null;
+                  return (
+                    <button
+                      key={cid}
+                      type="button"
+                      onClick={() => toggleConcern(cid)}
+                      className="inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1 text-xs font-bold text-primary-fg"
+                    >
+                      {locale === "ja" ? c.labelJa : c.labelEn}
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
+            {filteredConcerns.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-border bg-background p-6 text-center text-sm text-muted-fg">
+                {locale === "ja" ? "該当する悩みがありません" : "No matches"}
+              </div>
+            ) : (
+              <div className="grid gap-2 sm:grid-cols-2">
+                {filteredConcerns.map((concern) => {
+                  const selected = selectedConcerns.includes(concern.id);
+                  const label =
+                    locale === "ja" ? concern.labelJa : concern.labelEn;
+                  const desc =
+                    locale === "ja" ? concern.descJa : concern.descEn;
+                  const icon = concernIcon[concern.iconKey] ?? "•";
+                  return (
+                    <button
+                      key={concern.id}
+                      type="button"
+                      onClick={() => toggleConcern(concern.id)}
+                      aria-pressed={selected}
+                      className={`flex items-start gap-3 rounded-2xl border px-4 py-3 text-left transition-all ${
+                        selected
+                          ? "border-primary bg-primary-soft"
+                          : "border-border bg-background hover:border-primary"
+                      }`}
+                    >
+                      <span className="mt-0.5 text-xl">{icon}</span>
+                      <span className="flex-1">
+                        <span
+                          className={`block text-sm font-bold leading-snug ${
+                            selected ? "text-primary" : "text-foreground"
                           }`}
                         >
-                          <span className="text-xl">{icon}</span>
-                          <span
-                            className={`text-sm font-semibold leading-snug ${
-                              selected ? "text-primary" : "text-foreground"
-                            }`}
-                          >
-                            {label}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
+                          {label}
+                        </span>
+                        <span className="mt-0.5 line-clamp-1 text-[11px] text-muted-fg">
+                          {desc}
+                        </span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </section>
         )}
+      </div>
 
-        <div className="mt-8 flex items-center justify-between gap-3 border-t border-border pt-6">
+      {/* Sticky bottom action bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-20 border-t border-border bg-background/95 backdrop-blur-md">
+        <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-5 py-3">
           <button
             type="button"
             onClick={back_}
@@ -328,10 +612,8 @@ export function SearchFlow({ locale, dict, breeds, concerns }: Props) {
             {step < 2 && (
               <button
                 type="button"
-                onClick={() => {
-                  setStep((step + 1) as Step);
-                }}
-                className="rounded-full px-4 py-2 text-xs font-semibold text-muted-fg transition-colors hover:text-foreground"
+                onClick={() => setStep((step + 1) as Step)}
+                className="rounded-full px-3 py-2 text-xs font-semibold text-muted-fg transition-colors hover:text-foreground"
               >
                 {dict.search.skip}
               </button>
@@ -352,16 +634,92 @@ export function SearchFlow({ locale, dict, breeds, concerns }: Props) {
   );
 }
 
+function BreedTile({
+  breed,
+  locale,
+  selected,
+  onClick,
+}: {
+  breed: Breed;
+  locale: Locale;
+  selected: boolean;
+  onClick: () => void;
+}) {
+  const name = locale === "ja" ? breed.nameJa : breed.nameEn;
+  const palette = breedColorBySize[breed.size];
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={selected}
+      className={`group overflow-hidden rounded-2xl border transition-all ${
+        selected
+          ? "border-primary ring-2 ring-primary/40"
+          : "border-card-border hover:-translate-y-0.5 hover:shadow-md"
+      }`}
+    >
+      <div
+        className="flex h-16 items-center justify-center text-2xl"
+        style={{
+          backgroundImage: `linear-gradient(135deg, ${palette.from} 0%, ${palette.to} 100%)`,
+        }}
+      >
+        <span aria-hidden="true">{palette.emoji}</span>
+      </div>
+      <div className="bg-card px-2 py-2">
+        <p
+          className={`line-clamp-1 text-[11px] font-bold ${
+            selected ? "text-primary" : "text-foreground"
+          }`}
+        >
+          {name}
+        </p>
+      </div>
+    </button>
+  );
+}
+
+function CatChip({
+  active,
+  onClick,
+  label,
+  count,
+}: {
+  active: boolean;
+  onClick: () => void;
+  label: string;
+  count: number;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex-none rounded-full border px-3.5 py-1.5 text-xs font-bold transition-all ${
+        active
+          ? "border-foreground bg-foreground text-background"
+          : "border-border bg-background text-muted-fg hover:border-primary"
+      }`}
+    >
+      {label}
+      <span className={`ml-1.5 ${active ? "opacity-70" : "opacity-50"}`}>
+        {count}
+      </span>
+    </button>
+  );
+}
+
 function NumberField({
   label,
   unit,
   value,
   onChange,
+  hint,
 }: {
   label: string;
   unit: string;
   value: string;
   onChange: (v: string) => void;
+  hint?: string;
 }) {
   return (
     <label className="block">
@@ -381,6 +739,56 @@ function NumberField({
           {unit}
         </span>
       </div>
+      {hint && (
+        <p className="mt-1 text-[10px] text-muted-fg">{hint}</p>
+      )}
     </label>
+  );
+}
+
+function MeasurementGuide({ locale }: { locale: Locale }) {
+  return (
+    <div className="rounded-2xl bg-muted/60 p-4">
+      <h3 className="text-xs font-bold uppercase tracking-wide text-muted-fg">
+        {locale === "ja" ? "採寸ガイド" : "How to measure"}
+      </h3>
+      <div className="mt-3 flex items-center gap-4">
+        <svg viewBox="0 0 120 80" className="h-20 w-32 flex-none" aria-hidden="true">
+          <ellipse cx="60" cy="50" rx="45" ry="22" fill="#FCE6D8" />
+          <ellipse cx="22" cy="40" rx="14" ry="16" fill="#D97A4E" />
+          <circle cx="16" cy="36" r="2" fill="#2d1f1a" />
+          <ellipse cx="14" cy="42" rx="3" ry="2" fill="#2d1f1a" />
+          <line x1="32" y1="62" x2="32" y2="74" stroke="#6B8E4E" strokeWidth="2" />
+          <line x1="32" y1="74" x2="38" y2="74" stroke="#6B8E4E" strokeWidth="2" />
+          <text x="42" y="78" fontSize="6" fill="#6B8E4E" fontWeight="bold">CHEST 胸囲</text>
+          <line x1="35" y1="32" x2="100" y2="32" stroke="#D97A4E" strokeWidth="2" strokeDasharray="2,2" />
+          <text x="55" y="28" fontSize="6" fill="#D97A4E" fontWeight="bold">BACK 背丈</text>
+          <line x1="22" y1="22" x2="22" y2="14" stroke="#3F4A4A" strokeWidth="2" />
+          <text x="26" y="18" fontSize="6" fill="#3F4A4A" fontWeight="bold">NECK 首回り</text>
+        </svg>
+        <ul className="space-y-1 text-[11px] leading-relaxed text-muted-fg">
+          <li>
+            <strong className="text-foreground">
+              {locale === "ja" ? "胸囲" : "Chest"}:
+            </strong>{" "}
+            {locale === "ja"
+              ? "前足の付け根の少し後ろ、一番太いところ"
+              : "Widest part of body, behind front legs"}
+          </li>
+          <li>
+            <strong className="text-foreground">
+              {locale === "ja" ? "背丈" : "Back"}:
+            </strong>{" "}
+            {locale === "ja" ? "首の根本〜尻尾の付け根" : "Base of neck to tail"}
+          </li>
+          <li>
+            <strong className="text-foreground">
+              {locale === "ja" ? "首回り" : "Neck"}:
+            </strong>{" "}
+            {locale === "ja" ? "首輪を着ける位置" : "Where the collar sits"}
+          </li>
+        </ul>
+      </div>
+    </div>
   );
 }
