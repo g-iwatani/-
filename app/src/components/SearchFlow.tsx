@@ -37,9 +37,10 @@ const breedColorBySize: Record<BreedSize, { from: string; to: string; emoji: str
 };
 
 const concernCategoryOrder: ConcernCategory[] = [
-  "size",
-  "season",
   "behavior",
+  "care",
+  "season",
+  "size",
   "purpose",
 ];
 
@@ -47,11 +48,29 @@ const concernCategoryLabel: Record<
   ConcernCategory,
   { ja: string; en: string }
 > = {
-  size: { ja: "サイズ・体型", en: "Size & fit" },
+  behavior: { ja: "行動・しつけ", en: "Behavior & training" },
+  care: { ja: "ケア・手入れ", en: "Care & grooming" },
   season: { ja: "環境・季節", en: "Season & weather" },
-  behavior: { ja: "行動・性格", en: "Behavior" },
+  size: { ja: "サイズ・体型", en: "Size & fit" },
   purpose: { ja: "用途・場面", en: "Purpose & occasion" },
 };
+
+const sizeQuickPresets: Array<{
+  size: BreedSize;
+  weight: number;
+  chest: number;
+  back: number;
+  neck: number;
+  ja: string;
+  en: string;
+  range: string;
+}> = [
+  { size: "tiny", weight: 2.5, chest: 32, back: 24, neck: 22, ja: "超小型", en: "XS", range: "〜4kg" },
+  { size: "small", weight: 6, chest: 44, back: 32, neck: 30, ja: "小型", en: "S", range: "4-10kg" },
+  { size: "medium", weight: 15, chest: 60, back: 44, neck: 38, ja: "中型", en: "M", range: "10-25kg" },
+  { size: "large", weight: 30, chest: 80, back: 60, neck: 48, ja: "大型", en: "L", range: "25-45kg" },
+  { size: "giant", weight: 55, chest: 96, back: 70, neck: 58, ja: "超大型", en: "XL", range: "45kg+" },
+];
 
 const concernIcon: Record<string, string> = {
   ruler: "📏",
@@ -87,6 +106,9 @@ export function SearchFlow({ locale, dict, breeds, concerns }: Props) {
   const [concernQuery, setConcernQuery] = useState("");
   const [activeConcernCategory, setActiveConcernCategory] =
     useState<ConcernCategory | "all">("all");
+  const [activeSizePreset, setActiveSizePreset] = useState<BreedSize | null>(
+    null,
+  );
   const [isPending, startTransition] = useTransition();
 
   const popularBreedIds = useMemo(
@@ -142,6 +164,7 @@ export function SearchFlow({ locale, dict, breeds, concerns }: Props) {
       season: 0,
       behavior: 0,
       purpose: 0,
+      care: 0,
     };
     for (const c of concerns) counts[c.category]++;
     return counts;
@@ -176,6 +199,15 @@ export function SearchFlow({ locale, dict, breeds, concerns }: Props) {
     setBack(String(Math.round(avgBack)));
     setNeck(String(Math.round(avgNeck)));
     setWeight(String(Math.round(avgWeight * 10) / 10));
+    setActiveSizePreset(null);
+  }
+
+  function applySizePreset(preset: (typeof sizeQuickPresets)[number]) {
+    setChest(String(preset.chest));
+    setBack(String(preset.back));
+    setNeck(String(preset.neck));
+    setWeight(String(preset.weight));
+    setActiveSizePreset(preset.size);
   }
 
   function toggleConcern(id: string) {
@@ -313,70 +345,132 @@ export function SearchFlow({ locale, dict, breeds, concerns }: Props) {
               </div>
             )}
 
-            {/* Popular breeds (visual chips) */}
-            {popularBreedsToShow.length > 0 && (
-              <div className="space-y-2">
-                <h3 className="text-[11px] font-bold uppercase tracking-wide text-muted-fg">
-                  {locale === "ja" ? "🔥 人気の犬種" : "🔥 Popular"}
-                </h3>
-                <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
-                  {popularBreedsToShow.map((breed) => (
-                    <BreedTile
-                      key={`pop-${breed.id}`}
-                      breed={breed}
-                      locale={locale}
-                      selected={selectedBreedIds.includes(breed.id)}
-                      onClick={() => toggleBreed(breed.id)}
-                    />
-                  ))}
-                </div>
-              </div>
+            {/* Default state (no query): show big popular section */}
+            {!breedQuery.trim() && (
+              <>
+                {popularBreedsToShow.length > 0 && (
+                  <div className="space-y-3">
+                    <div className="flex items-baseline justify-between">
+                      <h3 className="text-sm font-extrabold text-foreground">
+                        🔥 {locale === "ja" ? "人気の犬種" : "Popular breeds"}
+                      </h3>
+                      <p className="text-[11px] text-muted-fg">
+                        {locale === "ja"
+                          ? "よく飼われている犬種から"
+                          : "Top breeds owners pick"}
+                      </p>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                      {popularBreedsToShow.map((breed) => (
+                        <BreedTile
+                          key={`pop-${breed.id}`}
+                          breed={breed}
+                          locale={locale}
+                          selected={selectedBreedIds.includes(breed.id)}
+                          onClick={() => toggleBreed(breed.id)}
+                          large
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Collapsible "all breeds" — visible on demand */}
+                <details className="group rounded-2xl border border-border bg-background">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-bold text-foreground">
+                    <span>
+                      {locale === "ja"
+                        ? `すべての犬種から探す (${filteredBreeds.length})`
+                        : `Browse all breeds (${filteredBreeds.length})`}
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className="transition-transform group-open:rotate-90"
+                    >
+                      ›
+                    </span>
+                  </summary>
+                  <div className="border-t border-border px-3 py-3">
+                    <div className="grid max-h-[400px] gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
+                      {filteredBreeds.map((breed) => {
+                        const selected = selectedBreedIds.includes(breed.id);
+                        const name =
+                          locale === "ja" ? breed.nameJa : breed.nameEn;
+                        const sizeLabel = breedSizeLabel[breed.size];
+                        return (
+                          <button
+                            key={breed.id}
+                            type="button"
+                            onClick={() => toggleBreed(breed.id)}
+                            aria-pressed={selected}
+                            className={`flex items-center justify-between rounded-xl border px-3 py-2.5 text-left text-sm transition-all ${
+                              selected
+                                ? "border-primary bg-primary-soft text-primary"
+                                : "border-border bg-card text-foreground hover:border-primary"
+                            }`}
+                          >
+                            <span className="truncate font-semibold">
+                              {name}
+                            </span>
+                            <span className="ml-2 flex-none text-[10px] uppercase tracking-wide text-muted-fg">
+                              {locale === "ja" ? sizeLabel.ja : sizeLabel.en}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </details>
+              </>
             )}
 
-            {/* All filtered */}
-            <div className="space-y-2">
-              <div className="flex items-baseline justify-between">
-                <h3 className="text-[11px] font-bold uppercase tracking-wide text-muted-fg">
-                  {locale === "ja"
-                    ? `すべて (${filteredBreeds.length})`
-                    : `All (${filteredBreeds.length})`}
-                </h3>
-              </div>
+            {/* Search results state (query active) */}
+            {breedQuery.trim() && (
+              <div className="space-y-2">
+                <div className="flex items-baseline justify-between">
+                  <h3 className="text-sm font-extrabold text-foreground">
+                    {locale === "ja"
+                      ? `検索結果 (${filteredBreeds.length})`
+                      : `Search results (${filteredBreeds.length})`}
+                  </h3>
+                </div>
 
-              {filteredBreeds.length === 0 ? (
-                <div className="rounded-2xl border border-dashed border-border bg-background p-6 text-center text-sm text-muted-fg">
-                  {locale === "ja"
-                    ? "該当する犬種がありません"
-                    : "No breeds match"}
-                </div>
-              ) : (
-                <div className="grid max-h-[420px] gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
-                  {filteredBreeds.map((breed) => {
-                    const selected = selectedBreedIds.includes(breed.id);
-                    const name = locale === "ja" ? breed.nameJa : breed.nameEn;
-                    const sizeLabel = breedSizeLabel[breed.size];
-                    return (
-                      <button
-                        key={breed.id}
-                        type="button"
-                        onClick={() => toggleBreed(breed.id)}
-                        aria-pressed={selected}
-                        className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-left text-sm transition-all ${
-                          selected
-                            ? "border-primary bg-primary-soft text-primary"
-                            : "border-border bg-background text-foreground hover:border-primary"
-                        }`}
-                      >
-                        <span className="truncate font-semibold">{name}</span>
-                        <span className="ml-2 flex-none text-[10px] uppercase tracking-wide text-muted-fg">
-                          {locale === "ja" ? sizeLabel.ja : sizeLabel.en}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
+                {filteredBreeds.length === 0 ? (
+                  <div className="rounded-2xl border border-dashed border-border bg-background p-6 text-center text-sm text-muted-fg">
+                    {locale === "ja"
+                      ? "該当する犬種がありません。「リストにない犬種」から進めます。"
+                      : "No matches. You can also continue without selecting a breed."}
+                  </div>
+                ) : (
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    {filteredBreeds.map((breed) => {
+                      const selected = selectedBreedIds.includes(breed.id);
+                      const name =
+                        locale === "ja" ? breed.nameJa : breed.nameEn;
+                      const sizeLabel = breedSizeLabel[breed.size];
+                      return (
+                        <button
+                          key={breed.id}
+                          type="button"
+                          onClick={() => toggleBreed(breed.id)}
+                          aria-pressed={selected}
+                          className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-left text-sm transition-all ${
+                            selected
+                              ? "border-primary bg-primary-soft text-primary"
+                              : "border-border bg-background text-foreground hover:border-primary"
+                          }`}
+                        >
+                          <span className="truncate font-semibold">{name}</span>
+                          <span className="ml-2 flex-none text-[10px] uppercase tracking-wide text-muted-fg">
+                            {locale === "ja" ? sizeLabel.ja : sizeLabel.en}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
 
             <button
               type="button"
@@ -403,6 +497,56 @@ export function SearchFlow({ locale, dict, breeds, concerns }: Props) {
             </header>
 
             <MeasurementGuide locale={locale} />
+
+            {/* Quick size preset chips */}
+            <div className="space-y-2">
+              <h3 className="text-[11px] font-bold uppercase tracking-wide text-muted-fg">
+                {locale === "ja"
+                  ? "ざっくりサイズで埋める(目安)"
+                  : "Quick fill by rough size"}
+              </h3>
+              <div
+                className="flex gap-2 overflow-x-auto pb-1"
+                style={{ scrollbarWidth: "none" }}
+              >
+                {sizeQuickPresets.map((preset) => {
+                  const active = activeSizePreset === preset.size;
+                  return (
+                    <button
+                      key={preset.size}
+                      type="button"
+                      onClick={() => applySizePreset(preset)}
+                      className={`flex-none rounded-2xl border px-3.5 py-2 text-left transition-all ${
+                        active
+                          ? "border-primary bg-primary-soft"
+                          : "border-border bg-background hover:border-primary"
+                      }`}
+                    >
+                      <p
+                        className={`text-sm font-extrabold ${
+                          active ? "text-primary" : "text-foreground"
+                        }`}
+                      >
+                        {locale === "ja" ? preset.ja : preset.en}
+                        <span className="ml-1 text-[10px] font-normal opacity-70">
+                          {locale === "ja" ? `(${preset.range})` : preset.range}
+                        </span>
+                      </p>
+                      <p className="text-[10px] text-muted-fg">
+                        {locale === "ja"
+                          ? `胸 ${preset.chest} / 背 ${preset.back} / 首 ${preset.neck} cm`
+                          : `chest ${preset.chest} / back ${preset.back} / neck ${preset.neck} cm`}
+                      </p>
+                    </button>
+                  );
+                })}
+              </div>
+              <p className="text-[10px] text-muted-fg">
+                {locale === "ja"
+                  ? "※ 平均値が入ります。後から個別に調整できます。"
+                  : "※ Fills in average values. You can fine-tune below."}
+              </p>
+            </div>
 
             {selectedBreedIds.length > 0 && (
               <button
@@ -639,11 +783,13 @@ function BreedTile({
   locale,
   selected,
   onClick,
+  large,
 }: {
   breed: Breed;
   locale: Locale;
   selected: boolean;
   onClick: () => void;
+  large?: boolean;
 }) {
   const name = locale === "ja" ? breed.nameJa : breed.nameEn;
   const palette = breedColorBySize[breed.size];
@@ -659,21 +805,28 @@ function BreedTile({
       }`}
     >
       <div
-        className="flex h-16 items-center justify-center text-2xl"
+        className={`flex items-center justify-center ${
+          large ? "h-24 text-4xl" : "h-16 text-2xl"
+        }`}
         style={{
           backgroundImage: `linear-gradient(135deg, ${palette.from} 0%, ${palette.to} 100%)`,
         }}
       >
         <span aria-hidden="true">{palette.emoji}</span>
       </div>
-      <div className="bg-card px-2 py-2">
+      <div className={`bg-card ${large ? "px-3 py-2.5" : "px-2 py-2"}`}>
         <p
-          className={`line-clamp-1 text-[11px] font-bold ${
-            selected ? "text-primary" : "text-foreground"
-          }`}
+          className={`line-clamp-1 font-bold ${
+            large ? "text-sm" : "text-[11px]"
+          } ${selected ? "text-primary" : "text-foreground"}`}
         >
           {name}
         </p>
+        {large && (
+          <p className="text-[10px] uppercase tracking-wide text-muted-fg">
+            {breedSizeLabel[breed.size]?.[locale === "ja" ? "ja" : "en"]}
+          </p>
+        )}
       </div>
     </button>
   );

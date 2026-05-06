@@ -34,6 +34,7 @@ const categoryGradient: Record<
   season: { from: "#E8EEDB", to: "#6B8E4E" },
   behavior: { from: "#F5E0D5", to: "#B85B36" },
   purpose: { from: "#E8DFCE", to: "#8B7355" },
+  care: { from: "#E0EAEA", to: "#4A6670" },
 };
 
 export function ConcernChip({ concern, locale, href }: Props) {

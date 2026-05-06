@@ -248,14 +248,15 @@ export default async function HomePage({
         );
       })}
 
-      {/* Concern category rails (size, season, behavior, purpose) */}
-      {(["size", "season", "behavior", "purpose"] as const).map((cat) => {
+      {/* Concern category rails */}
+      {(["behavior", "care", "season", "size", "purpose"] as const).map((cat) => {
         const items = getConcernsByCategory(cat);
         if (items.length === 0) return null;
         const titles: Record<typeof cat, { ja: string; en: string }> = {
-          size: { ja: "サイズ・体型のお悩み", en: "Size & fit concerns" },
+          behavior: { ja: "行動・しつけのお悩み", en: "Behavior & training" },
+          care: { ja: "ケア・手入れのお悩み", en: "Care & grooming" },
           season: { ja: "季節・天気のお悩み", en: "Seasonal concerns" },
-          behavior: { ja: "行動・性格のお悩み", en: "Behavior concerns" },
+          size: { ja: "サイズ・体型のお悩み", en: "Size & fit concerns" },
           purpose: { ja: "用途・場面別", en: "By purpose" },
         };
         return (
