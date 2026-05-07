@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/fetch-rakuten-images.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "fetch-images": "node scripts/fetch-rakuten-images.mjs"
   },
   "dependencies": {
     "next": "16.2.5",

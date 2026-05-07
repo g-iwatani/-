@@ -1,4 +1,11 @@
 import type { AffiliateTarget } from "./affiliate";
+import generatedImages from "./rakuten-images.generated.json";
+
+/**
+ * 楽天 Webservice API でビルド時に取得した商品画像URL。
+ * scripts/fetch-rakuten-images.mjs が生成する。未設定なら空オブジェクト。
+ */
+const rakutenImages: Record<string, string> = generatedImages;
 
 export type ProductCategory = "apparel" | "toy" | "env";
 
@@ -2016,6 +2023,13 @@ export const products: Product[] = [
     tagsEn: ["paw-care", "all-season"],
   },
 ];
+
+// generated.json で取得済みの画像URLを各商品にマージ
+for (const p of products) {
+  if (!p.imageUrl && rakutenImages[p.id]) {
+    p.imageUrl = rakutenImages[p.id];
+  }
+}
 
 import { buildAffiliateUrl } from "./affiliate";
 
