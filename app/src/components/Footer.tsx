@@ -56,20 +56,56 @@ export function Footer({ locale, dict }: Props) {
           </h4>
           <ul className="mt-3 space-y-2 text-sm">
             <li>
-              <span className="text-muted-fg">
-                {dict.footer.links.privacy}
-              </span>
-            </li>
-            <li>
-              <span className="text-muted-fg">{dict.footer.links.terms}</span>
-            </li>
-            <li>
-              <span className="text-muted-fg">
+              <Link
+                href={`${root}/legal/affiliate`}
+                className="hover:text-primary"
+              >
                 {dict.footer.links.affiliate_disclosure}
-              </span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={`${root}/legal/privacy`}
+                className="hover:text-primary"
+              >
+                {dict.footer.links.privacy}
+              </Link>
+            </li>
+            <li>
+              <Link href={`${root}/legal/terms`} className="hover:text-primary">
+                {dict.footer.links.terms}
+              </Link>
+            </li>
+            <li>
+              <Link href={`${root}/legal/about`} className="hover:text-primary">
+                {locale === "ja" ? "運営者情報" : "About"}
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={`${root}/legal/contact`}
+                className="hover:text-primary"
+              >
+                {dict.footer.links.contact}
+              </Link>
             </li>
           </ul>
         </div>
+      </div>
+
+      <div className="border-t border-border/70 px-5 py-3">
+        <p className="mx-auto max-w-6xl text-center text-[11px] leading-relaxed text-muted-fg">
+          {locale === "ja"
+            ? "※ 当サイトはアフィリエイト広告を含みます。詳細は"
+            : "※ This site contains affiliate advertising. See "}
+          <Link
+            href={`${root}/legal/affiliate`}
+            className="font-semibold underline hover:text-primary"
+          >
+            {locale === "ja" ? "アフィリエイト開示" : "Affiliate Disclosure"}
+          </Link>
+          {locale === "ja" ? "をご覧ください。" : "."}
+        </p>
       </div>
 
       <div className="border-t border-border/70 px-5 py-4 text-center text-xs text-muted-fg">
