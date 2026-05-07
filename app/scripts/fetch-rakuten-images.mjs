@@ -106,7 +106,12 @@ async function main() {
       url.searchParams.set("accessKey", ACCESS_KEY);
 
       const res = await fetch(url, {
-        headers: { "User-Agent": "wanproblem-build" },
+        headers: {
+          "User-Agent": "wanproblem-build",
+          // 楽天 Webservice (ichibams) は Referer 必須。
+          // アプリ登録時に設定したサイトURLを送る。
+          Referer: process.env.NEXT_PUBLIC_SITE_URL ?? "https://wanproblem.com/",
+        },
       });
 
       if (!res.ok) {
