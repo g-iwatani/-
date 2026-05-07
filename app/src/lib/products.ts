@@ -171,7 +171,12 @@ export const products: Product[] = [
     fitsBreedSizes: ["small", "medium", "large", "giant"],
     buyOptions: [
       { shop: "公式", url: "#", priceJpy: 19800, priceUsd: 135, region: "global" },
-      { shop: "楽天", url: "#", priceJpy: 18500, region: "jp" },
+      {
+        shop: "楽天",
+        target: { network: "rakuten", shopCode: "1stdogcafe", itemCode: "10000682" },
+        priceJpy: 18500,
+        region: "jp",
+      },
     ],
     popularity: 75,
     imagePalette: { from: "#3D5466", to: "#1F2A36" },
@@ -965,7 +970,16 @@ export const products: Product[] = [
     fitsBreedSizes: ["tiny", "small", "medium", "large"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 1980, priceUsd: 13, region: "global" },
-      { shop: "楽天", url: "#", priceJpy: 2180, region: "jp" },
+      {
+        shop: "楽天",
+        target: {
+          network: "rakuten",
+          shopCode: "deardogs",
+          itemCode: "owh-ffslobowl-tiny",
+        },
+        priceJpy: 2180,
+        region: "jp",
+      },
     ],
     popularity: 76,
     imagePalette: { from: "#A8C77A", to: "#4F6A2C" },
@@ -991,7 +1005,14 @@ export const products: Product[] = [
     ],
     concerns: ["picky-eater", "senior-dog"],
     fitsBreedSizes: ["small", "medium", "large", "giant"],
-    buyOptions: [{ shop: "楽天", url: "#", priceJpy: 3800, region: "jp" }],
+    buyOptions: [
+      {
+        shop: "楽天",
+        target: { network: "rakuten", shopCode: "richell", itemCode: "156121" },
+        priceJpy: 3800,
+        region: "jp",
+      },
+    ],
     popularity: 60,
     imagePalette: { from: "#D8C0A4", to: "#7A5938" },
     imageEmoji: "🍱",
@@ -1663,7 +1684,16 @@ export const products: Product[] = [
     fitsBreedSizes: ["tiny", "small", "medium", "large"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 8980, priceUsd: 60, region: "global" },
-      { shop: "楽天", url: "#", priceJpy: 9480, region: "jp" },
+      {
+        shop: "楽天",
+        target: {
+          network: "rakuten",
+          shopCode: "auc-roadster",
+          itemCode: "10004893",
+        },
+        priceJpy: 9480,
+        region: "jp",
+      },
     ],
     popularity: 72,
     imagePalette: { from: "#C9B49A", to: "#7A6240" },
@@ -1689,7 +1719,12 @@ export const products: Product[] = [
     concerns: ["potty-training", "puppy"],
     fitsBreedSizes: ["tiny", "small", "medium", "large"],
     buyOptions: [
-      { shop: "楽天", url: "#", priceJpy: 1680, region: "jp" },
+      {
+        shop: "楽天",
+        target: { network: "rakuten", shopCode: "kingbridge", itemCode: "pdt004" },
+        priceJpy: 1680,
+        region: "jp",
+      },
       { shop: "Amazon", url: "#", priceJpy: 1780, region: "jp" },
     ],
     popularity: 80,
