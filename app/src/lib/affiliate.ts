@@ -68,9 +68,9 @@ export function buildAffiliateUrl(target: AffiliateTarget): string {
       const id = env("RAKUTEN_AFFILIATE_ID");
       const itemUrl = `https://item.rakuten.co.jp/${target.shopCode}/${target.itemCode}/`;
       if (!id) return itemUrl;
-      // hb.afl.rakuten.co.jp 経由のリダイレクトURLを生成
+      // hb.afl.rakuten.co.jp/ichiba/{id}/ で楽天市場商品にトラッキング付与
       const encoded = encodeURIComponent(itemUrl);
-      return `https://hb.afl.rakuten.co.jp/hgc/${id}/?pc=${encoded}&m=${encoded}`;
+      return `https://hb.afl.rakuten.co.jp/ichiba/${id}/?pc=${encoded}&m=${encoded}`;
     }
     case "valuecommerce": {
       const sid = env("VALUECOMMERCE_SID");
