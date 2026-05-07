@@ -485,7 +485,14 @@ export const products: Product[] = [
     ],
     concerns: ["cute-outing", "hot-summer", "small-breed"],
     fitsBreedSizes: ["tiny", "small"],
-    buyOptions: [{ shop: "楽天", url: "#", priceJpy: 5400, region: "jp" }],
+    buyOptions: [
+      {
+        shop: "楽天",
+        target: { network: "rakuten", shopCode: "jungle-pet", itemCode: "can-1103" },
+        priceJpy: 5400,
+        region: "jp",
+      },
+    ],
     popularity: 72,
     imagePalette: { from: "#F5DCE0", to: "#C28490" },
     imageEmoji: "👗",
@@ -1940,7 +1947,12 @@ export const products: Product[] = [
     concerns: ["wide-chest", "mix-fit", "slips-off"],
     fitsBreedSizes: ["small", "medium"],
     buyOptions: [
-      { shop: "楽天", url: "#", priceJpy: 5800, region: "jp" },
+      {
+        shop: "楽天",
+        target: { network: "rakuten", shopCode: "inuya", itemCode: "idwt-ch138" },
+        priceJpy: 5800,
+        region: "jp",
+      },
     ],
     popularity: 60,
     imagePalette: { from: "#E0C0A0", to: "#7A5028" },
