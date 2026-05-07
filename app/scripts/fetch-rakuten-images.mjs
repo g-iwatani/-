@@ -5,14 +5,10 @@
  * src/lib/rakuten-images.generated.json に出力する。
  *
  * 必要な環境変数:
- *   RAKUTEN_APP_ID      = 楽天ウェブサービスのアプリID(UUID形式)
+ *   RAKUTEN_APP_ID      = 楽天ウェブサービスのアプリID
  *   RAKUTEN_ACCESS_KEY  = アプリのアクセスキー(pk_xxxxx)
  *
- * 使い方:
- *   node scripts/fetch-rakuten-images.mjs   # 通常実行(ビルド前に呼ばれる)
- *
  * 認証情報が無い/呼び出しに失敗した場合は、既存の generated.json を温存する。
- * → 認証情報を入れる前のビルドが壊れない。
  */
 
 import { readFile, writeFile, access } from "node:fs/promises";
@@ -35,8 +31,34 @@ const API_BASE =
 const APP_ID = process.env.RAKUTEN_APP_ID;
 const ACCESS_KEY = process.env.RAKUTEN_ACCESS_KEY;
 
-function exists(p) {
-  return access(p).then(() => true).catch(() => false);
+const exists = (p) => access(p).then(() => true).catch(() => false);
+
+/**
+ * products.ts のソースから rakuten target を抽出する。
+ * 各 target に対して、ファイルの中で「直前にある id: \"...\"」を商品IDとみなす。
+ * 商品ブロック全体をパースする必要がないので nested brace に強い。
+ */
+function findRakutenTargets(source) {
+  const results = [];
+  const targetRegex =
+    /target:\s*\{\s*network:\s*"rakuten"\s*,\s*shopCode:\s*"([^"]+)"\s*,\s*itemCode:\s*"([^"]+)"\s*,?\s*\}/g;
+  let m;
+  while ((m = targetRegex.exec(source)) !== null) {
+    const shopCode = m[1];
+    const itemCode = m[2];
+    const before = source.slice(0, m.index);
+    const ids = [...before.matchAll(/^\s*id:\s*"([^"]+)"/gm)];
+    if (ids.length === 0) continue;
+    const lastId = ids[ids.length - 1][1];
+    results.push({ id: lastId, shopCode, itemCode });
+  }
+  // 同じ id が複数 target を持つケースを最初の1つに絞る
+  const seen = new Set();
+  return results.filter((r) => {
+    if (seen.has(r.id)) return false;
+    seen.add(r.id);
+    return true;
+  });
 }
 
 async function main() {
@@ -45,44 +67,35 @@ async function main() {
       "[rakuten-images] RAKUTEN_APP_ID / RAKUTEN_ACCESS_KEY が未設定。スキップします。",
     );
     if (!(await exists(OUTPUT_JSON))) {
-      // 空のファイルを置いて products.ts のインポートが壊れないようにする
       await writeFile(OUTPUT_JSON, "{}\n", "utf8");
     }
     return;
   }
 
   const source = await readFile(PRODUCTS_TS, "utf8");
-
-  // 各商品ブロックから id と楽天 target を抽出する
-  // id: "xxx" ... shopCode: "yyy", itemCode: "zzz"
-  const targets = [];
-  const productEntryRegex = /\{\s*\n\s*id:\s*"([^"]+)"[\s\S]*?\}/g;
-  let match;
-  while ((match = productEntryRegex.exec(source)) !== null) {
-    const block = match[0];
-    const id = match[1];
-    const rakuten = block.match(
-      /target:\s*\{\s*network:\s*"rakuten",\s*shopCode:\s*"([^"]+)",\s*itemCode:\s*"([^"]+)"\s*\}/,
-    );
-    if (rakuten) {
-      targets.push({ id, shopCode: rakuten[1], itemCode: rakuten[2] });
-    }
-  }
+  const targets = findRakutenTargets(source);
 
   console.log(
-    `[rakuten-images] ${targets.length} products with rakuten target detected`,
+    `[rakuten-images] ${targets.length} products with rakuten target detected:`,
   );
+  for (const t of targets) {
+    console.log(`  - ${t.id}  (shop=${t.shopCode}, item=${t.itemCode})`);
+  }
 
-  // 既存JSONをロード(失敗してもOK)
+  if (targets.length === 0) {
+    console.warn("[rakuten-images] 楽天ターゲットが見つからない。終了。");
+    return;
+  }
+
   let result = {};
   try {
-    const existing = await readFile(OUTPUT_JSON, "utf8");
-    result = JSON.parse(existing);
+    result = JSON.parse(await readFile(OUTPUT_JSON, "utf8"));
   } catch {
     result = {};
   }
 
   let updated = 0;
+  let failed = 0;
   for (const t of targets) {
     try {
       const url = new URL(API_BASE);
@@ -92,47 +105,59 @@ async function main() {
       url.searchParams.set("applicationId", APP_ID);
       url.searchParams.set("accessKey", ACCESS_KEY);
 
-      const res = await fetch(url, { headers: { "User-Agent": "wanproblem-build" } });
+      const res = await fetch(url, {
+        headers: { "User-Agent": "wanproblem-build" },
+      });
+
       if (!res.ok) {
+        const body = await res.text().catch(() => "");
         console.warn(
-          `[rakuten-images] ${t.id} (${t.shopCode}/${t.itemCode}) HTTP ${res.status}`,
+          `[rakuten-images] ${t.id}: HTTP ${res.status} ${body.slice(0, 160)}`,
         );
+        failed++;
         continue;
       }
+
       const data = await res.json();
       const items = data.Items ?? [];
       const item = items[0]?.Item;
       if (!item) {
-        console.warn(`[rakuten-images] ${t.id} no items returned`);
+        console.warn(
+          `[rakuten-images] ${t.id}: no Items in response (count=${items.length})`,
+        );
+        failed++;
         continue;
       }
-      // mediumImageUrls は文字列配列で返ってくる(古い形式) または
-      // [{ imageUrl }] のオブジェクト配列で返ってくる(新しい形式)
+
       const raw =
         item.mediumImageUrls?.[0] ??
         item.smallImageUrls?.[0] ??
-        item.images?.medium?.[0];
+        item.images?.medium?.[0] ??
+        item.images?.small?.[0];
       const imageUrl = typeof raw === "string" ? raw : raw?.imageUrl ?? "";
+
       if (!imageUrl) {
-        console.warn(`[rakuten-images] ${t.id} no image url in response`);
+        console.warn(`[rakuten-images] ${t.id}: response had no image`);
+        failed++;
         continue;
       }
-      // ?_ex=128x128 のサイズ指定を 400x400 に上げる
+
       const cleaned = imageUrl
         .replace(/\?_ex=\d+x\d+/, "?_ex=400x400")
         .replace(/&_ex=\d+x\d+/, "&_ex=400x400");
       result[t.id] = cleaned;
       updated++;
+      console.log(`[rakuten-images] ✓ ${t.id} → ${cleaned}`);
     } catch (e) {
-      console.warn(`[rakuten-images] ${t.id} error:`, e.message);
+      console.warn(`[rakuten-images] ${t.id}: error ${e.message}`);
+      failed++;
     }
-    // 楽天API のレートリミット回避
     await new Promise((r) => setTimeout(r, 400));
   }
 
   await writeFile(OUTPUT_JSON, JSON.stringify(result, null, 2) + "\n", "utf8");
   console.log(
-    `[rakuten-images] wrote ${Object.keys(result).length} entries (${updated} updated this run)`,
+    `[rakuten-images] DONE. total=${Object.keys(result).length} updated=${updated} failed=${failed}`,
   );
 }
 
