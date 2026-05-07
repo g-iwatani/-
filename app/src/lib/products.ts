@@ -45,6 +45,8 @@ export type Product = {
   fitsBreedSizes: ("tiny" | "small" | "medium" | "large" | "giant")[];
   buyOptions: BuyOption[];
   popularity: number; // 0-100
+  /** 商品画像URL(楽天/Amazon/ブランド公式の物)。未設定なら imagePalette+emoji のフォールバック表示 */
+  imageUrl?: string;
   imagePalette: { from: string; to: string };
   imageEmoji: string;
   tagsJa: string[];

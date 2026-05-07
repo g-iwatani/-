@@ -111,6 +111,8 @@ export default async function ProductPage({
           <ProductImage
             palette={product.imagePalette}
             emoji={product.imageEmoji}
+            imageUrl={product.imageUrl}
+            alt={name}
             size="lg"
           />
           <div className="flex flex-wrap gap-2 text-xs">

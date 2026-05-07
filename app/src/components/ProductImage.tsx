@@ -1,6 +1,10 @@
 type Props = {
   palette: { from: string; to: string };
   emoji: string;
+  /** 実商品画像URL。指定があればグラデの代わりに表示 */
+  imageUrl?: string;
+  /** alt 用の商品名 */
+  alt?: string;
   className?: string;
   size?: "sm" | "md" | "lg";
 };
@@ -14,9 +18,28 @@ const sizeClasses: Record<NonNullable<Props["size"]>, string> = {
 export function ProductImage({
   palette,
   emoji,
+  imageUrl,
+  alt,
   className,
   size = "md",
 }: Props) {
+  if (imageUrl) {
+    return (
+      <div
+        className={`relative w-full overflow-hidden rounded-2xl bg-muted ${
+          sizeClasses[size]
+        } ${className ?? ""}`}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={imageUrl}
+          alt={alt ?? ""}
+          loading="lazy"
+          className="h-full w-full object-cover object-center"
+        />
+      </div>
+    );
+  }
   return (
     <div
       className={`relative w-full overflow-hidden rounded-2xl ${

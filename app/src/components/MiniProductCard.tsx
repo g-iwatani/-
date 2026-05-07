@@ -23,6 +23,8 @@ export function MiniProductCard({ product, locale, href }: Props) {
       <ProductImage
         palette={product.imagePalette}
         emoji={product.imageEmoji}
+        imageUrl={product.imageUrl}
+        alt={locale === "ja" ? product.nameJa : product.nameEn}
         size="sm"
       />
       <div className="px-3 py-2.5">

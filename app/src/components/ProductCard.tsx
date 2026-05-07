@@ -35,6 +35,8 @@ export function ProductCard({ match, locale, dict, href }: Props) {
         <ProductImage
           palette={product.imagePalette}
           emoji={product.imageEmoji}
+          imageUrl={product.imageUrl}
+          alt={name}
           size="md"
         />
       </Link>
