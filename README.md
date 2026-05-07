@@ -110,6 +110,99 @@ NEXT_PUBLIC_SITE_URL = https://wanproblem.com
 2. ドメインプロパティで `wanproblem.com` を登録(DNSレコードで所有者確認)
 3. **サイトマップ送信**: `https://wanproblem.com/sitemap.xml`
 
+## アフィリエイトリンクの統合手順
+
+### 1. 各プログラムへの申請
+
+| プログラム | 申請URL | 審査期間 / 注意 | 報酬目安 |
+|---|---|---|---|
+| **楽天アフィリエイト** | https://affiliate.rakuten.co.jp/ | **即時利用可**(楽天会員で誰でも) | 商品価格の 1-7% |
+| **Amazon アソシエイト(JP)** | https://affiliate.amazon.co.jp/ | 仮承認 → 180日以内に**3件以上の成約**で本承認 | ペット 3% |
+| **Amazon アソシエイト(US)** | https://affiliate-program.amazon.com/ | 同上(180日以内3件) | 同上 |
+| **A8.net** | https://www.a8.net/ | 即時。広告主毎に個別審査 | 案件次第(犬服系で 5-15%) |
+| **ValueCommerce** | https://www.valuecommerce.ne.jp/ | 1-3営業日。広告主毎に個別審査 | 同上 |
+| **Skimlinks** | https://skimlinks.com/ | 1営業日 | 自動アフィリ化 |
+| **Impact** | https://impact.com/ | 個別ブランド毎にアプライ | 5-15% |
+
+**最初にやるべきこと**:
+1. **楽天アフィリエイト**(即時利用可で楽天市場の商品が大量にある)
+2. **A8.net**(国内ペット系ブランドの直接案件が豊富)
+3. **Amazon アソシエイト**(申請しておくと並行で本承認に進める)
+
+### 2. 環境変数を Netlify に登録
+
+Netlify → Site configuration → Environment variables:
+
+```
+AMAZON_ASSOC_TAG_JP   = xxxxxxx-22       (例: wanproblem-22)
+AMAZON_ASSOC_TAG_US   = xxxxxxx-20
+RAKUTEN_AFFILIATE_ID  = (32文字のID、楽天アフィリの管理画面で取得)
+VALUECOMMERCE_SID     = (8桁ID、VC管理画面)
+VALUECOMMERCE_PID     = (10桁ID、案件選択時)
+IMPACT_PARTNER_ID     = (Impact 管理画面)
+```
+
+未設定の段階でも、ターゲット指定された商品はアフィリ無しの素のURLに自動フォールバックします。
+
+### 3. 商品データを実 ID に置き換える
+
+`app/src/lib/products.ts` の各 `BuyOption` を以下の形式で更新:
+
+```ts
+// Amazon の場合(ASIN が必要)
+{
+  shop: "Amazon",
+  target: { network: "amazon-jp", asin: "B07XXXXXXX" },
+  priceJpy: 4980,
+  region: "jp",
+}
+
+// 楽天の場合(店舗コード/商品コード)
+{
+  shop: "楽天",
+  target: { network: "rakuten", shopCode: "petio", itemCode: "abc-123" },
+  priceJpy: 4980,
+  region: "jp",
+}
+
+// A8.net の場合(発行された a8mat= パラメータと遷移先URL)
+{
+  shop: "公式",
+  target: {
+    network: "a8",
+    programTracking: "a8mat=ABCDEF+XXX+YYYY+ZZZZZZ",
+    directUrl: "https://www.brand-official.com/products/xxx",
+  },
+  priceJpy: 4980,
+  region: "jp",
+}
+
+// ValueCommerce の場合(deep link 発行済み)
+{
+  shop: "公式",
+  target: {
+    network: "valuecommerce",
+    directUrl: "https://www.brand-official.com/products/xxx",
+  },
+  priceJpy: 4980,
+  region: "jp",
+}
+
+// アフィリ非対応のブランド公式(直接遷移)
+{
+  shop: "公式",
+  target: { network: "direct", url: "https://www.brand-official.com/" },
+  priceJpy: 4980,
+  region: "global",
+}
+```
+
+### 4. 計測
+
+- `rel="nofollow noopener sponsored"` 全リンクに自動付与済み
+- ボタン左に「PR」表記を自動表示(ステマ規制対応)
+- クリック計測は将来的に GA4 のイベント or Netlify Analytics で(別タスク)
+
 ## SEO / メタデータ
 
 - **canonical URL**: 各ページ自動付与(`metadataBase` + alternates)

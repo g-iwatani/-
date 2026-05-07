@@ -1,8 +1,9 @@
 import Link from "next/link";
 import type { Dictionary, Locale } from "@/app/[locale]/dictionaries";
+import { AFFILIATE_REL } from "@/lib/affiliate";
 import { format, formatPrice } from "@/lib/format";
 import type { ProductMatch } from "@/lib/matching";
-import type { Product } from "@/lib/products";
+import { type Product, resolveBuyUrl } from "@/lib/products";
 import { ProductImage } from "./ProductImage";
 
 type Props = {
@@ -102,14 +103,15 @@ function BuyOptionsRow({
 }) {
   return (
     <div className="flex flex-wrap gap-2 border-t border-border pt-3">
-      {product.buyOptions.map((opt) => (
+      {product.buyOptions.map((opt, i) => (
         <a
-          key={`${opt.shop}-${opt.url}`}
-          href={opt.url}
+          key={`${opt.shop}-${i}`}
+          href={resolveBuyUrl(opt)}
           target="_blank"
-          rel="nofollow noopener sponsored"
+          rel={AFFILIATE_REL}
           className="inline-flex flex-1 items-center justify-center rounded-full border border-border bg-background px-3 py-1.5 text-[11px] font-semibold text-muted-fg transition-colors hover:border-primary hover:text-primary"
         >
+          <span aria-label="ad" className="mr-1 text-[9px] opacity-70">PR</span>
           {format(dict.product_card.buy_at, { shop: opt.shop })}
         </a>
       ))}

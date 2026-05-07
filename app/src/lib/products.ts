@@ -1,3 +1,5 @@
+import type { AffiliateTarget } from "./affiliate";
+
 export type ProductCategory = "apparel" | "toy" | "env";
 
 export type ProductSize = {
@@ -12,7 +14,16 @@ export type ProductSize = {
 
 export type BuyOption = {
   shop: string; // e.g. "楽天", "Amazon", "公式"
-  url: string; // affiliate URL (mock #)
+  /**
+   * URL 生成用のターゲット。env で associate ID が設定されていれば
+   * affiliate タグ付きURL、未設定なら素のURLを生成する。
+   */
+  target?: AffiliateTarget;
+  /**
+   * target が未指定 / 未対応 net の場合のフォールバック URL。MVPはここに `#` を入れている。
+   * target を実装し終えたらこのフィールドは段階的に削除可能。
+   */
+  url?: string;
   priceJpy: number;
   priceUsd?: number;
   region: "jp" | "global";
@@ -1925,6 +1936,19 @@ export const products: Product[] = [
     tagsEn: ["paw-care", "all-season"],
   },
 ];
+
+import { buildAffiliateUrl } from "./affiliate";
+
+/**
+ * BuyOption を実際にユーザーが踏む URL に解決する。
+ * target が設定されていればアフィリエイトリンク、なければ url を返す。
+ * どちらも無い場合は "#"。
+ */
+export function resolveBuyUrl(opt: BuyOption): string {
+  if (opt.target) return buildAffiliateUrl(opt.target);
+  if (opt.url) return opt.url;
+  return "#";
+}
 
 export function getProduct(id: string): Product | undefined {
   return products.find((p) => p.id === id);

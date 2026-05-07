@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProductImage } from "@/components/ProductImage";
+import { AFFILIATE_REL } from "@/lib/affiliate";
 import { getBreed } from "@/lib/breeds";
 import { getConcern } from "@/lib/concerns";
 import { format, formatPrice } from "@/lib/format";
@@ -10,7 +11,7 @@ import {
   measurementsFromBreeds,
   pickBestSize,
 } from "@/lib/matching";
-import { getProduct, products } from "@/lib/products";
+import { getProduct, products, resolveBuyUrl } from "@/lib/products";
 import { getDictionary, hasLocale, locales } from "../../dictionaries";
 
 export async function generateStaticParams() {
@@ -183,19 +184,25 @@ export default async function ProductPage({
               {dict.product_detail.buy_options}
             </h3>
             <div className="grid gap-2">
-              {product.buyOptions.map((opt) => (
+              {product.buyOptions.map((opt, i) => (
                 <a
-                  key={`${opt.shop}-${opt.url}`}
-                  href={opt.url}
+                  key={`${opt.shop}-${i}`}
+                  href={resolveBuyUrl(opt)}
                   target="_blank"
-                  rel="nofollow noopener sponsored"
+                  rel={AFFILIATE_REL}
                   className="flex items-center justify-between rounded-2xl border border-card-border bg-card px-5 py-4 transition-all hover:border-primary hover:shadow-md"
                 >
                   <div>
                     <p className="text-sm font-bold text-foreground">
+                      <span
+                        aria-label="ad"
+                        className="mr-1.5 rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-fg"
+                      >
+                        PR
+                      </span>
                       {format(dict.product_card.buy_at, { shop: opt.shop })}
                     </p>
-                    <p className="text-xs text-muted-fg">
+                    <p className="mt-1 text-xs text-muted-fg">
                       {opt.region === "jp"
                         ? locale === "ja"
                           ? "日本国内発送"
@@ -210,7 +217,7 @@ export default async function ProductPage({
                       {formatPrice(opt.priceJpy, locale)}
                     </p>
                     <p className="text-[10px] uppercase tracking-wide text-muted-fg">
-                      {locale === "ja" ? "公式へ移動" : "Open shop"} ↗
+                      {locale === "ja" ? "ショップへ移動" : "Open shop"} ↗
                     </p>
                   </div>
                 </a>
