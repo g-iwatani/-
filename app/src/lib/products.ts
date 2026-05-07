@@ -301,7 +301,12 @@ export const products: Product[] = [
     concerns: ["rainy-walk", "small-breed"],
     fitsBreedSizes: ["tiny", "small", "medium"],
     buyOptions: [
-      { shop: "楽天", url: "#", priceJpy: 5980, region: "jp" },
+      {
+        shop: "楽天",
+        target: { network: "rakuten", shopCode: "chocoshop", itemCode: "1313" },
+        priceJpy: 5980,
+        region: "jp",
+      },
       { shop: "Amazon", url: "#", priceJpy: 6280, region: "jp" },
     ],
     popularity: 82,
@@ -419,7 +424,14 @@ export const products: Product[] = [
     ],
     concerns: ["cold-winter", "small-breed", "mix-fit"],
     fitsBreedSizes: ["tiny", "small", "medium"],
-    buyOptions: [{ shop: "楽天", url: "#", priceJpy: 8800, region: "jp" }],
+    buyOptions: [
+      {
+        shop: "楽天",
+        target: { network: "rakuten", shopCode: "freak", itemCode: "alphaicon3l" },
+        priceJpy: 8800,
+        region: "jp",
+      },
+    ],
     popularity: 79,
     imagePalette: { from: "#C9B89E", to: "#8B7048" },
     imageEmoji: "🧥",
@@ -919,7 +931,12 @@ export const products: Product[] = [
     concerns: ["senior-dog"],
     fitsBreedSizes: ["tiny", "small", "medium"],
     buyOptions: [
-      { shop: "楽天", url: "#", priceJpy: 4480, region: "jp" },
+      {
+        shop: "楽天",
+        target: { network: "rakuten", shopCode: "idog", itemCode: "li0015" },
+        priceJpy: 4480,
+        region: "jp",
+      },
       { shop: "Amazon", url: "#", priceJpy: 4680, region: "jp" },
     ],
     popularity: 58,
@@ -1085,7 +1102,12 @@ export const products: Product[] = [
     fitsBreedSizes: ["tiny", "small", "medium", "large", "giant"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 4980, priceUsd: 35, region: "global" },
-      { shop: "楽天", url: "#", priceJpy: 5380, region: "jp" },
+      {
+        shop: "楽天",
+        target: { network: "rakuten", shopCode: "kurosu", itemCode: "10022677" },
+        priceJpy: 5380,
+        region: "jp",
+      },
     ],
     popularity: 92,
     imagePalette: { from: "#5A7080", to: "#2A3540" },
@@ -1367,7 +1389,16 @@ export const products: Product[] = [
     fitsBreedSizes: ["tiny", "small", "medium", "large", "giant"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 2480, priceUsd: 17, region: "global" },
-      { shop: "楽天", url: "#", priceJpy: 2680, region: "jp" },
+      {
+        shop: "楽天",
+        target: {
+          network: "rakuten",
+          shopCode: "petforest",
+          itemCode: "pf-4562358787904",
+        },
+        priceJpy: 2680,
+        region: "jp",
+      },
     ],
     popularity: 84,
     imagePalette: { from: "#88C078", to: "#3F6E2C" },
