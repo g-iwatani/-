@@ -1051,6 +1051,879 @@ export const products: Product[] = [
     tagsJa: ["携帯ボウル", "アウトドア"],
     tagsEn: ["travel-bowl", "outdoor"],
   },
+
+  // ─── ケア / グルーミング ─────────────────────────────────
+  {
+    id: "furminator-deshed",
+    brand: "FURminator",
+    brandCountry: "US",
+    nameJa: "アンダーコートデシェディングツール",
+    nameEn: "deShedding Tool",
+    descJa:
+      "短毛・長毛それぞれに最適化された刃で、アンダーコートを効率的に取り除く定番ブラシ。",
+    descEn:
+      "The benchmark de-shedding tool. Reaches the undercoat without damaging the topcoat.",
+    category: "env",
+    sizes: [
+      { label: "Toy", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Small", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Medium", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Large", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["heavy-shedding", "long-coat-grooming"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large", "giant"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 4980, priceUsd: 35, region: "global" },
+      { shop: "楽天", url: "#", priceJpy: 5380, region: "jp" },
+    ],
+    popularity: 92,
+    imagePalette: { from: "#5A7080", to: "#2A3540" },
+    imageEmoji: "🪮",
+    tagsJa: ["抜け毛対策", "定番"],
+    tagsEn: ["deshed", "classic"],
+  },
+  {
+    id: "hertzko-slicker",
+    brand: "Hertzko",
+    brandCountry: "US",
+    nameJa: "セルフクリーニングスリッカーブラシ",
+    nameEn: "Self-Cleaning Slicker Brush",
+    descJa:
+      "ボタンひとつで毛玉を排出。長毛・カーリーコート犬の毎日のもつれ防止に。",
+    descEn:
+      "One-button bristle retraction. Daily detangling for long or curly coats.",
+    category: "env",
+    sizes: [
+      { label: "One Size", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["long-coat-grooming", "heavy-shedding", "brushing-hates"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 1980, priceUsd: 13, region: "global" },
+    ],
+    popularity: 78,
+    imagePalette: { from: "#EAA4A4", to: "#8A4444" },
+    imageEmoji: "🪮",
+    tagsJa: ["スリッカー", "もつれ防止"],
+    tagsEn: ["slicker", "detangle"],
+  },
+  {
+    id: "earthbath-ear-wipes",
+    brand: "Earthbath",
+    brandCountry: "US",
+    nameJa: "イヤーワイプ(耳掃除シート)",
+    nameEn: "Ear Wipes",
+    descJa:
+      "天然素材ベースの優しい耳掃除シート。日常ケアで耳の汚れを軽減。",
+    descEn:
+      "Plant-based gentle ear wipes for everyday cleaning.",
+    category: "env",
+    sizes: [
+      { label: "25枚入", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["dirty-ears"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large", "giant"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 1380, priceUsd: 9, region: "global" },
+    ],
+    popularity: 64,
+    imagePalette: { from: "#A8C77A", to: "#4F6A2C" },
+    imageEmoji: "👂",
+    tagsJa: ["ケア", "シート"],
+    tagsEn: ["wipes", "care"],
+  },
+  {
+    id: "petio-eye-wipes",
+    brand: "Petio",
+    brandCountry: "JP",
+    nameJa: "目元クリーンシート",
+    nameEn: "Eye Care Wipes",
+    descJa:
+      "毎日の目元のお手入れに。涙やけが気になる飼い主が選んでいる定番ケア用品。",
+    descEn:
+      "Daily eye-area wipes — popular with owners who watch for tear staining.",
+    category: "env",
+    sizes: [
+      { label: "60枚入", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["tear-stains-care"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large"],
+    buyOptions: [
+      { shop: "楽天", url: "#", priceJpy: 980, region: "jp" },
+      { shop: "Amazon", url: "#", priceJpy: 1080, region: "jp" },
+    ],
+    popularity: 70,
+    imagePalette: { from: "#F2DCD0", to: "#9A6E55" },
+    imageEmoji: "👁️",
+    tagsJa: ["涙やけケア", "国産"],
+    tagsEn: ["tear-stain care", "japanese"],
+  },
+  {
+    id: "wahl-bravura-trimmer",
+    brand: "Wahl",
+    brandCountry: "US",
+    nameJa: "ブラブラ コードレストリマー",
+    nameEn: "Bravura Cordless Trimmer",
+    descJa:
+      "音が静かなコードレストリマー。爪切りや顔まわりの毛のお手入れに使える兼用機。",
+    descEn:
+      "Quiet cordless trimmer for nails and face touch-ups.",
+    category: "env",
+    sizes: [
+      { label: "One Size", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["nail-care-hates", "long-coat-grooming"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 14800, priceUsd: 99, region: "global" },
+    ],
+    popularity: 60,
+    imagePalette: { from: "#7A88B0", to: "#3F4A6C" },
+    imageEmoji: "💈",
+    tagsJa: ["静音", "コードレス", "プレミアム"],
+    tagsEn: ["quiet", "cordless", "premium"],
+  },
+  {
+    id: "petrepublique-grinder",
+    brand: "Pet Republique",
+    brandCountry: "US",
+    nameJa: "電動ネイルグラインダー",
+    nameEn: "Electric Nail Grinder",
+    descJa:
+      "切らずに削る電動爪ヤスリ。爪切りが苦手な子に音が静かなモデルがおすすめ。",
+    descEn:
+      "Grind, don't clip. Quieter and gentler — ideal for nail-averse dogs.",
+    category: "env",
+    sizes: [
+      { label: "One Size", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["nail-care-hates", "senior-dog"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 3280, priceUsd: 22, region: "global" },
+    ],
+    popularity: 72,
+    imagePalette: { from: "#C9A48C", to: "#7A5538" },
+    imageEmoji: "🪚",
+    tagsJa: ["電動", "爪ケア"],
+    tagsEn: ["electric", "nail-care"],
+  },
+  {
+    id: "aquapaw-licker",
+    brand: "Aquapaw",
+    brandCountry: "US",
+    nameJa: "ペットスローフィーダー(吸盤付き)",
+    nameEn: "Slow Treater Lick Mat",
+    descJa:
+      "壁に吸盤で貼り付けるリックマット。お風呂やドライヤー時の気を逸らすのに最適。",
+    descEn:
+      "Suctions to wall or tub. Distracts during bath and grooming.",
+    category: "env",
+    sizes: [
+      { label: "One Size", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["bath-hates", "brushing-hates", "fast-eater", "lonely-when-alone"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 1680, priceUsd: 11, region: "global" },
+    ],
+    popularity: 76,
+    imagePalette: { from: "#7BB6CC", to: "#3A6E84" },
+    imageEmoji: "🌊",
+    tagsJa: ["バス対策", "知育"],
+    tagsEn: ["bath-aid", "enrichment"],
+  },
+  {
+    id: "burts-bees-shampoo",
+    brand: "Burt's Bees",
+    brandCountry: "US",
+    nameJa: "ナチュラル ドッグシャンプー",
+    nameEn: "Natural Dog Shampoo",
+    descJa:
+      "天然由来成分配合のマイルドなシャンプー。バスタイムを優しく。",
+    descEn:
+      "Plant-based, gentle formulation. Soft on coat and skin.",
+    category: "env",
+    sizes: [
+      { label: "473ml", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["bath-hates"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large", "giant"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 1480, priceUsd: 10, region: "global" },
+    ],
+    popularity: 58,
+    imagePalette: { from: "#F4E0A0", to: "#A88030" },
+    imageEmoji: "🧴",
+    tagsJa: ["シャンプー", "ナチュラル"],
+    tagsEn: ["shampoo", "natural"],
+  },
+  {
+    id: "pet-glove-brush",
+    brand: "DELOMO",
+    brandCountry: "US",
+    nameJa: "グルーミンググローブ",
+    nameEn: "Pet Grooming Gloves",
+    descJa:
+      "撫でながらブラッシング。ブラシ嫌いな子にも触る延長として馴染みやすい。",
+    descEn:
+      "Pet your dog while you brush. Great for brush-averse pups.",
+    category: "env",
+    sizes: [
+      { label: "Pair", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["brushing-hates", "heavy-shedding"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 2280, priceUsd: 15, region: "global" },
+    ],
+    popularity: 68,
+    imagePalette: { from: "#B8C68C", to: "#5C6F2E" },
+    imageEmoji: "🧤",
+    tagsJa: ["グローブ", "ブラッシング"],
+    tagsEn: ["gloves", "brushing"],
+  },
+  {
+    id: "virbac-toothpaste",
+    brand: "Virbac",
+    brandCountry: "FR",
+    nameJa: "C.E.T 歯磨きペースト",
+    nameEn: "C.E.T. Toothpaste",
+    descJa:
+      "獣医師が推奨することの多いデンタルペースト。フレーバー付きで犬が嫌がりにくい。",
+    descEn:
+      "Veterinarian-recommended toothpaste. Flavored to make daily brushing easier.",
+    category: "env",
+    sizes: [
+      { label: "70g", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["dental-care"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large", "giant"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 1980, priceUsd: 13, region: "global" },
+      { shop: "楽天", url: "#", priceJpy: 2080, region: "jp" },
+    ],
+    popularity: 70,
+    imagePalette: { from: "#A4C8E0", to: "#3F6680" },
+    imageEmoji: "🪥",
+    tagsJa: ["歯磨き", "デンタル"],
+    tagsEn: ["dental", "toothpaste"],
+  },
+  {
+    id: "nylabone-dura-chew",
+    brand: "Nylabone",
+    brandCountry: "US",
+    nameJa: "デュラチュー パワーチュー",
+    nameEn: "DuraChew Power Chew",
+    descJa:
+      "ヘビーチュワー対応のデンタルチュー。歯垢を物理的に減らしながら長時間遊べる。",
+    descEn:
+      "Power-chewer rated dental chew. Cleans teeth while keeping them busy.",
+    category: "toy",
+    sizes: [
+      { label: "Wolf", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Souper", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["dental-care", "destroys-toys", "biting-habit"],
+    fitsBreedSizes: ["small", "medium", "large", "giant"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 1480, priceUsd: 10, region: "global" },
+    ],
+    popularity: 80,
+    imagePalette: { from: "#D89A6A", to: "#7A4A20" },
+    imageEmoji: "🦴",
+    tagsJa: ["デンタル", "頑丈"],
+    tagsEn: ["dental", "tough"],
+  },
+  {
+    id: "greenies-dental-treats",
+    brand: "Greenies",
+    brandCountry: "US",
+    nameJa: "グリニーズ オリジナル",
+    nameEn: "Greenies Original Dental Treats",
+    descJa:
+      "毎日のデンタル習慣に。サイズ別パッケージで噛みごたえも適切。",
+    descEn:
+      "Daily dental treat with the right chew time per size.",
+    category: "env",
+    sizes: [
+      { label: "Teenie", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Petite", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Regular", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Large", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["dental-care"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large", "giant"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 2480, priceUsd: 17, region: "global" },
+      { shop: "楽天", url: "#", priceJpy: 2680, region: "jp" },
+    ],
+    popularity: 84,
+    imagePalette: { from: "#88C078", to: "#3F6E2C" },
+    imageEmoji: "🦷",
+    tagsJa: ["デンタル", "おやつ"],
+    tagsEn: ["dental", "treat"],
+  },
+
+  // ─── 行動 / しつけ系 ────────────────────────────────────
+  {
+    id: "petsafe-treat-pouch",
+    brand: "PetSafe",
+    brandCountry: "US",
+    nameJa: "トリートポーチ",
+    nameEn: "Treat Pouch",
+    descJa:
+      "ご褒美をすぐ渡せるトレーニング必携アイテム。マグネット式の口で片手アクセス。",
+    descEn:
+      "Magnetic-mouth treat pouch — fast one-hand access for training.",
+    category: "env",
+    sizes: [
+      { label: "One Size", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["pulls-leash", "wont-come", "barking", "scavenging", "jumps-on-people"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large", "giant"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 1880, priceUsd: 13, region: "global" },
+    ],
+    popularity: 78,
+    imagePalette: { from: "#7A8A4C", to: "#404930" },
+    imageEmoji: "👜",
+    tagsJa: ["トレーニング", "必携"],
+    tagsEn: ["training", "essential"],
+  },
+  {
+    id: "gentle-leader-headcollar",
+    brand: "PetSafe",
+    brandCountry: "US",
+    nameJa: "ジェントルリーダー ヘッドカラー",
+    nameEn: "Gentle Leader Headcollar",
+    descJa:
+      "頭部装着型のしつけ補助具。引っ張り癖の改善に高い実績がある定番。",
+    descEn:
+      "Head-collar style training aid. The classic no-pull solution for strong pullers.",
+    category: "env",
+    sizes: [
+      { label: "Petite", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Small", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Medium", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Large", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["pulls-leash", "reactive-bicycle", "barking-other-dogs"],
+    fitsBreedSizes: ["small", "medium", "large", "giant"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 3480, priceUsd: 23, region: "global" },
+    ],
+    popularity: 75,
+    imagePalette: { from: "#7A4A30", to: "#3A2418" },
+    imageEmoji: "🐎",
+    tagsJa: ["引っ張り防止", "ヘッドカラー"],
+    tagsEn: ["no-pull", "head-collar"],
+  },
+  {
+    id: "mighty-paw-long-leash",
+    brand: "Mighty Paw",
+    brandCountry: "US",
+    nameJa: "ロングリード(9m)",
+    nameEn: "Long Leash 30ft",
+    descJa:
+      "呼び戻しトレーニングに使う長いリード。広い場所で安全に練習できる。",
+    descEn:
+      "Long line for safe recall training in open spaces.",
+    category: "env",
+    sizes: [
+      { label: "9m", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "15m", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["wont-come", "active-sports", "outdoor-camping"],
+    fitsBreedSizes: ["small", "medium", "large", "giant"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 2880, priceUsd: 19, region: "global" },
+    ],
+    popularity: 64,
+    imagePalette: { from: "#5C7548", to: "#2E3D24" },
+    imageEmoji: "🪢",
+    tagsJa: ["呼び戻し", "ロングリード"],
+    tagsEn: ["recall", "long-line"],
+  },
+  {
+    id: "adaptil-spray",
+    brand: "Adaptil",
+    brandCountry: "FR",
+    nameJa: "犬用フェロモンスプレー",
+    nameEn: "Calming Pheromone Spray",
+    descJa:
+      "母犬のフェロモンを再現したスプレー。クレートやキャリーに吹きかけて安心感を補助。",
+    descEn:
+      "Synthetic dog-appeasing pheromone spray. Sprayed on crates and bedding.",
+    category: "env",
+    sizes: [
+      { label: "60ml", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["anxiety-general", "noise-scared", "moving-home", "boarding", "carsick"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large", "giant"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 2680, priceUsd: 18, region: "global" },
+    ],
+    popularity: 70,
+    imagePalette: { from: "#9D7BA8", to: "#523C5C" },
+    imageEmoji: "🌸",
+    tagsJa: ["フェロモン", "落ち着き"],
+    tagsEn: ["pheromone", "calming"],
+  },
+  {
+    id: "baskerville-muzzle",
+    brand: "Baskerville",
+    brandCountry: "GB",
+    nameJa: "ウルトラマズル(口輪)",
+    nameEn: "Ultra Muzzle",
+    descJa:
+      "通気性の高いバスケット型マズル。拾い食い防止や来客対応の補助に。",
+    descEn:
+      "Vented basket muzzle. Helps with scavenging or guest interactions.",
+    category: "env",
+    sizes: [
+      { label: "Size 1", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Size 3", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Size 5", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["scavenging", "biting-habit", "barking-guests"],
+    fitsBreedSizes: ["small", "medium", "large", "giant"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 3680, priceUsd: 25, region: "global" },
+    ],
+    popularity: 56,
+    imagePalette: { from: "#5C5040", to: "#2A201A" },
+    imageEmoji: "🎭",
+    tagsJa: ["拾い食い対策", "マズル"],
+    tagsEn: ["anti-scavenge", "muzzle"],
+  },
+  {
+    id: "outward-hound-puzzle",
+    brand: "Outward Hound",
+    brandCountry: "US",
+    nameJa: "ニーナオットソン パズル",
+    nameEn: "Nina Ottosson Puzzle Toy",
+    descJa:
+      "難易度別の知育パズル。隠したフードを犬が探して開ける、留守番にも最適。",
+    descEn:
+      "Treat-hiding puzzle, multiple difficulty levels. Great solo-time enrichment.",
+    category: "toy",
+    sizes: [
+      { label: "Lvl 1", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Lvl 2", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Lvl 3", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["destructive-when-alone", "lonely-when-alone", "fast-eater"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 3280, priceUsd: 22, region: "global" },
+    ],
+    popularity: 86,
+    imagePalette: { from: "#E0A848", to: "#8C6420" },
+    imageEmoji: "🧩",
+    tagsJa: ["知育", "留守番"],
+    tagsEn: ["puzzle", "alone-time"],
+  },
+  {
+    id: "kong-wobbler",
+    brand: "Kong",
+    brandCountry: "US",
+    nameJa: "コング ウォブラー",
+    nameEn: "Kong Wobbler",
+    descJa:
+      "倒すとフードが少しずつ出る。早食い対策にもなる動的フード給仕。",
+    descEn:
+      "Wobbles and dispenses food. Slow-feeder + enrichment in one.",
+    category: "toy",
+    sizes: [
+      { label: "Small", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Large", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["lonely-when-alone", "fast-eater", "weight-management"],
+    fitsBreedSizes: ["small", "medium", "large", "giant"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 2280, priceUsd: 15, region: "global" },
+    ],
+    popularity: 78,
+    imagePalette: { from: "#D44D3A", to: "#7A2A1E" },
+    imageEmoji: "🥚",
+    tagsJa: ["知育", "スローフィーダー"],
+    tagsEn: ["enrichment", "slow-feed"],
+  },
+  {
+    id: "ifetch-launcher",
+    brand: "iFetch",
+    brandCountry: "US",
+    nameJa: "自動ボールランチャー",
+    nameEn: "Automatic Ball Launcher",
+    descJa:
+      "ボールを入れると自動で投げてくれる。室内・庭での運動量を確保。",
+    descEn:
+      "Drops a ball in, throws it out. Keeps energy levels manageable on rainy days.",
+    category: "toy",
+    sizes: [
+      { label: "Mini", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Original", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["destructive-when-alone", "weight-management", "active-sports"],
+    fitsBreedSizes: ["small", "medium", "large"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 11800, priceUsd: 79, region: "global" },
+    ],
+    popularity: 60,
+    imagePalette: { from: "#7BB8C4", to: "#365A66" },
+    imageEmoji: "🤖",
+    tagsJa: ["自動", "運動", "雨の日"],
+    tagsEn: ["automatic", "exercise"],
+  },
+  {
+    id: "snuggle-puppy",
+    brand: "Snuggle Puppy",
+    brandCountry: "US",
+    nameJa: "心音つきぬいぐるみ",
+    nameEn: "Heartbeat Snuggle Puppy",
+    descJa:
+      "リアルな心音と温かさで安心感を作る。子犬・引っ越し直後・分離不安に。",
+    descEn:
+      "Real heartbeat + warmth. For puppies, post-move, and separation anxiety.",
+    category: "toy",
+    sizes: [
+      { label: "One Size", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["puppy", "moving-home", "anxiety-general", "lonely-when-alone", "noise-scared"],
+    fitsBreedSizes: ["tiny", "small", "medium"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 4580, priceUsd: 31, region: "global" },
+    ],
+    popularity: 74,
+    imagePalette: { from: "#F5DCE0", to: "#C28490" },
+    imageEmoji: "💗",
+    tagsJa: ["子犬", "分離不安"],
+    tagsEn: ["puppy", "separation"],
+  },
+
+  // ─── トイレ・ペットゲート ───────────────────────────────────
+  {
+    id: "carlson-pet-gate",
+    brand: "Carlson",
+    brandCountry: "US",
+    nameJa: "ペット用ゲート(自立式)",
+    nameEn: "Free-Standing Pet Gate",
+    descJa:
+      "工具不要で設置できる自立型ゲート。トイレトレーニングや子供との境界線づくりに。",
+    descEn:
+      "Tool-free, free-standing gate. Helps potty training and kid/dog boundaries.",
+    category: "env",
+    sizes: [
+      { label: "Standard", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["potty-training", "with-kids", "begging-for-food", "multi-dog"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 8980, priceUsd: 60, region: "global" },
+      { shop: "楽天", url: "#", priceJpy: 9480, region: "jp" },
+    ],
+    popularity: 72,
+    imagePalette: { from: "#C9B49A", to: "#7A6240" },
+    imageEmoji: "🚪",
+    tagsJa: ["ゲート", "境界線"],
+    tagsEn: ["gate", "boundary"],
+  },
+  {
+    id: "wagworld-pads",
+    brand: "WagWorld",
+    brandCountry: "JP",
+    nameJa: "薄型ペットシーツ(レギュラー)",
+    nameEn: "Thin Pet Pads (Regular)",
+    descJa:
+      "コスパ重視の毎日使いシーツ。トイレトレーニング期にまとめ買い向き。",
+    descEn:
+      "Daily-use pads. Ideal bulk pick during potty training.",
+    category: "env",
+    sizes: [
+      { label: "Regular 100枚", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Wide 50枚", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["potty-training", "puppy"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large"],
+    buyOptions: [
+      { shop: "楽天", url: "#", priceJpy: 1680, region: "jp" },
+      { shop: "Amazon", url: "#", priceJpy: 1780, region: "jp" },
+    ],
+    popularity: 80,
+    imagePalette: { from: "#E0EBEA", to: "#5A7570" },
+    imageEmoji: "📄",
+    tagsJa: ["シーツ", "トイレ"],
+    tagsEn: ["pads", "potty"],
+  },
+
+  // ─── トラベル / 移動 ─────────────────────────────────────
+  {
+    id: "sleepypod-clickit",
+    brand: "Sleepypod",
+    brandCountry: "US",
+    nameJa: "クリックイット スポーツ(車用ハーネス)",
+    nameEn: "Clickit Sport Crash-Tested Harness",
+    descJa:
+      "クラッシュテスト済みの車載シートベルトハーネス。安全性で選ぶならこれ。",
+    descEn:
+      "Crash-tested seatbelt harness for car travel.",
+    category: "env",
+    sizes: [
+      { label: "S", chestMin: 39, chestMax: 56, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "M", chestMin: 56, chestMax: 71, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "L", chestMin: 71, chestMax: 91, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["travel-car", "carsick", "active-sports"],
+    fitsBreedSizes: ["small", "medium", "large", "giant"],
+    buyOptions: [
+      { shop: "公式", url: "#", priceJpy: 12800, priceUsd: 85, region: "global" },
+    ],
+    popularity: 68,
+    imagePalette: { from: "#3F5266", to: "#1F2730" },
+    imageEmoji: "🚗",
+    tagsJa: ["車", "安全", "クラッシュテスト済"],
+    tagsEn: ["car", "safety", "crash-tested"],
+  },
+  {
+    id: "sherpa-carrier",
+    brand: "Sherpa",
+    brandCountry: "US",
+    nameJa: "オリジナル デラックス キャリア",
+    nameEn: "Original Deluxe Carrier",
+    descJa:
+      "JAL/ANA等の機内持ち込みサイズに対応。電車・カフェ移動にも便利。",
+    descEn:
+      "Airline-approved soft carrier. Works for train and café trips too.",
+    category: "env",
+    sizes: [
+      { label: "Small", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Medium", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["public-transport", "cafe-friendly", "travel-car", "boarding"],
+    fitsBreedSizes: ["tiny", "small"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 9800, priceUsd: 65, region: "global" },
+    ],
+    popularity: 70,
+    imagePalette: { from: "#6E7280", to: "#33363F" },
+    imageEmoji: "🎒",
+    tagsJa: ["キャリア", "機内持込"],
+    tagsEn: ["carrier", "airline-approved"],
+  },
+  {
+    id: "midwest-foldable-pen",
+    brand: "MidWest",
+    brandCountry: "US",
+    nameJa: "折りたたみケージ",
+    nameEn: "Foldable Wire Pen",
+    descJa:
+      "折りたたみ可能なメタルペン。多頭飼育・キャンプ・災害時の備えに。",
+    descEn:
+      "Folds flat. Multi-dog feeding, camping, or disaster prep.",
+    category: "env",
+    sizes: [
+      { label: "8-panel", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["multi-dog", "outdoor-camping", "disaster-prep", "potty-training"],
+    fitsBreedSizes: ["small", "medium", "large"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 7800, priceUsd: 52, region: "global" },
+    ],
+    popularity: 62,
+    imagePalette: { from: "#9AAAB0", to: "#4A565C" },
+    imageEmoji: "🧱",
+    tagsJa: ["ケージ", "多頭", "災害"],
+    tagsEn: ["pen", "multi-dog", "disaster"],
+  },
+  {
+    id: "kurgo-dog-backpack",
+    brand: "Kurgo",
+    brandCountry: "US",
+    nameJa: "ドッグバックパック(犬用)",
+    nameEn: "Big Baxter Dog Backpack",
+    descJa:
+      "犬自身が背負うアウトドア用バックパック。長時間散歩・ハイキングに。",
+    descEn:
+      "Backpack the dog wears for hikes and long-walk lifestyles.",
+    category: "env",
+    sizes: [
+      { label: "Medium", chestMin: 60, chestMax: 80, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Large", chestMin: 80, chestMax: 105, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["outdoor-camping", "active-sports", "long-walker"],
+    fitsBreedSizes: ["medium", "large", "giant"],
+    buyOptions: [
+      { shop: "公式", url: "#", priceJpy: 7800, priceUsd: 52, region: "global" },
+    ],
+    popularity: 56,
+    imagePalette: { from: "#7A8A4C", to: "#404930" },
+    imageEmoji: "🎒",
+    tagsJa: ["アウトドア", "ハイキング"],
+    tagsEn: ["outdoor", "hiking"],
+  },
+  {
+    id: "mighty-paw-led-collar",
+    brand: "Mighty Paw",
+    brandCountry: "US",
+    nameJa: "LED ライトアップカラー",
+    nameEn: "LED Light-Up Collar",
+    descJa:
+      "夜の散歩・キャンプ・災害時の視認性確保。USB充電対応。",
+    descEn:
+      "USB-rechargeable LED collar for visibility at night, on hikes, and in emergencies.",
+    category: "env",
+    sizes: [
+      { label: "S", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 25, neckMax: 35 },
+      { label: "M", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 35, neckMax: 50 },
+      { label: "L", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 50, neckMax: 65 },
+    ],
+    concerns: ["outdoor-camping", "disaster-prep", "long-walker"],
+    fitsBreedSizes: ["small", "medium", "large", "giant"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 2280, priceUsd: 15, region: "global" },
+    ],
+    popularity: 60,
+    imagePalette: { from: "#3F5C70", to: "#1A2630" },
+    imageEmoji: "💡",
+    tagsJa: ["夜散歩", "視認性", "USB充電"],
+    tagsEn: ["night-walk", "visibility", "usb"],
+  },
+  {
+    id: "kurgo-loft-bed",
+    brand: "Kurgo",
+    brandCountry: "US",
+    nameJa: "ロフトワンダーベッド(携帯ベッド)",
+    nameEn: "Loft Wander Travel Bed",
+    descJa:
+      "丸めて持ち運べる旅行用ベッド。ペットホテル・キャンプ・引越し直後の安心アイテムに。",
+    descEn:
+      "Roll-up travel bed. Familiar smell that calms in hotels, campsites, or after moves.",
+    category: "env",
+    sizes: [
+      { label: "Medium", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "Large", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["boarding", "moving-home", "outdoor-camping"],
+    fitsBreedSizes: ["small", "medium", "large"],
+    buyOptions: [
+      { shop: "公式", url: "#", priceJpy: 6800, priceUsd: 45, region: "global" },
+    ],
+    popularity: 56,
+    imagePalette: { from: "#A8967C", to: "#5C4A2E" },
+    imageEmoji: "🛏️",
+    tagsJa: ["ベッド", "旅行", "携帯"],
+    tagsEn: ["bed", "travel", "portable"],
+  },
+
+  // ─── 体型別フィット系 ───────────────────────────────────
+  {
+    id: "pooch-outfitters-long-body",
+    brand: "Pooch Outfitters",
+    brandCountry: "US",
+    nameJa: "ロングボディフード(胴長犬向け)",
+    nameEn: "Long-Body Hoodie (Dachshund/Corgi cut)",
+    descJa:
+      "ダックスフンドやコーギーの胴長体型に合わせたパターンで作られたフード。",
+    descEn:
+      "Hoodie cut specifically for long-back breeds like Dachshunds and Corgis.",
+    category: "apparel",
+    sizes: [
+      { label: "XS-Long", chestMin: 30, chestMax: 38, backMin: 28, backMax: 35, neckMin: 22, neckMax: 28 },
+      { label: "S-Long", chestMin: 38, chestMax: 46, backMin: 33, backMax: 42, neckMin: 26, neckMax: 32 },
+      { label: "M-Long", chestMin: 46, chestMax: 56, backMin: 40, backMax: 50, neckMin: 30, neckMax: 38 },
+    ],
+    concerns: ["long-back", "small-breed", "mix-fit"],
+    fitsBreedSizes: ["small", "medium"],
+    buyOptions: [
+      { shop: "公式", url: "#", priceJpy: 4980, priceUsd: 33, region: "global" },
+    ],
+    popularity: 64,
+    imagePalette: { from: "#D8B388", to: "#7A4F28" },
+    imageEmoji: "🌭",
+    tagsJa: ["胴長", "ダックス◯", "コーギー◯"],
+    tagsEn: ["long-back", "dachshund", "corgi"],
+  },
+  {
+    id: "frenchbull-wide-vest",
+    brand: "Frenchic",
+    brandCountry: "JP",
+    nameJa: "ワイドチェストベスト(短頭種向け)",
+    nameEn: "Wide-Chest Vest (brachy fit)",
+    descJa:
+      "フレンチブル・パグ等の太い胸囲に合わせた特殊パターン。アジャスタ付き。",
+    descEn:
+      "Cut for wide-chested brachy breeds. Adjustable straps.",
+    category: "apparel",
+    sizes: [
+      { label: "1", chestMin: 38, chestMax: 48, backMin: 22, backMax: 28, neckMin: 28, neckMax: 36 },
+      { label: "2", chestMin: 48, chestMax: 58, backMin: 28, backMax: 34, neckMin: 32, neckMax: 42 },
+      { label: "3", chestMin: 58, chestMax: 68, backMin: 32, backMax: 38, neckMin: 36, neckMax: 48 },
+    ],
+    concerns: ["wide-chest", "mix-fit", "slips-off"],
+    fitsBreedSizes: ["small", "medium"],
+    buyOptions: [
+      { shop: "楽天", url: "#", priceJpy: 5800, region: "jp" },
+    ],
+    popularity: 60,
+    imagePalette: { from: "#E0C0A0", to: "#7A5028" },
+    imageEmoji: "🦴",
+    tagsJa: ["フレブル◯", "パグ◯", "ワイドチェスト"],
+    tagsEn: ["frenchie", "pug", "wide-chest"],
+  },
+
+  // ─── 災害対策・その他 ──────────────────────────────────
+  {
+    id: "bivvy-emergency-kit",
+    brand: "Bivvy",
+    brandCountry: "US",
+    nameJa: "ペット防災キット",
+    nameEn: "Pet Emergency Kit",
+    descJa:
+      "ペット用の非常持ち出しキット。フード・水・首輪・ライト等を一式パッケージ化。",
+    descEn:
+      "Pet go-bag bundle with food, water, ID, and light essentials.",
+    category: "env",
+    sizes: [
+      { label: "Standard", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["disaster-prep"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 5980, priceUsd: 40, region: "global" },
+    ],
+    popularity: 50,
+    imagePalette: { from: "#C44A3A", to: "#5A2014" },
+    imageEmoji: "🆘",
+    tagsJa: ["防災", "非常用"],
+    tagsEn: ["disaster", "emergency"],
+  },
+  {
+    id: "petsafe-paw-balm",
+    brand: "Musher's Secret",
+    brandCountry: "CA",
+    nameJa: "肉球ワックス(マッシャーズシークレット)",
+    nameEn: "Paw Wax",
+    descJa:
+      "肉球に塗ると保護膜を作る天然ワックス。熱いアスファルト・凍結路面・乾燥対策に。",
+    descEn:
+      "Natural beeswax-based barrier for hot pavement, ice, and dry pads.",
+    category: "env",
+    sizes: [
+      { label: "60g", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+      { label: "200g", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
+    ],
+    concerns: ["asphalt-hot", "cold-paws", "long-walker"],
+    fitsBreedSizes: ["tiny", "small", "medium", "large", "giant"],
+    buyOptions: [
+      { shop: "Amazon", url: "#", priceJpy: 2480, priceUsd: 17, region: "global" },
+    ],
+    popularity: 72,
+    imagePalette: { from: "#E0BC78", to: "#7A5A28" },
+    imageEmoji: "🍯",
+    tagsJa: ["肉球ケア", "万能"],
+    tagsEn: ["paw-care", "all-season"],
+  },
 ];
 
 export function getProduct(id: string): Product | undefined {
