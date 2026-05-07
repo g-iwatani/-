@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { absoluteUrl, localizedAlternates, site } from "@/lib/site";
 import {
   defaultLocale,
   getDictionary,
@@ -21,12 +22,36 @@ export async function generateMetadata({
   const { locale } = await params;
   const safe = hasLocale(locale) ? locale : defaultLocale;
   const dict = await getDictionary(safe);
+  const path = `/${safe}`;
   return {
+    metadataBase: new URL(site.url),
     title: {
       default: dict.brand.name,
       template: `%s | ${dict.brand.name}`,
     },
     description: dict.brand.tagline,
+    alternates: {
+      canonical: path,
+      languages: localizedAlternates("/"),
+    },
+    openGraph: {
+      type: "website",
+      url: absoluteUrl(path),
+      siteName: dict.brand.name,
+      title: dict.brand.name,
+      description: dict.brand.tagline,
+      locale: safe === "ja" ? "ja_JP" : "en_US",
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: site.twitter,
+      title: dict.brand.name,
+      description: dict.brand.tagline,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
   };
 }
 

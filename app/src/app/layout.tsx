@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
+import { site } from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -8,11 +9,12 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
   title: {
-    default: "わんプロブレム / WanProblem",
-    template: "%s | わんプロブレム",
+    default: `${site.nameJa} / ${site.nameEn}`,
+    template: `%s | ${site.nameJa}`,
   },
-  description: "ワンちゃんの困りごとに、世界中のブランドから答えを。",
+  description: site.taglineJa,
 };
 
 export default function RootLayout({
