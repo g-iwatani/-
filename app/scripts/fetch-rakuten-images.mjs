@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /**
- * 楽天 Ichiba Item Search API を叩いて、
- * products.ts の rakuten target 商品の画像URLを取得し、
- * src/lib/rakuten-images.generated.json に出力する。
+ * 楽天 Webservice の IchibaItem Search を叩いて商品画像URLを取得し
+ * src/lib/rakuten-images.generated.json に書き出す。
  *
  * 必要な環境変数:
- *   RAKUTEN_APP_ID      = 楽天ウェブサービスのアプリID
- *   RAKUTEN_ACCESS_KEY  = アプリのアクセスキー(pk_xxxxx)
+ *   RAKUTEN_APP_ID           = アプリID(UUID or 19-20桁の数字、どちらも可)
+ *   RAKUTEN_ACCESS_KEY       = アクセスキー(新 ichibams 用、無くてもよい)
+ *   NEXT_PUBLIC_SITE_URL     = アプリ登録時のサイトURL(Referer 用、デフォルト wanproblem.com)
  *
- * 認証情報が無い/呼び出しに失敗した場合は、既存の generated.json を温存する。
+ * フェイルセーフ: API 失敗時は既存JSONを温存。ビルド自体は止めない。
  */
 
 import { readFile, writeFile, access } from "node:fs/promises";
@@ -25,34 +25,35 @@ const OUTPUT_JSON = resolve(
   "rakuten-images.generated.json",
 );
 
-const API_BASE =
-  "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401";
+// 楽天 Webservice のエンドポイント候補(新→旧の順で試す)
+const ENDPOINTS = [
+  // 新 ichibams (accessKey + Referer 必須)
+  "https://openapi.rakuten.co.jp/ichibams/api/IchibaItem/Search/20260401",
+  // 旧 services API (applicationId のみで動く、安定版)
+  "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601",
+];
 
 const APP_ID = process.env.RAKUTEN_APP_ID;
 const ACCESS_KEY = process.env.RAKUTEN_ACCESS_KEY;
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://wanproblem.com").replace(/\/$/, "");
 
 const exists = (p) => access(p).then(() => true).catch(() => false);
 
-/**
- * products.ts のソースから rakuten target を抽出する。
- * 各 target に対して、ファイルの中で「直前にある id: \"...\"」を商品IDとみなす。
- * 商品ブロック全体をパースする必要がないので nested brace に強い。
- */
 function findRakutenTargets(source) {
   const results = [];
   const targetRegex =
     /target:\s*\{\s*network:\s*"rakuten"\s*,\s*shopCode:\s*"([^"]+)"\s*,\s*itemCode:\s*"([^"]+)"\s*,?\s*\}/g;
   let m;
   while ((m = targetRegex.exec(source)) !== null) {
-    const shopCode = m[1];
-    const itemCode = m[2];
     const before = source.slice(0, m.index);
     const ids = [...before.matchAll(/^\s*id:\s*"([^"]+)"/gm)];
-    if (ids.length === 0) continue;
-    const lastId = ids[ids.length - 1][1];
-    results.push({ id: lastId, shopCode, itemCode });
+    if (!ids.length) continue;
+    results.push({
+      id: ids[ids.length - 1][1],
+      shopCode: m[1],
+      itemCode: m[2],
+    });
   }
-  // 同じ id が複数 target を持つケースを最初の1つに絞る
   const seen = new Set();
   return results.filter((r) => {
     if (seen.has(r.id)) return false;
@@ -61,29 +62,107 @@ function findRakutenTargets(source) {
   });
 }
 
-async function main() {
-  if (!APP_ID || !ACCESS_KEY) {
-    console.warn(
-      "[rakuten-images] RAKUTEN_APP_ID / RAKUTEN_ACCESS_KEY が未設定。スキップします。",
-    );
-    if (!(await exists(OUTPUT_JSON))) {
-      await writeFile(OUTPUT_JSON, "{}\n", "utf8");
+function buildUrl(endpoint, target, includeAccessKey) {
+  const url = new URL(endpoint);
+  url.searchParams.set("format", "json");
+  url.searchParams.set("applicationId", APP_ID);
+  if (includeAccessKey && ACCESS_KEY) {
+    url.searchParams.set("accessKey", ACCESS_KEY);
+  }
+  url.searchParams.set("shopCode", target.shopCode);
+  url.searchParams.set("itemCode", target.itemCode);
+  // 新APIは keyword 必須。旧APIは itemCode/shopCode だけでもよいが、
+  // 互換のため "ペット" を全リクエストに付けておく。日本語の最低3文字は必須。
+  url.searchParams.set("keyword", "ペット");
+  url.searchParams.set("hits", "1");
+  return url;
+}
+
+function pickImageUrl(item) {
+  // 新旧でフィールドの構造が異なる
+  // 新: item.mediumImageUrls = [{ imageUrl: "..." }]
+  // 旧: item.mediumImageUrls = [{ imageUrl: "..." }] / または string[]
+  const tryList = [
+    item.mediumImageUrls,
+    item.smallImageUrls,
+    item.images?.medium,
+    item.images?.small,
+  ];
+  for (const list of tryList) {
+    if (!Array.isArray(list) || list.length === 0) continue;
+    const first = list[0];
+    const u = typeof first === "string" ? first : first?.imageUrl;
+    if (u) return u;
+  }
+  return "";
+}
+
+async function fetchOne(target) {
+  const referers = [SITE_URL + "/", SITE_URL];
+  for (let i = 0; i < ENDPOINTS.length; i++) {
+    const endpoint = ENDPOINTS[i];
+    const includeAccessKey = i === 0; // 新APIだけ accessKey 送る
+    const url = buildUrl(endpoint, target, includeAccessKey);
+
+    for (const referer of referers) {
+      try {
+        const res = await fetch(url, {
+          headers: {
+            "User-Agent": "wanproblem-build/1.0",
+            Accept: "application/json",
+            Referer: referer,
+            Origin: SITE_URL,
+          },
+        });
+        const bodyText = await res.text();
+        if (!res.ok) {
+          console.warn(
+            `[rakuten-images] ${target.id} HTTP ${res.status} via ${endpoint.split("/").slice(-2).join("/")} ref=${referer}`,
+          );
+          console.warn(`  body: ${bodyText.slice(0, 240)}`);
+          continue;
+        }
+        const data = JSON.parse(bodyText);
+        const items = data.Items ?? data.items ?? [];
+        const item = items[0]?.Item ?? items[0]?.item ?? items[0];
+        if (!item) {
+          console.warn(`[rakuten-images] ${target.id} 200 but no items`);
+          continue;
+        }
+        const imageUrl = pickImageUrl(item);
+        if (!imageUrl) {
+          console.warn(`[rakuten-images] ${target.id} 200 but no image url`);
+          continue;
+        }
+        const cleaned = imageUrl
+          .replace(/\?_ex=\d+x\d+/, "?_ex=400x400")
+          .replace(/&_ex=\d+x\d+/, "&_ex=400x400");
+        return cleaned;
+      } catch (e) {
+        console.warn(
+          `[rakuten-images] ${target.id} error via ${endpoint.split("/").slice(-2).join("/")}: ${e.message}`,
+        );
+      }
     }
+  }
+  return null;
+}
+
+async function main() {
+  if (!APP_ID) {
+    console.warn("[rakuten-images] RAKUTEN_APP_ID 未設定。スキップ。");
+    if (!(await exists(OUTPUT_JSON))) await writeFile(OUTPUT_JSON, "{}\n", "utf8");
     return;
   }
 
   const source = await readFile(PRODUCTS_TS, "utf8");
   const targets = findRakutenTargets(source);
-
   console.log(
-    `[rakuten-images] ${targets.length} products with rakuten target detected:`,
+    `[rakuten-images] ${targets.length} targets / Referer=${SITE_URL}/  (accessKey=${ACCESS_KEY ? "set" : "missing"})`,
   );
-  for (const t of targets) {
-    console.log(`  - ${t.id}  (shop=${t.shopCode}, item=${t.itemCode})`);
-  }
 
   if (targets.length === 0) {
-    console.warn("[rakuten-images] 楽天ターゲットが見つからない。終了。");
+    console.warn("[rakuten-images] 楽天ターゲット 0 件。終了。");
     return;
   }
 
@@ -97,76 +176,25 @@ async function main() {
   let updated = 0;
   let failed = 0;
   for (const t of targets) {
-    try {
-      const url = new URL(API_BASE);
-      url.searchParams.set("format", "json");
-      url.searchParams.set("shopCode", t.shopCode);
-      url.searchParams.set("itemCode", t.itemCode);
-      url.searchParams.set("applicationId", APP_ID);
-      url.searchParams.set("accessKey", ACCESS_KEY);
-
-      const res = await fetch(url, {
-        headers: {
-          "User-Agent": "wanproblem-build",
-          // 楽天 Webservice (ichibams) は Referer 必須。
-          // アプリ登録時に設定したサイトURLを送る。
-          Referer: process.env.NEXT_PUBLIC_SITE_URL ?? "https://wanproblem.com/",
-        },
-      });
-
-      if (!res.ok) {
-        const body = await res.text().catch(() => "");
-        console.warn(
-          `[rakuten-images] ${t.id}: HTTP ${res.status} ${body.slice(0, 160)}`,
-        );
-        failed++;
-        continue;
-      }
-
-      const data = await res.json();
-      const items = data.Items ?? [];
-      const item = items[0]?.Item;
-      if (!item) {
-        console.warn(
-          `[rakuten-images] ${t.id}: no Items in response (count=${items.length})`,
-        );
-        failed++;
-        continue;
-      }
-
-      const raw =
-        item.mediumImageUrls?.[0] ??
-        item.smallImageUrls?.[0] ??
-        item.images?.medium?.[0] ??
-        item.images?.small?.[0];
-      const imageUrl = typeof raw === "string" ? raw : raw?.imageUrl ?? "";
-
-      if (!imageUrl) {
-        console.warn(`[rakuten-images] ${t.id}: response had no image`);
-        failed++;
-        continue;
-      }
-
-      const cleaned = imageUrl
-        .replace(/\?_ex=\d+x\d+/, "?_ex=400x400")
-        .replace(/&_ex=\d+x\d+/, "&_ex=400x400");
-      result[t.id] = cleaned;
+    const url = await fetchOne(t);
+    if (url) {
+      result[t.id] = url;
       updated++;
-      console.log(`[rakuten-images] ✓ ${t.id} → ${cleaned}`);
-    } catch (e) {
-      console.warn(`[rakuten-images] ${t.id}: error ${e.message}`);
+      console.log(`[rakuten-images] ✓ ${t.id} → ${url}`);
+    } else {
       failed++;
+      console.warn(`[rakuten-images] ✗ ${t.id} 全エンドポイント失敗`);
     }
-    await new Promise((r) => setTimeout(r, 400));
+    await new Promise((r) => setTimeout(r, 1100)); // レート1req/s 厳守
   }
 
   await writeFile(OUTPUT_JSON, JSON.stringify(result, null, 2) + "\n", "utf8");
   console.log(
-    `[rakuten-images] DONE. total=${Object.keys(result).length} updated=${updated} failed=${failed}`,
+    `[rakuten-images] DONE total=${Object.keys(result).length} updated=${updated} failed=${failed}`,
   );
 }
 
 main().catch((e) => {
   console.error("[rakuten-images] fatal:", e);
-  process.exit(0); // ビルド自体は止めない
+  process.exit(0);
 });
