@@ -3,6 +3,33 @@ import { NextResponse, type NextRequest } from "next/server";
 const locales = ["ja", "en"] as const;
 const defaultLocale = "ja";
 
+/**
+ * Next.js が special file として生成するメタ系のパス。
+ * ロケールに依存しないルート直下のリソースなので、proxy で
+ * /ja/ に書き換えてはいけない。
+ */
+const RESERVED_ROOT_PATHS = new Set<string>([
+  "/sitemap.xml",
+  "/robots.txt",
+  "/opengraph-image",
+  "/twitter-image",
+  "/icon",
+  "/apple-icon",
+  "/manifest.webmanifest",
+  "/manifest.json",
+]);
+
+function isReserved(pathname: string): boolean {
+  if (RESERVED_ROOT_PATHS.has(pathname)) return true;
+  // Image variants (e.g. /opengraph-image-1.png, /icon-1.png) や API routes
+  if (pathname.startsWith("/api/")) return true;
+  if (pathname.startsWith("/opengraph-image")) return true;
+  if (pathname.startsWith("/twitter-image")) return true;
+  if (pathname.startsWith("/icon")) return true;
+  if (pathname.startsWith("/apple-icon")) return true;
+  return false;
+}
+
 function detectLocale(request: NextRequest): (typeof locales)[number] {
   const accept = request.headers.get("accept-language") ?? "";
   const lower = accept.toLowerCase();
@@ -19,6 +46,8 @@ function detectLocale(request: NextRequest): (typeof locales)[number] {
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  if (isReserved(pathname)) return;
+
   const hasLocale = locales.some(
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`),
   );
@@ -33,3 +62,4 @@ export function proxy(request: NextRequest) {
 export const config = {
   matcher: ["/((?!_next|favicon.ico|.*\\.).*)"],
 };
+
