@@ -38,6 +38,18 @@ jobs:
         # 失敗しても次のステップに進む (旧 JSON が温存されるため fail-safe)。
         run: npm run fetch-images || true
 
+      - name: Translate Amazon product names (LLM)
+        # ANTHROPIC_API_KEY を repo secret として登録すれば自動翻訳が走る。
+        # secret 未設定 (=empty) の場合は黙ってスキップ。料金は月 ~$0.05 想定。
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -n "$ANTHROPIC_API_KEY" ]; then
+            node scripts/translate-products.mjs || true
+          else
+            echo "ANTHROPIC_API_KEY 未設定のため翻訳をスキップ"
+          fi
+
       - name: Bump site.lastUpdated to current month
         run: node scripts/bump-last-updated.mjs
 
