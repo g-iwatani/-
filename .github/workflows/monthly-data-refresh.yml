@@ -1,0 +1,58 @@
+name: Monthly data refresh
+
+on:
+  # 毎月 1 日 18:00 UTC = 翌日 03:00 JST。深夜帯にデータ更新して朝に PR が立っている運用。
+  schedule:
+    - cron: "0 18 1 * *"
+  # 手動トリガも許可 (商品 CSV 取込直後など、月の途中で走らせたい時)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    name: rakuten images + lastUpdated bump
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Refresh Rakuten image cache
+        # 既存の package.json の "fetch-images" スクリプト = node scripts/fetch-rakuten-images.mjs
+        # 楽天 OGP HTML スクレイピングで rakuten-images.generated.json を上書き。
+        # 失敗しても次のステップに進む (旧 JSON が温存されるため fail-safe)。
+        run: npm run fetch-images || true
+
+      - name: Bump site.lastUpdated to current month
+        run: node scripts/bump-last-updated.mjs
+
+      - name: Create pull request if there are diffs
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: chore/monthly-refresh-${{ github.run_id }}
+          commit-message: "chore: monthly data refresh (rakuten images + lastUpdated)"
+          title: "chore: monthly data refresh"
+          body: |
+            自動生成 PR (monthly-data-refresh.yml)。
+
+            - 楽天 OGP 画像キャッシュを更新
+            - site.lastUpdated を当月にバンプ
+
+            CI が通ったら squash merge してください。
+          labels: automation,data-refresh
