@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { breeds } from "@/lib/breeds";
 import { concerns } from "@/lib/concerns";
+import { guides } from "@/lib/guides";
 import { visibleProducts as products } from "@/lib/products";
 import { absoluteUrl, site } from "@/lib/site";
 
@@ -54,6 +55,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
         lastModified: now,
         changeFrequency: "weekly",
         priority: 0.6,
+      });
+    }
+  }
+
+  // Guides — high-priority SEO pages
+  for (const locale of site.locales) {
+    for (const g of guides) {
+      entries.push({
+        url: absoluteUrl(`/${locale}/guides/${g.slug}`),
+        lastModified: now,
+        changeFrequency: "monthly",
+        priority: 0.8,
       });
     }
   }

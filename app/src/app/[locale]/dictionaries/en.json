@@ -120,6 +120,12 @@
   "badge": {
     "top_pick": "Editor's pick"
   },
+  "guide": {
+    "back_to_home": "← Home",
+    "lead_label": "In this guide",
+    "table_of_contents": "Contents",
+    "more_guides": "Other buying guides"
+  },
   "trust": {
     "section_title": "Editor's verification notes",
     "source_amazon_bestseller": "Sourced from Amazon JP best-sellers ({date} pull)",

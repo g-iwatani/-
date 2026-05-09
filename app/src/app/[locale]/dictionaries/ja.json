@@ -120,6 +120,12 @@
   "badge": {
     "top_pick": "迷ったらコレ"
   },
+  "guide": {
+    "back_to_home": "← ホームへ",
+    "lead_label": "この記事は",
+    "table_of_contents": "もくじ",
+    "more_guides": "他の選び方ガイド"
+  },
   "trust": {
     "section_title": "編集部の検証ノート",
     "source_amazon_bestseller": "Amazon JP 売れ筋ランキングから掲載 ({date} 取得)",
