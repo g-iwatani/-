@@ -4,12 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/fetch-rakuten-images.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "fetch-images": "node scripts/fetch-rakuten-images.mjs",
-    "cf:build": "npm run prebuild && opennextjs-cloudflare build",
+    "cf:build": "opennextjs-cloudflare build",
     "cf:preview": "opennextjs-cloudflare preview",
     "cf:deploy": "npm run cf:build && opennextjs-cloudflare deploy"
   },
