@@ -2058,12 +2058,33 @@ export function getProduct(id: string): Product | undefined {
  * Amazon の variant selector で他サイズに切り替えできるので、代表 1 つで OK。
  */
 const ASIN_OVERRIDES_JP: Record<string, string> = {
+  // 第1バッチ (popularity ≥ 80)
   "kong-classic": "B00ZZB2OEE",
   "ruffwear-front-range": "B07B4T2DF5",
   "furminator-deshed": "B07NSNDHH1",
   "outward-hound-puzzle": "B0711Y9XTF",
   "puppia-soft-harness": "B00IHBY3SE",
   "nylabone-dura-chew": "B0002ASNAM",
+  // 第2バッチ (popularity 64-78)
+  "hertzko-slicker": "B077JVB51X",
+  "petsafe-treat-pouch": "B000JCWAWA",
+  "kong-wobbler": "B00FMYXFHY",
+  "outward-hound-slow-bowl": "B093K7D53V",
+  "gentle-leader-headcollar": "B0009X0QUC",
+  "snuggle-puppy": "B000C9YHFS",
+  "westpaw-jive": "B0070S62U2",
+  "carlson-pet-gate": "B01DVTUM3G",
+  "petsafe-paw-balm": "B0002IJQDC",
+  "petsafe-easy-walk": "B0009ZD3QY",
+  "virbac-toothpaste": "B0095AJOL2",
+  "adaptil-spray": "B0B3VX2YP4",
+  "sherpa-carrier": "B000FLETX8",
+  "thundershirt": "B0029PY7SK",
+  "petsafe-busy-buddy": "B000A61GNO",
+  "wahl-bravura-trimmer": "B09YHJ1CJJ",
+  "ifetch-launcher": "B00LZSYVFG",
+  "burts-bees-shampoo": "B00CEY5NE8",
+  "baskerville-muzzle": "B0051H45GC",
 };
 
 /**
