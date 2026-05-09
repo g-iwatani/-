@@ -13,6 +13,7 @@ import {
 } from "@/lib/matching";
 import { getProduct, products, resolveBuyUrl } from "@/lib/products";
 import { site } from "@/lib/site";
+import { getProductTrust } from "@/lib/trust";
 import { getDictionary, hasLocale, locales } from "../../dictionaries";
 
 export async function generateStaticParams() {
@@ -242,6 +243,9 @@ export default async function ProductPage({
         </div>
       </div>
 
+      {/* Editor's verification notes — what we actually did to vet this product */}
+      <TrustNotes product={product} dict={dict} locale={locale} />
+
       {/* Size chart */}
       <section className="mt-12">
         <h2 className="text-xl font-extrabold tracking-tight text-foreground md:text-2xl">
@@ -317,6 +321,50 @@ export default async function ProductPage({
           Amazon が買い物導線として最も収益高い前提で優先採用、無ければ最初の有効ボタン。 */}
       <StickyMobileCta product={product} dict={dict} locale={locale} />
     </div>
+  );
+}
+
+function TrustNotes({
+  product,
+  dict,
+  locale,
+}: {
+  product: NonNullable<ReturnType<typeof getProduct>>;
+  dict: Awaited<ReturnType<typeof getDictionary>>;
+  locale: "ja" | "en";
+}) {
+  const trust = getProductTrust(product);
+  const dateStr = formatLastUpdated(
+    site.lastUpdated.year,
+    site.lastUpdated.month,
+    locale,
+  );
+  const items: string[] = [];
+  if (trust.source === "amazon-bestseller") {
+    items.push(format(dict.trust.source_amazon_bestseller, { date: dateStr }));
+  } else {
+    items.push(dict.trust.source_curated);
+  }
+  if (trust.hasVerifiedAsin) items.push(dict.trust.verified_asin);
+  return (
+    <section className="mt-12">
+      <h2 className="text-xl font-extrabold tracking-tight text-foreground md:text-2xl">
+        {dict.trust.section_title}
+      </h2>
+      <ul className="mt-4 space-y-2 rounded-3xl border border-card-border bg-card p-5">
+        {items.map((line, i) => (
+          <li key={i} className="flex items-start gap-2 text-sm text-foreground">
+            <span aria-hidden className="mt-0.5 text-emerald-600">
+              ✓
+            </span>
+            <span>{line}</span>
+          </li>
+        ))}
+        <li className="mt-3 border-t border-border pt-3 text-[11px] leading-relaxed text-muted-fg">
+          {dict.trust.no_ratings_disclaimer}
+        </li>
+      </ul>
+    </section>
   );
 }
 

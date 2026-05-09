@@ -2058,7 +2058,7 @@ export function getProduct(id: string): Product | undefined {
  * 追加するときは: 該当商品ページを開いて URL の /dp/XXXXX を貼る → サイズ違いがあっても
  * Amazon の variant selector で他サイズに切り替えできるので、代表 1 つで OK。
  */
-const ASIN_OVERRIDES_JP: Record<string, string> = {
+export const ASIN_OVERRIDES_JP: Record<string, string> = {
   // 第1バッチ (popularity ≥ 80)
   "kong-classic": "B00ZZB2OEE",
   "ruffwear-front-range": "B07B4T2DF5",

@@ -4,6 +4,7 @@ import { AFFILIATE_REL } from "@/lib/affiliate";
 import { format, formatPrice } from "@/lib/format";
 import type { ProductMatch } from "@/lib/matching";
 import type { Product } from "@/lib/products";
+import { getProductTrust } from "@/lib/trust";
 import { ProductImage } from "./ProductImage";
 
 type Props = {
@@ -39,6 +40,7 @@ export function ProductCard({
   const fitScore = match.bestSize?.fitScore;
   const concernHits = match.concernHits.length;
   const totalConcerns = match.product.concerns.length;
+  const trust = getProductTrust(product);
 
   return (
     <article
@@ -68,6 +70,16 @@ export function ProductCard({
           <span className="rounded-full bg-muted px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-fg">
             {product.brand}
           </span>
+          {trust.source === "amazon-bestseller" && (
+            <span className="rounded-full bg-amber-100 px-2.5 py-0.5 text-[10px] font-bold text-amber-800">
+              {dict.trust.badge_bestseller}
+            </span>
+          )}
+          {trust.source === "curated" && (
+            <span className="rounded-full bg-emerald-100 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800">
+              {dict.trust.badge_curated}
+            </span>
+          )}
           {fitScore != null && fitScore >= 70 && (
             <span className="rounded-full bg-accent-soft px-2.5 py-0.5 text-[10px] font-bold text-accent">
               {format(dict.product_card.fit_score, { score: fitScore })}

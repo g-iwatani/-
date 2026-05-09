@@ -120,6 +120,16 @@
   "badge": {
     "top_pick": "迷ったらコレ"
   },
+  "trust": {
+    "section_title": "編集部の検証ノート",
+    "source_amazon_bestseller": "Amazon JP 売れ筋ランキングから掲載 ({date} 取得)",
+    "source_curated": "編集部が悩み別に選定 (サイズ・特徴を独自にまとめています)",
+    "verified_asin": "リンク先の商品ページを編集部が確認済み",
+    "no_ratings_disclaimer": "★評価・レビュー数は表示していません。最新情報は各ショップのページでご確認ください。",
+    "badge_bestseller": "Amazon 売れ筋",
+    "badge_curated": "編集部選定",
+    "badge_verified": "ASIN 確認済み"
+  },
   "side_nav": {
     "title": "悩みから探す",
     "subtitle": "気になる悩みをタップして検索結果を絞り込み",

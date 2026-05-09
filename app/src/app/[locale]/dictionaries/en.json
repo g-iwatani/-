@@ -120,6 +120,16 @@
   "badge": {
     "top_pick": "Editor's pick"
   },
+  "trust": {
+    "section_title": "Editor's verification notes",
+    "source_amazon_bestseller": "Sourced from Amazon JP best-sellers ({date} pull)",
+    "source_curated": "Selected by our editors by concern (sizes and features verified)",
+    "verified_asin": "Linked product page checked by editors",
+    "no_ratings_disclaimer": "Star ratings and review counts are not shown. Check the merchant page for the latest.",
+    "badge_bestseller": "Amazon best-seller",
+    "badge_curated": "Editor pick",
+    "badge_verified": "ASIN verified"
+  },
   "side_nav": {
     "title": "Browse by concern",
     "subtitle": "Tap a concern to narrow the results",
