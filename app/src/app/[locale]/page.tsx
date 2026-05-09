@@ -13,6 +13,11 @@ import {
 } from "@/lib/concerns";
 import { topPopular } from "@/lib/popular-products";
 import { listBrands, visibleProducts as products } from "@/lib/products";
+import {
+  StructuredData,
+  organizationSchema,
+  webSiteSchema,
+} from "@/lib/structured-data";
 import { getDictionary, hasLocale } from "./dictionaries";
 
 function productsByConcern(concernId: string) {
@@ -147,6 +152,9 @@ export default async function HomePage({
 
   return (
     <div className="pb-12">
+      <StructuredData
+        items={[organizationSchema(locale), webSiteSchema(locale)]}
+      />
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="mx-auto max-w-7xl px-5 pt-10 pb-10 md:pt-16 md:pb-14">

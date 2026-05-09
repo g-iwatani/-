@@ -14,6 +14,11 @@ import {
 } from "@/lib/matching";
 import { getProduct, products, resolveBuyUrl } from "@/lib/products";
 import { absoluteUrl, localizedAlternates, site } from "@/lib/site";
+import {
+  StructuredData,
+  breadcrumbSchema,
+  productSchema,
+} from "@/lib/structured-data";
 import { getProductTrust } from "@/lib/trust";
 import { defaultLocale, getDictionary, hasLocale, locales } from "../../dictionaries";
 
@@ -137,8 +142,22 @@ export default async function ProductPage({
   if (back != null) queryString.set("back", String(back));
   if (neck != null) queryString.set("neck", String(neck));
 
+  const pageUrl = absoluteUrl(`/${locale}/products/${product.id}`);
+  const resolvedBuyUrls = product.buyOptions.map((opt) => resolveBuyUrl(opt));
+  const breadcrumbs = breadcrumbSchema([
+    { name: locale === "ja" ? "ホーム" : "Home", url: absoluteUrl(`/${locale}`) },
+    {
+      name: locale === "ja" ? "検索結果" : "Results",
+      url: absoluteUrl(`/${locale}/results`),
+    },
+    { name, url: pageUrl },
+  ]);
+
   return (
     <div className="mx-auto max-w-5xl px-5 pt-8 pb-32 lg:pb-16">
+      <StructuredData
+        items={[productSchema(product, pageUrl, resolvedBuyUrls, locale), breadcrumbs]}
+      />
       <div className="mb-6">
         <Link
           href={`/${locale}/results?${queryString.toString()}`}

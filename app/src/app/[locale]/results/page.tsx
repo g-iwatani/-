@@ -7,6 +7,7 @@ import { concerns, getConcern } from "@/lib/concerns";
 import { matchProducts } from "@/lib/matching";
 import { listBrands, visibleProducts } from "@/lib/products";
 import { absoluteUrl, localizedAlternates } from "@/lib/site";
+import { StructuredData, itemListSchema } from "@/lib/structured-data";
 import { defaultLocale, getDictionary, hasLocale } from "../dictionaries";
 
 export async function generateMetadata({
@@ -164,6 +165,9 @@ export default async function ResultsPage({
 
   return (
     <div className="mx-auto grid max-w-7xl gap-6 px-5 lg:grid-cols-[260px_1fr]">
+      <StructuredData
+        items={[itemListSchema(matches.slice(0, 20).map((m) => m.product.id), locale)]}
+      />
       <aside className="hidden pt-5 lg:block">
         <div className="sticky top-20">
           <SideConcernsNav

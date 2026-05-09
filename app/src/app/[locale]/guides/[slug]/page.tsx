@@ -5,6 +5,12 @@ import { ProductCard } from "@/components/ProductCard";
 import { format, formatLastUpdated } from "@/lib/format";
 import { type Guide, getGuide, guides, pickProductsForGuide } from "@/lib/guides";
 import { absoluteUrl, localizedAlternates, site } from "@/lib/site";
+import {
+  StructuredData,
+  articleSchema,
+  breadcrumbSchema,
+  faqSchema,
+} from "@/lib/structured-data";
 import { defaultLocale, getDictionary, hasLocale, locales } from "../../dictionaries";
 
 export async function generateMetadata({
@@ -68,8 +74,21 @@ export default async function GuidePage({
   const title = locale === "ja" ? guide.titleJa : guide.titleEn;
   const lead = locale === "ja" ? guide.leadJa : guide.leadEn;
 
+  const pageUrl = absoluteUrl(`/${locale}/guides/${guide.slug}`);
+  const breadcrumbs = breadcrumbSchema([
+    { name: locale === "ja" ? "ホーム" : "Home", url: absoluteUrl(`/${locale}`) },
+    { name: title, url: pageUrl },
+  ]);
+
   return (
     <div className="mx-auto max-w-3xl px-5 pt-8 pb-32 lg:pb-16">
+      <StructuredData
+        items={[
+          articleSchema(guide, pageUrl, locale),
+          faqSchema(guide, locale),
+          breadcrumbs,
+        ]}
+      />
       <div className="mb-6">
         <Link
           href={`/${locale}`}
