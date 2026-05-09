@@ -6,6 +6,7 @@ import { AFFILIATE_REL } from "@/lib/affiliate";
 import { getBreed } from "@/lib/breeds";
 import { getConcern } from "@/lib/concerns";
 import { format, formatLastUpdated, formatPrice } from "@/lib/format";
+import { findRelatedGuides } from "@/lib/guides";
 import {
   type DogProfile,
   evaluateSizeMatch,
@@ -302,6 +303,9 @@ export default async function ProductPage({
         </div>
       </div>
 
+      {/* Related buying guides — internal linking signal + traffic to high-CVR articles */}
+      <RelatedGuides product={product} locale={locale} dict={dict} />
+
       {/* Editor's verification notes — what we actually did to vet this product */}
       <TrustNotes product={product} dict={dict} locale={locale} />
 
@@ -380,6 +384,51 @@ export default async function ProductPage({
           Amazon が買い物導線として最も収益高い前提で優先採用、無ければ最初の有効ボタン。 */}
       <StickyMobileCta product={product} dict={dict} locale={locale} />
     </div>
+  );
+}
+
+function RelatedGuides({
+  product,
+  locale,
+  dict,
+}: {
+  product: NonNullable<ReturnType<typeof getProduct>>;
+  locale: "ja" | "en";
+  dict: Awaited<ReturnType<typeof getDictionary>>;
+}) {
+  const related = findRelatedGuides(product, 3);
+  if (related.length === 0) return null;
+  return (
+    <section className="mt-12">
+      <header className="mb-4">
+        <h2 className="text-xl font-extrabold tracking-tight text-foreground md:text-2xl">
+          {dict.guide.related_for_product}
+        </h2>
+        <p className="mt-1 text-sm text-muted-fg">
+          {dict.guide.related_subtitle}
+        </p>
+      </header>
+      <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {related.map(({ guide }) => (
+          <li key={guide.slug}>
+            <Link
+              href={`/${locale}/guides/${guide.slug}`}
+              className="block h-full rounded-2xl border border-card-border bg-card p-4 transition-all hover:-translate-y-0.5 hover:border-primary hover:shadow-md"
+            >
+              <p className="text-[10px] font-bold uppercase tracking-wide text-primary">
+                {locale === "ja" ? "選び方ガイド" : "Buying guide"}
+              </p>
+              <p className="mt-2 text-sm font-bold leading-snug text-foreground">
+                {locale === "ja" ? guide.titleJa : guide.titleEn}
+              </p>
+              <p className="mt-2 line-clamp-3 text-xs leading-relaxed text-muted-fg">
+                {locale === "ja" ? guide.leadJa : guide.leadEn}
+              </p>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 

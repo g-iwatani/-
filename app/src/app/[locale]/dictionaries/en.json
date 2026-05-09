@@ -129,7 +129,9 @@
     "back_to_home": "← Home",
     "lead_label": "In this guide",
     "table_of_contents": "Contents",
-    "more_guides": "Other buying guides"
+    "more_guides": "Other buying guides",
+    "related_for_product": "Related buying guides",
+    "related_subtitle": "Read these first if you're undecided"
   },
   "trust": {
     "section_title": "Editor's verification notes",

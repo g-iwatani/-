@@ -565,6 +565,32 @@ export const guides: Guide[] = [
   },
 ];
 
+/**
+ * 商品ページに「関連する選び方ガイド」を出すための逆引き。
+ * 商品の category が guide.productQuery.categories に含まれ、かつ concerns に
+ * 1 件でも重なりがある guide を返す。重なり件数が多い順 (= 関連性が強い順)。
+ */
+export function findRelatedGuides(
+  product: Product,
+  limit = 3,
+): { guide: Guide; matchedConcerns: number }[] {
+  return guides
+    .map((guide) => {
+      const categoryMatch = guide.productQuery.categories.includes(
+        product.category,
+      );
+      if (!categoryMatch) return null;
+      const matchedConcerns = product.concerns.filter((c) =>
+        guide.productQuery.concerns.includes(c),
+      ).length;
+      if (matchedConcerns === 0) return null;
+      return { guide, matchedConcerns };
+    })
+    .filter((x): x is { guide: Guide; matchedConcerns: number } => x !== null)
+    .sort((a, b) => b.matchedConcerns - a.matchedConcerns)
+    .slice(0, limit);
+}
+
 export function getGuide(slug: string): Guide | undefined {
   return guides.find((g) => g.slug === slug);
 }
