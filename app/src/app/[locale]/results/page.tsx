@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { MobileConcernChips } from "@/components/MobileConcernChips";
 import { ResultsView } from "@/components/ResultsView";
 import { SideConcernsNav } from "@/components/SideConcernsNav";
 import { breeds, getBreed } from "@/lib/breeds";
@@ -179,6 +180,11 @@ export default async function ResultsPage({
         </div>
       </aside>
       <main className="min-w-0">
+        <MobileConcernChips
+          locale={locale}
+          activeConcernIds={concernIds}
+          inheritParams={inheritParams}
+        />
         <ResultsView
           locale={locale}
           dict={dict}
