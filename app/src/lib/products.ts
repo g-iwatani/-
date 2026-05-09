@@ -2089,16 +2089,31 @@ export const ASIN_OVERRIDES_JP: Record<string, string> = {
 };
 
 /**
+ * ASIN から商品画像 URL を合成する。Amazon の legacy "P/" path は ASIN 単独で
+ * 商品画像を返してくれるので、PA-API が無くても OG 画像 / カードサムネとして使える。
+ *
+ * 一部 ASIN では 404 になることがあるが、その場合 <img> alt が空でほぼ無害で、
+ * もう一段のフォールバック (palette+emoji) はカード/詳細ページ側で持たない設計。
+ * 後で PA-API 承認時に正規の m.media-amazon.com URL に置き換える前提。
+ */
+function amazonProductImageUrl(asin: string): string {
+  return `https://images-na.ssl-images-amazon.com/images/P/${asin}.09._SCLZZZZZZZ_.jpg`;
+}
+
+/**
  * Amazon 行で target が未設定 (url: "#") のものを ASIN または検索URLターゲットに置換する。
  * ASIN_OVERRIDES_JP に id があれば直リンク、なければ brand+nameJa で検索 URL を生成する。
  *
  * 同時に、target も無く url も "#" のままの buyOption (= 楽天/公式の未実装プレースホルダ)
  * をドロップする。死リンクボタンを表示してユーザの信頼を損なうのを防ぐため。
+ *
+ * imageUrl が未設定で amazon-jp ASIN を持つ商品については、Amazon 画像 CDN の
+ * 推測 URL を埋める。これで 22 商品 (=ASIN 確認済みかつ画像欠損) が一覧/検索結果に
+ * 復活する (visibleProducts のフィルタは imageUrl の存在で判定するため)。
  */
 function enrichAmazonSearchTargets(list: Product[]): Product[] {
-  return list.map((p) => ({
-    ...p,
-    buyOptions: p.buyOptions
+  return list.map((p) => {
+    const buyOptions = p.buyOptions
       .map((b): BuyOption => {
         if (b.shop !== "Amazon" || b.target) return b;
         const asin = ASIN_OVERRIDES_JP[p.id];
@@ -2113,8 +2128,19 @@ function enrichAmazonSearchTargets(list: Product[]): Product[] {
           },
         };
       })
-      .filter((b) => b.target || (b.url && b.url !== "#")),
-  }));
+      .filter((b) => b.target || (b.url && b.url !== "#"));
+
+    let imageUrl = p.imageUrl;
+    if (!imageUrl) {
+      const amazonOpt = buyOptions.find(
+        (b) => b.target?.network === "amazon-jp",
+      );
+      if (amazonOpt?.target?.network === "amazon-jp") {
+        imageUrl = amazonProductImageUrl(amazonOpt.target.asin);
+      }
+    }
+    return { ...p, buyOptions, imageUrl };
+  });
 }
 
 export const products: Product[] = enrichAmazonSearchTargets([
