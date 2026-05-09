@@ -92,6 +92,7 @@
     "next": "Next",
     "complete": "See results",
     "skip": "Skip",
+    "show_results_now": "Show results now",
     "step_breed": {
       "title": "Pick a breed",
       "subtitle": "If your dog is mixed, choose one or two parent breeds",

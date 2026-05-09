@@ -92,6 +92,7 @@
     "next": "次へ",
     "complete": "結果を見る",
     "skip": "スキップする",
+    "show_results_now": "今すぐ結果を見る",
     "step_breed": {
       "title": "犬種を選んでください",
       "subtitle": "MIX犬の場合は親犬種を1つまたは2つ選択できます",

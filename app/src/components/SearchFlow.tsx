@@ -753,6 +753,18 @@ export function SearchFlow({ locale, dict, breeds, concerns }: Props) {
           </button>
 
           <div className="flex items-center gap-2">
+            {/* どのステップからでも「今すぐ結果を見る」 でショートカット submit。
+                強制的に最後まで答えさせるより、途中で気になった商品を見せる方が CVR 高い。 */}
+            {step < 2 && (
+              <button
+                type="button"
+                onClick={submit}
+                disabled={isPending}
+                className="hidden rounded-full px-3 py-2 text-xs font-semibold text-muted-fg transition-colors hover:text-foreground sm:inline-flex"
+              >
+                {dict.search.show_results_now}
+              </button>
+            )}
             {step < 2 && (
               <button
                 type="button"
