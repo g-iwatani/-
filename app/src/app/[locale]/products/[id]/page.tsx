@@ -97,7 +97,7 @@ export default async function ProductPage({
   if (neck != null) queryString.set("neck", String(neck));
 
   return (
-    <div className="mx-auto max-w-5xl px-5 pt-8 pb-16">
+    <div className="mx-auto max-w-5xl px-5 pt-8 pb-32 lg:pb-16">
       <div className="mb-6">
         <Link
           href={`/${locale}/results?${queryString.toString()}`}
@@ -311,6 +311,64 @@ export default async function ProductPage({
           </table>
         </div>
       </section>
+
+      {/* Mobile sticky bottom CTA — JP コマースの定番、CVR への寄与が大きい。
+          デスクトップでは購入ボタンが本文中で常に見えるので非表示。
+          Amazon が買い物導線として最も収益高い前提で優先採用、無ければ最初の有効ボタン。 */}
+      <StickyMobileCta product={product} dict={dict} locale={locale} />
+    </div>
+  );
+}
+
+function StickyMobileCta({
+  product,
+  dict,
+  locale,
+}: {
+  product: ReturnType<typeof getProduct>;
+  dict: Awaited<ReturnType<typeof getDictionary>>;
+  locale: "ja" | "en";
+}) {
+  if (!product) return null;
+  if (product.buyOptions.length === 0) return null;
+  const amazonIdx = product.buyOptions.findIndex((b) =>
+    b.target?.network.startsWith("amazon-"),
+  );
+  const ctaIdx = amazonIdx >= 0 ? amazonIdx : 0;
+  const cta = product.buyOptions[ctaIdx];
+  const ctaUrl = resolveBuyUrl(cta);
+  if (ctaUrl === "#") return null;
+  const name = locale === "ja" ? product.nameJa : product.nameEn;
+  const lowest = Math.min(...product.buyOptions.map((b) => b.priceJpy));
+  return (
+    <div
+      className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-card/95 px-4 pt-3 backdrop-blur-md shadow-[0_-4px_16px_rgba(0,0,0,0.06)] lg:hidden"
+      style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 0.75rem)" }}
+    >
+      <div className="mx-auto flex max-w-3xl items-center gap-3">
+        <div className="min-w-0 flex-1">
+          <p className="line-clamp-1 text-[11px] font-bold uppercase tracking-wide text-muted-fg">
+            {product.brand}
+          </p>
+          <p className="line-clamp-1 text-sm font-bold text-foreground">
+            {name}
+          </p>
+          <p className="text-base font-extrabold text-primary">
+            {formatPrice(lowest, locale)}
+          </p>
+        </div>
+        <a
+          href={ctaUrl}
+          target="_blank"
+          rel={AFFILIATE_REL}
+          className="inline-flex shrink-0 items-center justify-center rounded-full bg-foreground px-5 py-3 text-sm font-bold text-background transition-opacity hover:opacity-90"
+        >
+          <span aria-label="ad" className="mr-1 text-[10px] opacity-80">
+            PR
+          </span>
+          {format(dict.product_card.buy_at, { shop: cta.shop })}
+        </a>
+      </div>
     </div>
   );
 }
