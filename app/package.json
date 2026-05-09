@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "fetch-images": "node scripts/fetch-rakuten-images.mjs",
-    "cf:build": "opennextjs-cloudflare build",
+    "cf:build": "rm -rf .open-next && opennextjs-cloudflare build",
     "cf:preview": "opennextjs-cloudflare preview",
     "cf:deploy": "npm run cf:build && opennextjs-cloudflare deploy"
   },
