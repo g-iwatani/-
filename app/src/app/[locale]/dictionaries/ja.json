@@ -133,6 +133,20 @@
     "cta_disabled": "あと1商品以上",
     "clear": "クリア"
   },
+  "compare_page": {
+    "title": "選んだ商品を横並び比較",
+    "subtitle": "{n}/{max} 商品を比較中。各カードのチェックを外すと比較リストから外れます。",
+    "back": "← 検索結果へ戻る",
+    "empty": "比較したい商品が選ばれていません。一覧で気になる商品の右上のチェックを入れてください。",
+    "go_results": "商品を選びに行く",
+    "spec_brand": "ブランド",
+    "spec_name": "商品名",
+    "spec_price": "最安値",
+    "spec_buy": "購入",
+    "spec_concerns": "解決できる悩み",
+    "spec_tags": "主な特徴",
+    "spec_summary": "概要"
+  },
   "affiliate_disclosure": {
     "aria_label": "アフィリエイトリンク表示",
     "text": "当サイトはアフィリエイトプログラムを利用して商品を紹介しており、購入によりサイトに収益が発生する場合があります。",

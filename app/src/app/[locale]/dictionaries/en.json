@@ -133,6 +133,20 @@
     "cta_disabled": "Add 1 more",
     "clear": "Clear"
   },
+  "compare_page": {
+    "title": "Selected products, side-by-side",
+    "subtitle": "Comparing {n}/{max} items. Uncheck a card to remove it.",
+    "back": "← Back to results",
+    "empty": "No products selected to compare. Tap the checkbox on the top-right of any card to add it.",
+    "go_results": "Browse products",
+    "spec_brand": "Brand",
+    "spec_name": "Name",
+    "spec_price": "From",
+    "spec_buy": "Buy",
+    "spec_concerns": "Concerns solved",
+    "spec_tags": "Highlights",
+    "spec_summary": "Summary"
+  },
   "affiliate_disclosure": {
     "aria_label": "Affiliate disclosure",
     "text": "This site uses affiliate programs and may earn a commission when you buy through links on this page.",
