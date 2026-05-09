@@ -346,11 +346,13 @@ function FilterPanel(props: PanelProps) {
           className="w-full rounded-lg border border-border bg-card px-3 py-2 font-semibold"
         >
           <option value="">{lbl("指定なし", "Any")}</option>
+          <option value="1000">¥1,000</option>
           <option value="2000">¥2,000</option>
           <option value="5000">¥5,000</option>
           <option value="10000">¥10,000</option>
           <option value="20000">¥20,000</option>
           <option value="50000">¥50,000</option>
+          <option value="100000">¥100,000</option>
         </select>
       </Section>
 
