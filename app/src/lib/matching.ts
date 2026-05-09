@@ -1,5 +1,5 @@
 import type { Breed } from "./breeds";
-import type { Product, ProductSize } from "./products";
+import { type Product, type ProductSize, resolveBuyUrl } from "./products";
 
 export type DogProfile = {
   breedIds: string[]; // 0-2 IDs (mix=2)
@@ -23,6 +23,14 @@ export type ProductMatch = {
   concernMatchRatio: number; // 0-1
   popularityScore: number; // product.popularity normalized to 0-100
   totalScore: number; // 0-100, used for default sort
+  /**
+   * 各 buyOption (parallel index) のアフィリエイト解決済みURL。
+   * Cloudflare Workers では module init 時に process.env が空のため、
+   * リクエスト時 (= page.tsx の server component 内) で
+   * resolveBuyUrl() を呼んだ結果を埋め込む必要がある。
+   * クライアントコンポーネントから resolveBuyUrl() を呼ぶと素URLになる。
+   */
+  resolvedBuyUrls: string[];
 };
 
 const ANY_RANGE = 200;
@@ -167,6 +175,9 @@ export function matchProducts(
       concernMatchRatio,
       popularityScore,
       totalScore,
+      // matchProducts はサーバコンポーネントから request 時に呼ばれるため
+      // ここで resolveBuyUrl() しておけば process.env が読める。
+      resolvedBuyUrls: product.buyOptions.map(resolveBuyUrl),
     };
   });
 

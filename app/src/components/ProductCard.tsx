@@ -3,7 +3,7 @@ import type { Dictionary, Locale } from "@/app/[locale]/dictionaries";
 import { AFFILIATE_REL } from "@/lib/affiliate";
 import { format, formatPrice } from "@/lib/format";
 import type { ProductMatch } from "@/lib/matching";
-import { type Product, resolveBuyUrl } from "@/lib/products";
+import type { Product } from "@/lib/products";
 import { ProductImage } from "./ProductImage";
 
 type Props = {
@@ -90,7 +90,11 @@ export function ProductCard({ match, locale, dict, href }: Props) {
           </Link>
         </div>
 
-        <BuyOptionsRow product={product} dict={dict} />
+        <BuyOptionsRow
+          product={product}
+          dict={dict}
+          resolvedUrls={match.resolvedBuyUrls}
+        />
       </div>
     </article>
   );
@@ -99,16 +103,18 @@ export function ProductCard({ match, locale, dict, href }: Props) {
 function BuyOptionsRow({
   product,
   dict,
+  resolvedUrls,
 }: {
   product: Product;
   dict: Dictionary;
+  resolvedUrls: string[];
 }) {
   return (
     <div className="flex flex-wrap gap-2 border-t border-border pt-3">
       {product.buyOptions.map((opt, i) => (
         <a
           key={`${opt.shop}-${i}`}
-          href={resolveBuyUrl(opt)}
+          href={resolvedUrls[i] ?? "#"}
           target="_blank"
           rel={AFFILIATE_REL}
           className="inline-flex flex-1 items-center justify-center rounded-full border border-border bg-background px-3 py-1.5 text-[11px] font-semibold text-muted-fg transition-colors hover:border-primary hover:text-primary"
