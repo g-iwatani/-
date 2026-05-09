@@ -19,6 +19,12 @@
     "eyebrow": "今月の編集部1押し",
     "lowest_price_label": "最安値"
   },
+  "related": {
+    "same_brand_title": "{brand} の他商品",
+    "same_brand_subtitle": "同じブランドからもう少し見てみる",
+    "same_concerns_title": "似た悩みの他商品",
+    "same_concerns_subtitle": "この商品と同じ悩みに対応する商品"
+  },
   "hero": {
     "eyebrow": "MIX犬・小型犬・大型犬すべてに",
     "title": "ワンちゃんの「困った」を、\nぴったりの商品で解決。",

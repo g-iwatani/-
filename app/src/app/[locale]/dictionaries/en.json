@@ -19,6 +19,12 @@
     "eyebrow": "Editor's pick of the month",
     "lowest_price_label": "From"
   },
+  "related": {
+    "same_brand_title": "More from {brand}",
+    "same_brand_subtitle": "Other products from the same brand",
+    "same_concerns_title": "Similar concerns",
+    "same_concerns_subtitle": "Other products that address the same issues"
+  },
   "hero": {
     "eyebrow": "For mixes, smalls, and giants alike",
     "title": "Solve your dog's daily struggles\nwith the right product.",

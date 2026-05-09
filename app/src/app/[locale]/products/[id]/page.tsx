@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { MiniProductCard } from "@/components/MiniProductCard";
 import { ProductImage } from "@/components/ProductImage";
+import { Rail, RailItem } from "@/components/Rail";
 import { AFFILIATE_REL } from "@/lib/affiliate";
 import { getBreed } from "@/lib/breeds";
 import { getConcern } from "@/lib/concerns";
@@ -13,7 +15,13 @@ import {
   measurementsFromBreeds,
   pickBestSize,
 } from "@/lib/matching";
-import { getProduct, products, resolveBuyUrl } from "@/lib/products";
+import {
+  getProduct,
+  getRelatedByBrand,
+  getRelatedByConcerns,
+  products,
+  resolveBuyUrl,
+} from "@/lib/products";
 import { absoluteUrl, localizedAlternates, site } from "@/lib/site";
 import {
   StructuredData,
@@ -303,6 +311,9 @@ export default async function ProductPage({
         </div>
       </div>
 
+      {/* Related products: same brand + similar concerns (回遊率 + セッション CVR) */}
+      <RelatedProducts product={product} locale={locale} dict={dict} />
+
       {/* Related buying guides — internal linking signal + traffic to high-CVR articles */}
       <RelatedGuides product={product} locale={locale} dict={dict} />
 
@@ -383,6 +394,58 @@ export default async function ProductPage({
           デスクトップでは購入ボタンが本文中で常に見えるので非表示。
           Amazon が買い物導線として最も収益高い前提で優先採用、無ければ最初の有効ボタン。 */}
       <StickyMobileCta product={product} dict={dict} locale={locale} />
+    </div>
+  );
+}
+
+function RelatedProducts({
+  product,
+  locale,
+  dict,
+}: {
+  product: NonNullable<ReturnType<typeof getProduct>>;
+  locale: "ja" | "en";
+  dict: Awaited<ReturnType<typeof getDictionary>>;
+}) {
+  const brandRelated = getRelatedByBrand(product.id, 8);
+  const concernRelated = getRelatedByConcerns(product.id, 8);
+
+  return (
+    <div className="mt-8">
+      {brandRelated.length > 0 && (
+        <Rail
+          title={format(dict.related.same_brand_title, {
+            brand: product.brand,
+          })}
+          subtitle={dict.related.same_brand_subtitle}
+        >
+          {brandRelated.map((p) => (
+            <RailItem key={`b-${p.id}`}>
+              <MiniProductCard
+                product={p}
+                locale={locale}
+                href={`/${locale}/products/${p.id}`}
+              />
+            </RailItem>
+          ))}
+        </Rail>
+      )}
+      {concernRelated.length > 0 && (
+        <Rail
+          title={dict.related.same_concerns_title}
+          subtitle={dict.related.same_concerns_subtitle}
+        >
+          {concernRelated.map((p) => (
+            <RailItem key={`c-${p.id}`}>
+              <MiniProductCard
+                product={p}
+                locale={locale}
+                href={`/${locale}/products/${p.id}`}
+              />
+            </RailItem>
+          ))}
+        </Rail>
+      )}
     </div>
   );
 }

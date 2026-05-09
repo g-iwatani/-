@@ -2194,3 +2194,46 @@ export function getProductsByCategory(category: ProductCategory): Product[] {
 export function listBrands(): string[] {
   return Array.from(new Set(visibleProducts.map((p) => p.brand))).sort();
 }
+
+/**
+ * 詳細ページの「同じブランドの他商品」 rail 用。同一ブランド名で別 ID の商品を
+ * popularity 順に切り出す。MIX 起源 (amz-* + curated 同一ブランド) も問題なく
+ * 拾える。
+ */
+export function getRelatedByBrand(
+  productId: string,
+  limit = 8,
+): Product[] {
+  const me = getProduct(productId);
+  if (!me) return [];
+  return visibleProducts
+    .filter((p) => p.id !== productId && p.brand === me.brand)
+    .sort((a, b) => b.popularity - a.popularity)
+    .slice(0, limit);
+}
+
+/**
+ * 詳細ページの「似た悩みの他商品」 rail 用。concern オーバーラップ件数で
+ * スコアし、同点は popularity で降順。同じ category 縛り (apparel-only 等) は
+ * かけない: 「散歩で引っ張る」 という悩みでハーネスとリードと服が並んで OK。
+ */
+export function getRelatedByConcerns(
+  productId: string,
+  limit = 8,
+): Product[] {
+  const me = getProduct(productId);
+  if (!me || me.concerns.length === 0) return [];
+  const myConcerns = new Set(me.concerns);
+  const scored = visibleProducts
+    .filter((p) => p.id !== productId)
+    .map((p) => {
+      const overlap = p.concerns.filter((c) => myConcerns.has(c)).length;
+      return { p, overlap };
+    })
+    .filter((x) => x.overlap > 0);
+  scored.sort(
+    (a, b) =>
+      b.overlap - a.overlap || b.p.popularity - a.p.popularity,
+  );
+  return scored.slice(0, limit).map((x) => x.p);
+}
