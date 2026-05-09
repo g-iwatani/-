@@ -107,6 +107,16 @@
     "price_from": "From {price}",
     "size_recommended": "Suggested size: {size}"
   },
+  "comparison": {
+    "title": "Top picks compared",
+    "subtitle": "Top {count} for your filters, side-by-side",
+    "rank": "#{n}",
+    "spec_price": "From",
+    "spec_fit": "Fit",
+    "spec_concerns": "Concerns solved",
+    "spec_tags": "Highlights",
+    "concern_value": "{count} matched"
+  },
   "product_detail": {
     "size_chart": "Size chart",
     "size_recommended_for_dog": "Suggested size for your dog",

@@ -10,6 +10,7 @@ import {
   sortMatches,
 } from "@/lib/matching";
 import type { ProductCategory } from "@/lib/products";
+import { ComparisonTable } from "./ComparisonTable";
 import { ProductCard } from "./ProductCard";
 
 type Props = {
@@ -211,6 +212,11 @@ export function ResultsView({
           </div>
         )}
       </div>
+
+      {/* Top comparison (mybest-style spec face-off, only when 3+ matches) */}
+      {filtered.length >= 3 && (
+        <ComparisonTable matches={filtered} locale={locale} dict={dict} />
+      )}
 
       {/* Results */}
       <div className="mt-5">

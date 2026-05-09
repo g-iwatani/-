@@ -107,6 +107,16 @@
     "price_from": "{price} 〜",
     "size_recommended": "推奨サイズ: {size}"
   },
+  "comparison": {
+    "title": "上位の比較",
+    "subtitle": "今回の条件で上位 {count} 商品をスペック横並びで",
+    "rank": "{n}位",
+    "spec_price": "最安値",
+    "spec_fit": "フィット度",
+    "spec_concerns": "解決できる悩み",
+    "spec_tags": "主な特徴",
+    "concern_value": "{count} 件マッチ"
+  },
   "product_detail": {
     "size_chart": "サイズチャート",
     "size_recommended_for_dog": "あなたのワンちゃんへの推奨サイズ",
