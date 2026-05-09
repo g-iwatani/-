@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PopularProductsView } from "@/components/PopularProductsView";
-import { popularProducts } from "@/lib/popular-products";
+import { getPopularProducts } from "@/lib/popular-products";
 import { localizedAlternates } from "@/lib/site";
 import { getDictionary, hasLocale, locales } from "../dictionaries";
 
@@ -61,7 +61,7 @@ export default async function PopularPage({
         </div>
       </header>
 
-      <PopularProductsView products={popularProducts} locale={locale} />
+      <PopularProductsView products={getPopularProducts()} locale={locale} />
     </div>
   );
 }

@@ -25,42 +25,40 @@ export type PopularProductCategory =
   | "food"
   | "other";
 
-export type PopularProduct = {
-  /** shopCode/itemCode を結合した一意キー */
+/** affiliateUrl を含まない、データレイヤだけで完結する基底型。 */
+type BasePopularProduct = {
   id: string;
   nameJa: string;
   shopCode: string;
   itemCode: string;
   shopName: string;
   priceJpy: number;
-  /** セール中の元値。表示があれば取り消し線で表示 */
   originalPriceJpy: number | null;
   imageUrl: string;
-  /** 0-5 の小数。レビューが無いと null */
   ratingAvg: number | null;
-  /** レビュー総数。無ければ 0 */
   ratingCount: number;
-  /** 出現したカテゴリ名 (日本語) */
   categories: string[];
-  /** カテゴリ別の最高順位。例: { "犬用品": 12, "犬服": 3 } */
   topRanks: Record<string, number>;
-  /** ランキング横断での「最高順位」 */
   bestRank: number;
-  /** 内部標準カテゴリ (フィルタ用) */
   internalCategory: PopularProductCategory;
-  /**
-   * 楽天アフィリエイト経由の遷移URL。
-   * RAKUTEN_AFFILIATE_ID は NEXT_PUBLIC_ プレフィックス無しのため
-   * クライアントでは buildAffiliateUrl() が ID を取得できず素のURLを返す。
-   * よってここでサーバ側 (= モジュール init 時、build/SSR でenv読める) で
-   * 確定させ、クライアントには props として serialize して渡す。
-   */
+};
+
+/**
+ * UI に渡す型。affiliateUrl は **リクエスト時** に
+ * getPopularProducts() / topPopular() で組み立てる。
+ *
+ * 理由: Cloudflare Workers では process.env が module init 段階では
+ * 未populate (フェッチハンドラ第二引数の env から OpenNext が
+ * リクエスト毎に注入する)。よって module 上の `const x = buildAffiliateUrl()`
+ * で計算してしまうと、RAKUTEN_AFFILIATE_ID = "" のまま素のURLが固定化される。
+ */
+export type PopularProduct = BasePopularProduct & {
   affiliateUrl: string;
 };
 
 type RawPopularProduct = Omit<
-  PopularProduct,
-  "id" | "bestRank" | "internalCategory" | "affiliateUrl"
+  BasePopularProduct,
+  "id" | "bestRank" | "internalCategory"
 >;
 
 const CATEGORY_KEYWORD_MAP: Array<[RegExp, PopularProductCategory]> = [
@@ -101,18 +99,30 @@ function upgradeImageQuality(url: string): string {
 
 const raw = generated as RawPopularProduct[];
 
-export const popularProducts: PopularProduct[] = raw.map((p) => ({
+/** 不変な基底データ。affiliateUrl は含めない (worker init 時には env が無い) */
+const basePopularProducts: BasePopularProduct[] = raw.map((p) => ({
   ...p,
   imageUrl: upgradeImageQuality(p.imageUrl),
   id: `${p.shopCode}/${p.itemCode}`,
   bestRank: bestRankOf(p.topRanks),
   internalCategory: classify(p),
-  affiliateUrl: buildAffiliateUrl({
-    network: "rakuten",
-    shopCode: p.shopCode,
-    itemCode: p.itemCode,
-  }),
 }));
+
+function withAffiliateUrl(p: BasePopularProduct): PopularProduct {
+  return {
+    ...p,
+    affiliateUrl: buildAffiliateUrl({
+      network: "rakuten",
+      shopCode: p.shopCode,
+      itemCode: p.itemCode,
+    }),
+  };
+}
+
+/** リクエスト毎に呼び出してアフィリ URL を確定させる。サーバコンポーネント専用。 */
+export function getPopularProducts(): PopularProduct[] {
+  return basePopularProducts.map(withAffiliateUrl);
+}
 
 export type PopularSortKey =
   | "rank"
@@ -178,9 +188,10 @@ export function filterPopular(
   });
 }
 
-/** ランキング上位を取得 (ランディング rail 用) */
+/** ランキング上位を取得 (ランディング rail 用)。リクエスト時に呼ぶこと。 */
 export function topPopular(n: number): PopularProduct[] {
-  return [...popularProducts]
+  return [...basePopularProducts]
     .sort((a, b) => a.bestRank - b.bestRank)
-    .slice(0, n);
+    .slice(0, n)
+    .map(withAffiliateUrl);
 }
