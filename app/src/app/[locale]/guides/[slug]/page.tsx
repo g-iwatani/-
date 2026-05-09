@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProductCard } from "@/components/ProductCard";
+import { ShareButtons } from "@/components/ShareButtons";
 import { format, formatLastUpdated } from "@/lib/format";
 import { type Guide, getGuide, guides, pickProductsForGuide } from "@/lib/guides";
 import { absoluteUrl, localizedAlternates, site } from "@/lib/site";
@@ -131,6 +132,10 @@ export default async function GuidePage({
           )}
         </p>
       </header>
+
+      <div className="mt-6">
+        <ShareButtons url={pageUrl} title={title} dict={dict} />
+      </div>
 
       <hr className="my-10 border-border" />
 

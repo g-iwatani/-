@@ -32,6 +32,14 @@
     "cta_search": "Find by problem",
     "cta_guides": "Browse guides"
   },
+  "share": {
+    "label": "Share:",
+    "x": "Post on X",
+    "line": "Send via LINE",
+    "copy": "Copy link",
+    "copied": "Link copied",
+    "copy_fallback": "Long-press the URL below to copy:"
+  },
   "find": {
     "title": "Site search",
     "placeholder": "Search brands, products, keywords",

@@ -32,6 +32,14 @@
     "cta_search": "悩みから探す",
     "cta_guides": "選び方ガイドを見る"
   },
+  "share": {
+    "label": "シェア:",
+    "x": "Xでポスト",
+    "line": "LINEで送る",
+    "copy": "リンクをコピー",
+    "copied": "リンクをコピーしました",
+    "copy_fallback": "下のURLを長押ししてコピーしてください:"
+  },
   "find": {
     "title": "サイト内検索",
     "placeholder": "ブランド名・商品名・キーワードで検索",
