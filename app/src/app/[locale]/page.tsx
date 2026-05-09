@@ -12,7 +12,7 @@ import {
   getPopularConcerns,
 } from "@/lib/concerns";
 import { topPopular } from "@/lib/popular-products";
-import { listBrands, products } from "@/lib/products";
+import { listBrands, visibleProducts as products } from "@/lib/products";
 import { getDictionary, hasLocale } from "./dictionaries";
 
 function productsByConcern(concernId: string) {

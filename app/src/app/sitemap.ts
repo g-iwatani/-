@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { breeds } from "@/lib/breeds";
 import { concerns } from "@/lib/concerns";
-import { products } from "@/lib/products";
+import { visibleProducts as products } from "@/lib/products";
 import { absoluteUrl, site } from "@/lib/site";
 
 const STATIC_PATHS = [

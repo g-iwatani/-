@@ -2117,6 +2117,18 @@ export const products: Product[] = enrichAmazonSearchTargets([
   ...amazonBestsellers,
 ]);
 
+/**
+ * 一覧/検索/ブランドリストはこちらを使う。imageUrl 未設定の商品は表示せず、
+ * カードを置いてもプレースホルダばかりになって UX が崩れるのを防ぐ。
+ *
+ * 詳細ページ (/products/[id]) は products + getProduct(id) のフルリストを
+ * 使い続ける: ブックマーク済みリンクや SNS シェア URL を 404 にしないため。
+ * sitemap も visibleProducts のみ載せ、imageUrl 取得後に自動で公開対象に戻す。
+ */
+export const visibleProducts: Product[] = products.filter((p) =>
+  Boolean(p.imageUrl),
+);
+
 export function getPopularProducts(limit = 6): Product[] {
   return [...products]
     .sort((a, b) => b.popularity - a.popularity)
@@ -2124,9 +2136,9 @@ export function getPopularProducts(limit = 6): Product[] {
 }
 
 export function getProductsByCategory(category: ProductCategory): Product[] {
-  return products.filter((p) => p.category === category);
+  return visibleProducts.filter((p) => p.category === category);
 }
 
 export function listBrands(): string[] {
-  return Array.from(new Set(products.map((p) => p.brand))).sort();
+  return Array.from(new Set(visibleProducts.map((p) => p.brand))).sort();
 }

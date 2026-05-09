@@ -3,7 +3,7 @@ import { ResultsView } from "@/components/ResultsView";
 import { breeds, getBreed } from "@/lib/breeds";
 import { concerns, getConcern } from "@/lib/concerns";
 import { matchProducts } from "@/lib/matching";
-import { listBrands, products } from "@/lib/products";
+import { listBrands, visibleProducts } from "@/lib/products";
 import { getDictionary, hasLocale } from "../dictionaries";
 
 function parseIds(value: string | string[] | undefined): string[] {
@@ -49,7 +49,7 @@ export default async function ResultsPage({
     concerns: concernIds,
   };
 
-  const matches = matchProducts(products, profile, resolvedBreeds);
+  const matches = matchProducts(visibleProducts, profile, resolvedBreeds);
 
   const selectedConcerns = concernIds
     .map((id) => getConcern(id))
