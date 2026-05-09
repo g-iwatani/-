@@ -2,17 +2,18 @@
 
 import { useEffect, useState } from "react";
 import type { Dictionary } from "@/app/[locale]/dictionaries";
+import {
+  COMPARE_EVENT,
+  COMPARE_MAX,
+  dispatchCompareChange,
+  readCompareIds,
+  writeCompareIds,
+} from "@/lib/compare";
 
 type Props = {
   productId: string;
   dict: Dictionary;
 };
-
-const STORAGE_KEY = "wanproblem_compare_ids";
-/** mybest 流: 比較は同時 4 商品まで。それ以上はスペック行が圧縮されて読みにくい。 */
-const MAX = 4;
-/** 同一画面内の他のチェックボックス・sticky bar と状態を共有するための window イベント */
-export const COMPARE_EVENT = "wanproblem:compare-changed";
 
 /**
  * 商品カードの右上に出る「比較に追加」 トグル。
@@ -28,28 +29,28 @@ export function CompareToggle({ productId, dict }: Props) {
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    const initial = readIds();
+    const initial = readCompareIds();
     setIds(initial);
     setHydrated(true);
-    const onChange = () => setIds(readIds());
+    const onChange = () => setIds(readCompareIds());
     window.addEventListener(COMPARE_EVENT, onChange);
     return () => window.removeEventListener(COMPARE_EVENT, onChange);
   }, []);
 
   const checked = ids.includes(productId);
-  const full = !checked && ids.length >= MAX;
+  const full = !checked && ids.length >= COMPARE_MAX;
 
   function toggle(e: React.MouseEvent | React.KeyboardEvent) {
     e.preventDefault();
     e.stopPropagation();
     if (full) return;
-    const current = readIds();
+    const current = readCompareIds();
     const next = current.includes(productId)
       ? current.filter((id) => id !== productId)
       : [...current, productId];
-    writeIds(next);
+    writeCompareIds(next);
     setIds(next);
-    window.dispatchEvent(new Event(COMPARE_EVENT));
+    dispatchCompareChange();
   }
 
   // SSR/hydration 安定化のため、初回はチェックボックスのスケルトンだけ。
@@ -125,26 +126,3 @@ function PlusIcon() {
   );
 }
 
-function readIds(): string[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed)
-      ? parsed.filter((x): x is string => typeof x === "string").slice(0, MAX)
-      : [];
-  } catch {
-    return [];
-  }
-}
-
-function writeIds(ids: string[]) {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
-  } catch {
-    // quota / private mode 等は黙って諦める。比較は開発上のサプリメント機能なので
-    // localStorage 書き込み失敗で他機能が落ちるのは過剰反応。
-  }
-}

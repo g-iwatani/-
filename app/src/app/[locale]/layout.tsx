@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AffiliateDisclosure } from "@/components/AffiliateDisclosure";
+import { CompareStickyBar } from "@/components/CompareStickyBar";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { absoluteUrl, localizedAlternates, site } from "@/lib/site";
@@ -70,6 +71,7 @@ export default async function LocaleLayout({
       <Header locale={locale} dict={dict} />
       <main className="flex-1">{children}</main>
       <Footer locale={locale} dict={dict} />
+      <CompareStickyBar locale={locale} dict={dict} />
     </>
   );
 }

@@ -125,6 +125,14 @@
     "in_compare": "比較中",
     "full": "比較は最大4件まで"
   },
+  "compare_bar": {
+    "aria_label": "比較リスト",
+    "label": "比較中",
+    "count": "{n}/4 商品",
+    "cta": "比較する →",
+    "cta_disabled": "あと1商品以上",
+    "clear": "クリア"
+  },
   "affiliate_disclosure": {
     "aria_label": "アフィリエイトリンク表示",
     "text": "当サイトはアフィリエイトプログラムを利用して商品を紹介しており、購入によりサイトに収益が発生する場合があります。",
