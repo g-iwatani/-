@@ -25,6 +25,13 @@
     "same_concerns_title": "Similar concerns",
     "same_concerns_subtitle": "Other products that address the same issues"
   },
+  "not_found": {
+    "title": "Page not found",
+    "body": "The URL might be wrong, or the page may have moved or been removed. Try one of the links below.",
+    "cta_home": "Home",
+    "cta_search": "Find by problem",
+    "cta_guides": "Browse guides"
+  },
   "hero": {
     "eyebrow": "For mixes, smalls, and giants alike",
     "title": "Solve your dog's daily struggles\nwith the right product.",
