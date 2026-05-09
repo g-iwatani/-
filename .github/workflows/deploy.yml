@@ -1,0 +1,54 @@
+name: Deploy to Cloudflare Workers
+
+on:
+  push:
+    branches: [main]
+  # 必要に応じて手動デプロイも可能 (リリース承認後の cherry-pick 等)
+  workflow_dispatch: {}
+
+# 同じ branch にプッシュが連続した時、古い deploy をキャンセル (本番に古い版が
+# 上書きされないように)
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: cf:deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # main への push と手動実行の双方をサポート
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    defaults:
+      run:
+        working-directory: app
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: OpenNext Cloudflare build
+        run: npm run cf:build
+
+      - name: Wrangler deploy
+        # cloudflare/wrangler-action はトークン経由で Cloudflare にデプロイする。
+        # CLOUDFLARE_API_TOKEN は GitHub repo secrets に "Edit Cloudflare Workers"
+        # 権限のトークンを登録しておく (ユーザー作業)。
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: app
+          # OpenNext は .open-next/worker.js をエントリにするため wrangler.jsonc に
+          # 既に記述されている。コマンド省略で deploy がそのまま走る。
+          command: deploy

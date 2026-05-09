@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import type { Dictionary } from "@/app/[locale]/dictionaries";
 import {
-  COMPARE_EVENT,
   COMPARE_MAX,
   dispatchCompareChange,
+  getCompareSnapshot,
+  getServerCompareSnapshot,
   readCompareIds,
+  subscribeCompare,
   writeCompareIds,
 } from "@/lib/compare";
 import { showToast } from "@/lib/toast";
@@ -21,23 +23,16 @@ type Props = {
  *
  * - 状態は localStorage に永続化、ページ遷移しても比較リストが残る
  * - 4 件選択済みでチェックされていない時は disabled 表示
- * - 選択切替時に COMPARE_EVENT を dispatch して、同じウィンドウ内の
- *   sticky compare bar や他カードの状態が即時更新される
- * - SSR 時は空の placeholder を返してハイドレーション差分を回避
+ * - 選択切替時に COMPARE_EVENT を dispatch、同じウィンドウ内の
+ *   他コンポーネント (sticky bar、他カード) は useSyncExternalStore で同期
+ * - SSR は空配列 snapshot を返し、hydration 後に localStorage 値で再描画
  */
 export function CompareToggle({ productId, dict }: Props) {
-  const [ids, setIds] = useState<string[]>([]);
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => {
-    const initial = readCompareIds();
-    setIds(initial);
-    setHydrated(true);
-    const onChange = () => setIds(readCompareIds());
-    window.addEventListener(COMPARE_EVENT, onChange);
-    return () => window.removeEventListener(COMPARE_EVENT, onChange);
-  }, []);
-
+  const ids = useSyncExternalStore(
+    subscribeCompare,
+    getCompareSnapshot,
+    getServerCompareSnapshot,
+  );
   const checked = ids.includes(productId);
   const full = !checked && ids.length >= COMPARE_MAX;
 
@@ -54,7 +49,6 @@ export function CompareToggle({ productId, dict }: Props) {
       ? [...current, productId]
       : current.filter((id) => id !== productId);
     writeCompareIds(next);
-    setIds(next);
     dispatchCompareChange();
     showToast({
       message: adding
@@ -62,16 +56,6 @@ export function CompareToggle({ productId, dict }: Props) {
         : dict.compare_toggle.toast_removed,
       type: adding ? "success" : "info",
     });
-  }
-
-  // SSR/hydration 安定化のため、初回はチェックボックスのスケルトンだけ。
-  if (!hydrated) {
-    return (
-      <div
-        aria-hidden
-        className="absolute right-3 top-3 z-20 h-8 w-8 rounded-full bg-card/80 ring-1 ring-card-border"
-      />
-    );
   }
 
   const label = full

@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import type { Dictionary, Locale } from "@/app/[locale]/dictionaries";
 import {
-  COMPARE_EVENT,
   clearCompareIds,
   dispatchCompareChange,
-  readCompareIds,
+  getCompareSnapshot,
+  getServerCompareSnapshot,
+  subscribeCompare,
 } from "@/lib/compare";
 import { format } from "@/lib/format";
 
@@ -26,22 +27,15 @@ type Props = {
  * - 「クリア」 でリスト全消し
  */
 export function CompareStickyBar({ locale, dict }: Props) {
-  const [ids, setIds] = useState<string[]>([]);
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => {
-    setIds(readCompareIds());
-    setHydrated(true);
-    const onChange = () => setIds(readCompareIds());
-    window.addEventListener(COMPARE_EVENT, onChange);
-    return () => window.removeEventListener(COMPARE_EVENT, onChange);
-  }, []);
-
-  if (!hydrated || ids.length === 0) return null;
+  const ids = useSyncExternalStore(
+    subscribeCompare,
+    getCompareSnapshot,
+    getServerCompareSnapshot,
+  );
+  if (ids.length === 0) return null;
 
   const handleClear = () => {
     clearCompareIds();
-    setIds([]);
     dispatchCompareChange();
   };
 

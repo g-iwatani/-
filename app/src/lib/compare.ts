@@ -50,3 +50,36 @@ export function dispatchCompareChange(): void {
   if (typeof window === "undefined") return;
   window.dispatchEvent(new Event(COMPARE_EVENT));
 }
+
+/**
+ * useSyncExternalStore 用の subscribe / getSnapshot ヘルパ。
+ * 以前は useEffect + useState で localStorage を読んでいたが、
+ * react-hooks/set-state-in-effect lint と「cascading renders」 警告に該当する
+ * ため、外部ストア統合の標準 API に切替えた。
+ *
+ * snapshot は配列の参照同一性 (referential equality) を維持するためキャッシュ
+ * する: localStorage の生文字列が変わらない限り、同じ配列を返す。
+ */
+let cachedRaw: string | null = null;
+let cachedIds: readonly string[] = Object.freeze<string[]>([]);
+
+export function subscribeCompare(callback: () => void): () => void {
+  if (typeof window === "undefined") return () => {};
+  window.addEventListener(COMPARE_EVENT, callback);
+  return () => window.removeEventListener(COMPARE_EVENT, callback);
+}
+
+export function getCompareSnapshot(): readonly string[] {
+  if (typeof window === "undefined") return EMPTY_SNAPSHOT;
+  const raw = window.localStorage.getItem(STORAGE_KEY);
+  if (raw === cachedRaw) return cachedIds;
+  cachedRaw = raw;
+  cachedIds = Object.freeze(readCompareIds());
+  return cachedIds;
+}
+
+const EMPTY_SNAPSHOT: readonly string[] = Object.freeze<string[]>([]);
+
+export function getServerCompareSnapshot(): readonly string[] {
+  return EMPTY_SNAPSHOT;
+}
