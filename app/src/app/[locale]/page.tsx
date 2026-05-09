@@ -4,6 +4,7 @@ import { BreedChip } from "@/components/BreedChip";
 import { ConcernChip } from "@/components/ConcernChip";
 import { FeaturedProduct } from "@/components/FeaturedProduct";
 import { GuideCard } from "@/components/GuideCard";
+import { SeasonalBanner } from "@/components/SeasonalBanner";
 import { MiniProductCard } from "@/components/MiniProductCard";
 import { PopularProductCard } from "@/components/PopularProductCard";
 import { Rail, RailItem } from "@/components/Rail";
@@ -200,6 +201,9 @@ export default async function HomePage({
           </div>
         </div>
       </section>
+
+      {/* Seasonal campaign banner (current month → matching guide) */}
+      <SeasonalBanner locale={locale} />
 
       {/* Editor's monthly featured product (hero card) */}
       <FeaturedHero locale={locale} dict={dict} />
