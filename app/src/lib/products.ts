@@ -1,5 +1,6 @@
 import type { AffiliateTarget } from "./affiliate";
 import generatedImages from "./rakuten-images.generated.json";
+import { amazonBestsellers } from "./amazon-bestsellers.generated";
 
 /**
  * 楽天 Webservice API でビルド時に取得した商品画像URL。
@@ -2111,7 +2112,10 @@ function enrichAmazonSearchTargets(list: Product[]): Product[] {
   }));
 }
 
-export const products: Product[] = enrichAmazonSearchTargets(rawProducts);
+export const products: Product[] = enrichAmazonSearchTargets([
+  ...rawProducts,
+  ...amazonBestsellers,
+]);
 
 export function getPopularProducts(limit = 6): Product[] {
   return [...products]
