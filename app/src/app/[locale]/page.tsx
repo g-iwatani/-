@@ -27,6 +27,11 @@ function productsByCategory(category: "apparel" | "toy" | "env") {
     .sort((a, b) => b.popularity - a.popularity);
 }
 
+// SSG cache file が約 1.7 MB に膨らむと OpenNext / Cloudflare Workers の
+// 内部しきい値で配信されず 404 になる事象を /ja/popular と同じく回避するため、
+// 動的レンダーに切替。今後の改善で rails のデータ量を絞ったら SSG に戻す。
+export const dynamic = "force-dynamic";
+
 export default async function HomePage({
   params,
 }: PageProps<"/[locale]">) {
