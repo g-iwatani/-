@@ -27,6 +27,16 @@ export type AffiliateTarget =
       asin: string;
     }
   | {
+      // ASIN 未取得の商品向けフォールバック。検索結果ページへ誘導する。
+      // 検索ページ経由でも、ユーザーが当日中に Amazon で購入すれば 24h cookie で計上される。
+      network: "amazon-search-jp";
+      query: string;
+    }
+  | {
+      network: "amazon-search-us";
+      query: string;
+    }
+  | {
       network: "rakuten";
       shopCode: string;
       itemCode: string; // shopCode/itemCode 形式
@@ -63,6 +73,16 @@ export function buildAffiliateUrl(target: AffiliateTarget): string {
       const tag = env("AMAZON_ASSOC_TAG_US");
       const base = `https://www.amazon.com/dp/${target.asin}`;
       return tag ? `${base}?tag=${encodeURIComponent(tag)}` : base;
+    }
+    case "amazon-search-jp": {
+      const tag = env("AMAZON_ASSOC_TAG_JP");
+      const base = `https://www.amazon.co.jp/s?k=${encodeURIComponent(target.query)}`;
+      return tag ? `${base}&tag=${encodeURIComponent(tag)}` : base;
+    }
+    case "amazon-search-us": {
+      const tag = env("AMAZON_ASSOC_TAG_US");
+      const base = `https://www.amazon.com/s?k=${encodeURIComponent(target.query)}`;
+      return tag ? `${base}&tag=${encodeURIComponent(tag)}` : base;
     }
     case "rakuten": {
       const id = env("RAKUTEN_AFFILIATE_ID");

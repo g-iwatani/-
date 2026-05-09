@@ -61,10 +61,13 @@ export type Product = {
 };
 
 /**
- * モック商品データ。MVPはアフィリエイトリンクを # にしておく。
- * 各SKUのサイズはブランドサイトを参考にした想定値。
+ * 商品データ。Amazon の `url: "#"` プレースホルダーは、エクスポート時に
+ * ブランド名+商品名で検索する amazon-search-jp ターゲットに自動置換される
+ * (下部 enrichAmazonSearchTargets を参照)。ASIN を取得した商品は
+ * このリテラル内で `target: { network: "amazon-jp", asin: "..." }` に
+ * 置き換えれば、自動置換はスキップされる。
  */
-export const products: Product[] = [
+const rawProducts: Product[] = [
   // ─── 服 (apparel) ────────────────────────────────────────
   {
     id: "ruffwear-overcoat-utility",
@@ -2025,7 +2028,7 @@ export const products: Product[] = [
 ];
 
 // generated.json で取得済みの画像URLを各商品にマージ
-for (const p of products) {
+for (const p of rawProducts) {
   if (!p.imageUrl && rakutenImages[p.id]) {
     p.imageUrl = rakutenImages[p.id];
   }
@@ -2047,6 +2050,28 @@ export function resolveBuyUrl(opt: BuyOption): string {
 export function getProduct(id: string): Product | undefined {
   return products.find((p) => p.id === id);
 }
+
+/**
+ * Amazon 行で target が未設定 (url: "#") のものを検索URLターゲットに置換する。
+ * ASIN を後から取得したら、rawProducts 側で target を直接書けばこの処理は no-op になる。
+ */
+function enrichAmazonSearchTargets(list: Product[]): Product[] {
+  return list.map((p) => ({
+    ...p,
+    buyOptions: p.buyOptions.map((b) => {
+      if (b.shop !== "Amazon" || b.target) return b;
+      return {
+        ...b,
+        target: {
+          network: "amazon-search-jp" as const,
+          query: `${p.brand} ${p.nameJa}`,
+        },
+      };
+    }),
+  }));
+}
+
+export const products: Product[] = enrichAmazonSearchTargets(rawProducts);
 
 export function getPopularProducts(limit = 6): Product[] {
   return [...products]
