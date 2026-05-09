@@ -13,5 +13,13 @@
   },
   "observability": {
     "enabled": true
+  },
+  // ランタイム env vars (process.env.X として読める)。
+  // wrangler deploy はここに定義された vars で remote の Variables を上書きするため、
+  // ダッシュボード側で設定しても次回デプロイで消える。設定はこのファイルが信頼源。
+  // 機密情報は wrangler secret put で別管理 (vars には平文OKなものだけ)。
+  "vars": {
+    "NEXT_PUBLIC_SITE_URL": "https://wanproblem.com",
+    "RAKUTEN_AFFILIATE_ID": "539e4e74.6ad56816.539e4e75.134f4a19"
   }
 }
