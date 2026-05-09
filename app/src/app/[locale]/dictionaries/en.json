@@ -120,6 +120,11 @@
   "badge": {
     "top_pick": "Editor's pick"
   },
+  "compare_toggle": {
+    "add": "Add to compare",
+    "in_compare": "In compare list",
+    "full": "Compare list full (max 4)"
+  },
   "affiliate_disclosure": {
     "aria_label": "Affiliate disclosure",
     "text": "This site uses affiliate programs and may earn a commission when you buy through links on this page.",

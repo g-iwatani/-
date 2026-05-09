@@ -5,6 +5,7 @@ import { format, formatPrice } from "@/lib/format";
 import type { ProductMatch } from "@/lib/matching";
 import type { Product } from "@/lib/products";
 import { getProductTrust } from "@/lib/trust";
+import { CompareToggle } from "./CompareToggle";
 import { ProductImage } from "./ProductImage";
 
 type Props = {
@@ -44,12 +45,14 @@ export function ProductCard({
 
   return (
     <article
-      className={`flex flex-col overflow-hidden rounded-3xl border bg-card transition-all hover:-translate-y-0.5 hover:shadow-lg ${
+      className={`relative flex flex-col overflow-hidden rounded-3xl border bg-card transition-all hover:-translate-y-0.5 hover:shadow-lg ${
         isTopPick
           ? "border-primary shadow-md ring-1 ring-primary/30"
           : "border-card-border"
       }`}
     >
+      {/* 比較トグル: <Link> の外に置いて a 内に button をネストしないようにする (HTML / a11y 観点) */}
+      <CompareToggle productId={product.id} dict={dict} />
       <Link href={href} className="relative block">
         {isTopPick && (
           <span className="absolute left-3 top-3 z-10 inline-flex items-center rounded-full bg-primary px-3 py-1 text-[11px] font-bold text-background shadow-md">
