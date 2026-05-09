@@ -41,6 +41,14 @@ const sortOptions: {
 
 const categoryOrder: ProductCategory[] = ["apparel", "toy", "env"];
 
+/** 価格チップのプリセット。最安値 buyOption が値以下のものをこのバケットに分類。 */
+const PRICE_BUCKETS = [
+  { id: 3000, labelJa: "〜¥3,000", labelEn: "<¥3K" },
+  { id: 5000, labelJa: "〜¥5,000", labelEn: "<¥5K" },
+  { id: 10000, labelJa: "〜¥10,000", labelEn: "<¥10K" },
+  { id: 20000, labelJa: "〜¥20,000", labelEn: "<¥20K" },
+] as const;
+
 export function ResultsView({
   locale,
   dict,
@@ -98,6 +106,26 @@ export function ResultsView({
     }),
     [sorted],
   );
+
+  // 価格帯チップ用の件数。一覧の最終フィルタ前 (= category/brand を尊重した状態)
+  // で計算するので、ユーザがカテゴリ絞り込んだ時に「ハーネス内の〜3000円」が出る。
+  const countByPriceBucket = useMemo(() => {
+    const base = sorted.filter((m) => {
+      if (activeCategory !== "all" && m.product.category !== activeCategory)
+        return false;
+      if (activeBrand !== "all" && m.product.brand !== activeBrand)
+        return false;
+      return true;
+    });
+    const out: Record<number, number> = {};
+    for (const b of PRICE_BUCKETS) {
+      out[b.id] = base.filter((m) => {
+        const lowest = Math.min(...m.product.buyOptions.map((o) => o.priceJpy));
+        return lowest <= b.id;
+      }).length;
+    }
+    return out;
+  }, [sorted, activeCategory, activeBrand]);
 
   const activeFiltersCount =
     (activeCategory !== "all" ? 1 : 0) +
@@ -159,6 +187,38 @@ export function ResultsView({
               count={countByCategory[cat]}
             />
           ))}
+        </div>
+
+        {/* Price bucket chips (one-tap filtering, mobile-friendly) */}
+        <div
+          className="flex gap-2 overflow-x-auto pb-1.5"
+          style={{ scrollbarWidth: "none" }}
+        >
+          {PRICE_BUCKETS.map((b) => {
+            const active = priceMax === b.id;
+            const count = countByPriceBucket[b.id] ?? 0;
+            return (
+              <button
+                key={b.id}
+                type="button"
+                onClick={() => setPriceMax(active ? null : b.id)}
+                className={`inline-flex shrink-0 items-center gap-1 rounded-full border px-3 py-1 text-xs font-bold transition-colors ${
+                  active
+                    ? "border-primary bg-primary text-primary-fg"
+                    : "border-border bg-card text-muted-fg hover:border-primary hover:text-primary"
+                }`}
+              >
+                <span>{locale === "ja" ? b.labelJa : b.labelEn}</span>
+                <span
+                  className={`rounded-full px-1.5 text-[10px] ${
+                    active ? "bg-white/20" : "bg-muted"
+                  }`}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Sort + Filter button row */}
