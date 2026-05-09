@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
+import { CloudflareAnalytics } from "@/components/CloudflareAnalytics";
 import { site } from "@/lib/site";
 
 const geistSans = Geist({
@@ -29,6 +30,7 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-grain bg-background flex flex-col">
         {children}
+        <CloudflareAnalytics />
       </body>
     </html>
   );

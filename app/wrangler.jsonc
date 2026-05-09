@@ -22,5 +22,10 @@
     "NEXT_PUBLIC_SITE_URL": "https://wanproblem.com",
     "RAKUTEN_AFFILIATE_ID": "539e4e74.6ad56816.539e4e75.134f4a19",
     "AMAZON_ASSOC_TAG_JP": "wanproblem-22"
+    // Cloudflare Web Analytics の beacon token をここに追記すると、
+    // 本番デプロイ後に全ページで PV / 直帰率 / 流入元の計測が始まる。
+    // ダッシュボードで「Web Analytics → サイトを追加」 すると token が払い出される。
+    // cookie/個人情報を送らないので同意バナー不要。空のままだと <script> 自体が注入されない。
+    // "CLOUDFLARE_ANALYTICS_TOKEN": "xxxxxxxxxxxxxxxxxxxx"
   }
 }
