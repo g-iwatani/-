@@ -134,6 +134,8 @@ export default async function GuidePage({
 
       <hr className="my-10 border-border" />
 
+      <TableOfContents guide={guide} locale={locale} dict={dict} />
+
       <div className="space-y-12">
         {guide.sections.map((section, idx) => (
           <SectionRenderer
@@ -174,6 +176,56 @@ export default async function GuidePage({
   );
 }
 
+/**
+ * 記事冒頭の目次。<details> で折りたたみ式 (デフォルト展開)。
+ * セクション ID は SectionRenderer 側の固定 id ("points" / "top-picks" / "faq")
+ * とコロケーションさせて壊れにくくしている。
+ */
+function TableOfContents({
+  guide,
+  locale,
+  dict,
+}: {
+  guide: Guide;
+  locale: "ja" | "en";
+  dict: Awaited<ReturnType<typeof getDictionary>>;
+}) {
+  const items: { id: string; title: string }[] = [];
+  for (const s of guide.sections) {
+    if (s.kind === "lead") continue; // hero でレンダー済みなので目次にも出さない
+    const title = locale === "ja" ? s.titleJa : s.titleEn;
+    if (s.kind === "points") items.push({ id: "points", title });
+    else if (s.kind === "top_picks") items.push({ id: "top-picks", title });
+    else if (s.kind === "faq") items.push({ id: "faq", title });
+  }
+  if (items.length < 2) return null;
+  return (
+    <details
+      open
+      className="mb-10 rounded-2xl border border-card-border bg-card p-5"
+    >
+      <summary className="cursor-pointer list-none text-sm font-extrabold uppercase tracking-wide text-muted-fg">
+        {dict.guide.table_of_contents}
+      </summary>
+      <ol className="mt-3 space-y-2">
+        {items.map((it, i) => (
+          <li key={it.id}>
+            <a
+              href={`#${it.id}`}
+              className="flex items-baseline gap-3 text-sm text-foreground hover:text-primary"
+            >
+              <span className="text-xs font-bold text-muted-fg">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span>{it.title}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </details>
+  );
+}
+
 function SectionRenderer({
   section,
   locale,
@@ -190,7 +242,7 @@ function SectionRenderer({
     const items = locale === "ja" ? section.itemsJa : section.itemsEn;
     const title = locale === "ja" ? section.titleJa : section.titleEn;
     return (
-      <section>
+      <section id="points" className="scroll-mt-20">
         <h2 className="mb-5 text-2xl font-extrabold tracking-tight text-foreground">
           {title}
         </h2>
@@ -220,7 +272,7 @@ function SectionRenderer({
   if (section.kind === "top_picks") {
     const title = locale === "ja" ? section.titleJa : section.titleEn;
     return (
-      <section>
+      <section id="top-picks" className="scroll-mt-20">
         <h2 className="mb-5 text-2xl font-extrabold tracking-tight text-foreground">
           {title}
         </h2>
@@ -243,7 +295,7 @@ function SectionRenderer({
     const items = locale === "ja" ? section.itemsJa : section.itemsEn;
     const title = locale === "ja" ? section.titleJa : section.titleEn;
     return (
-      <section>
+      <section id="faq" className="scroll-mt-20">
         <h2 className="mb-5 text-2xl font-extrabold tracking-tight text-foreground">
           {title}
         </h2>
