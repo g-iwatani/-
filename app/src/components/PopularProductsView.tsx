@@ -17,6 +17,8 @@ type Props = {
   locale: Locale;
 };
 
+const PAGE_SIZE = 60;
+
 const CATEGORY_LABELS: Record<PopularProductCategory, { ja: string; en: string }> = {
   apparel: { ja: "服", en: "Apparel" },
   leash: { ja: "リード・ハーネス", en: "Leash & harness" },
@@ -48,6 +50,7 @@ export function PopularProductsView({ products, locale }: Props) {
   const [excludeFood, setExcludeFood] = useState<boolean>(false);
   const [onSaleOnly, setOnSaleOnly] = useState<boolean>(false);
   const [showFilterSheet, setShowFilterSheet] = useState(false);
+  const [visibleCount, setVisibleCount] = useState<number>(PAGE_SIZE);
 
   useEffect(() => {
     document.body.style.overflow = showFilterSheet ? "hidden" : "";
@@ -72,6 +75,18 @@ export function PopularProductsView({ products, locale }: Props) {
     () => sortPopular(filterPopular(products, filters), sort),
     [products, filters, sort],
   );
+
+  // フィルタ/ソート変更時にページネーションをリセット (React 公式の compare-on-render パターン)
+  const [lastResetKey, setLastResetKey] = useState<unknown>(filters);
+  const [lastSortKey, setLastSortKey] = useState<PopularSortKey>(sort);
+  if (lastResetKey !== filters || lastSortKey !== sort) {
+    setLastResetKey(filters);
+    setLastSortKey(sort);
+    setVisibleCount(PAGE_SIZE);
+  }
+
+  const visible = filtered.slice(0, visibleCount);
+  const hasMore = visibleCount < filtered.length;
 
   const presentCategories = useMemo(() => {
     const set = new Set<PopularProductCategory>();
@@ -189,11 +204,26 @@ export function PopularProductsView({ products, locale }: Props) {
               {t("no_results")}
             </p>
           ) : (
-            <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
-              {filtered.map((p) => (
-                <PopularProductCard key={p.id} product={p} locale={locale} />
-              ))}
-            </div>
+            <>
+              <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
+                {visible.map((p) => (
+                  <PopularProductCard key={p.id} product={p} locale={locale} />
+                ))}
+              </div>
+              {hasMore && (
+                <div className="mt-8 flex justify-center">
+                  <button
+                    type="button"
+                    onClick={() => setVisibleCount((n) => n + PAGE_SIZE)}
+                    className="rounded-full border border-border bg-card px-6 py-3 text-sm font-bold text-foreground transition-colors hover:border-primary hover:text-primary"
+                  >
+                    {locale === "ja"
+                      ? `さらに表示 (残り ${filtered.length - visibleCount} 件)`
+                      : `Show more (${filtered.length - visibleCount} left)`}
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
