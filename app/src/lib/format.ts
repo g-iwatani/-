@@ -19,3 +19,17 @@ export function format(
     String(values[key] ?? `{${key}}`),
   );
 }
+
+export function formatLastUpdated(
+  year: number,
+  month: number,
+  locale: Locale,
+): string {
+  if (locale === "en") {
+    const monthName = new Date(year, month - 1, 1).toLocaleString("en-US", {
+      month: "long",
+    });
+    return `Updated ${monthName} ${year}`;
+  }
+  return `${year}年${month}月最新版`;
+}

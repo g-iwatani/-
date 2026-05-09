@@ -11,9 +11,20 @@ type Props = {
   locale: Locale;
   dict: Dictionary;
   href: string;
+  /**
+   * 一覧の最上位 (= 「迷ったらコレ」枠) かどうか。指定された場合、
+   * カード画像の上に目立つ chip を出して決断疲れを軽減する。mybest 風。
+   */
+  isTopPick?: boolean;
 };
 
-export function ProductCard({ match, locale, dict, href }: Props) {
+export function ProductCard({
+  match,
+  locale,
+  dict,
+  href,
+  isTopPick,
+}: Props) {
   const { product } = match;
   const name = locale === "ja" ? product.nameJa : product.nameEn;
   const tags = locale === "ja" ? product.tagsJa : product.tagsEn;
@@ -30,8 +41,19 @@ export function ProductCard({ match, locale, dict, href }: Props) {
   const totalConcerns = match.product.concerns.length;
 
   return (
-    <article className="flex flex-col overflow-hidden rounded-3xl border border-card-border bg-card transition-all hover:-translate-y-0.5 hover:shadow-lg">
-      <Link href={href} className="block">
+    <article
+      className={`flex flex-col overflow-hidden rounded-3xl border bg-card transition-all hover:-translate-y-0.5 hover:shadow-lg ${
+        isTopPick
+          ? "border-primary shadow-md ring-1 ring-primary/30"
+          : "border-card-border"
+      }`}
+    >
+      <Link href={href} className="relative block">
+        {isTopPick && (
+          <span className="absolute left-3 top-3 z-10 inline-flex items-center rounded-full bg-primary px-3 py-1 text-[11px] font-bold text-background shadow-md">
+            ★ {dict.badge.top_pick}
+          </span>
+        )}
         <ProductImage
           palette={product.imagePalette}
           emoji={product.imageEmoji}

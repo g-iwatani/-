@@ -86,7 +86,11 @@ function ComparisonColumn({
 
   return (
     <article
-      className="flex flex-col rounded-2xl border border-border bg-background p-3"
+      className={`flex flex-col rounded-2xl border bg-background p-3 ${
+        rank === 1
+          ? "border-primary shadow-sm ring-1 ring-primary/30"
+          : "border-border"
+      }`}
       style={{ scrollSnapAlign: "start" }}
     >
       <div className="relative">
@@ -101,6 +105,11 @@ function ComparisonColumn({
         >
           {format(dict.comparison.rank, { n: rank })}
         </span>
+        {rank === 1 && (
+          <span className="absolute right-0 top-0 z-10 inline-flex items-center rounded-bl-xl rounded-tr-xl bg-primary/90 px-2 py-0.5 text-[10px] font-bold text-background">
+            ★ {dict.badge.top_pick}
+          </span>
+        )}
         <Link href={href}>
           <ProductImage
             palette={product.imagePalette}

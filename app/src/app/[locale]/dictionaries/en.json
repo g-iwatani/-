@@ -117,6 +117,9 @@
     "spec_tags": "Highlights",
     "concern_value": "{count} matched"
   },
+  "badge": {
+    "top_pick": "Editor's pick"
+  },
   "product_detail": {
     "size_chart": "Size chart",
     "size_recommended_for_dog": "Suggested size for your dog",

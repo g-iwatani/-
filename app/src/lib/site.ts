@@ -25,6 +25,12 @@ export const site = {
   twitter: "@wanproblem",
   defaultLocale: "ja" as const,
   locales: ["ja", "en"] as const,
+  /**
+   * 商品データ最終更新月。一覧/詳細ページに「YYYY年M月最新版」として
+   * 表示し SEO + 信頼シグナルを稼ぐ (mybest 方式)。
+   * 商品 CSV 取込やキュレーション差し込みのたびに手動でバンプ。
+   */
+  lastUpdated: { year: 2026, month: 5 },
 };
 
 export function absoluteUrl(path: string): string {

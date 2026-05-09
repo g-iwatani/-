@@ -3,7 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import type { Dictionary, Locale } from "@/app/[locale]/dictionaries";
 import type { Concern } from "@/lib/concerns";
-import { format } from "@/lib/format";
+import { format, formatLastUpdated } from "@/lib/format";
+import { site } from "@/lib/site";
 import {
   type ProductMatch,
   type SortKey,
@@ -112,9 +113,18 @@ export function ResultsView({
   return (
     <div className="mx-auto max-w-7xl px-5 pt-5 pb-16">
       <header className="space-y-3">
-        <h1 className="text-2xl font-extrabold tracking-tight text-foreground md:text-4xl">
-          {dict.results.title}
-        </h1>
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <h1 className="text-2xl font-extrabold tracking-tight text-foreground md:text-4xl">
+            {dict.results.title}
+          </h1>
+          <span className="rounded-full bg-muted px-2.5 py-1 text-[11px] font-bold text-muted-fg">
+            {formatLastUpdated(
+              site.lastUpdated.year,
+              site.lastUpdated.month,
+              locale,
+            )}
+          </span>
+        </div>
         {measurementsSummary && (
           <DogProfileChip
             locale={locale}
@@ -226,13 +236,14 @@ export function ResultsView({
           </div>
         ) : (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {filtered.map((match) => (
+            {filtered.map((match, i) => (
               <ProductCard
                 key={match.product.id}
                 match={match}
                 locale={locale}
                 dict={dict}
                 href={`/${locale}/products/${match.product.id}`}
+                isTopPick={i === 0}
               />
             ))}
           </div>

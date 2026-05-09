@@ -117,6 +117,9 @@
     "spec_tags": "主な特徴",
     "concern_value": "{count} 件マッチ"
   },
+  "badge": {
+    "top_pick": "迷ったらコレ"
+  },
   "product_detail": {
     "size_chart": "サイズチャート",
     "size_recommended_for_dog": "あなたのワンちゃんへの推奨サイズ",

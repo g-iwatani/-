@@ -4,7 +4,7 @@ import { ProductImage } from "@/components/ProductImage";
 import { AFFILIATE_REL } from "@/lib/affiliate";
 import { getBreed } from "@/lib/breeds";
 import { getConcern } from "@/lib/concerns";
-import { format, formatPrice } from "@/lib/format";
+import { format, formatLastUpdated, formatPrice } from "@/lib/format";
 import {
   type DogProfile,
   evaluateSizeMatch,
@@ -12,6 +12,7 @@ import {
   pickBestSize,
 } from "@/lib/matching";
 import { getProduct, products, resolveBuyUrl } from "@/lib/products";
+import { site } from "@/lib/site";
 import { getDictionary, hasLocale, locales } from "../../dictionaries";
 
 export async function generateStaticParams() {
@@ -129,9 +130,18 @@ export default async function ProductPage({
 
         <div className="space-y-6">
           <div>
-            <p className="text-xs font-bold uppercase tracking-wide text-muted-fg">
-              {product.brand} · {product.brandCountry}
-            </p>
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="text-xs font-bold uppercase tracking-wide text-muted-fg">
+                {product.brand} · {product.brandCountry}
+              </p>
+              <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-bold text-muted-fg">
+                {formatLastUpdated(
+                  site.lastUpdated.year,
+                  site.lastUpdated.month,
+                  locale,
+                )}
+              </span>
+            </div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
               {name}
             </h1>
