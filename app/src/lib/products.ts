@@ -2052,14 +2052,33 @@ export function getProduct(id: string): Product | undefined {
 }
 
 /**
- * Amazon 行で target が未設定 (url: "#") のものを検索URLターゲットに置換する。
- * ASIN を後から取得したら、rawProducts 側で target を直接書けばこの処理は no-op になる。
+ * Amazon JP の検証済み ASIN。WebSearch で実商品ページを確認して人気上位から拾った物のみ。
+ * ここにある商品は ASIN 直リンク、無い物は検索 URL にフォールバック。
+ * 追加するときは: 該当商品ページを開いて URL の /dp/XXXXX を貼る → サイズ違いがあっても
+ * Amazon の variant selector で他サイズに切り替えできるので、代表 1 つで OK。
+ */
+const ASIN_OVERRIDES_JP: Record<string, string> = {
+  "kong-classic": "B00ZZB2OEE",
+  "ruffwear-front-range": "B07B4T2DF5",
+  "furminator-deshed": "B07NSNDHH1",
+  "outward-hound-puzzle": "B0711Y9XTF",
+  "puppia-soft-harness": "B00IHBY3SE",
+  "nylabone-dura-chew": "B0002ASNAM",
+};
+
+/**
+ * Amazon 行で target が未設定 (url: "#") のものを ASIN または検索URLターゲットに置換する。
+ * ASIN_OVERRIDES_JP に id があれば直リンク、なければ brand+nameJa で検索 URL を生成する。
  */
 function enrichAmazonSearchTargets(list: Product[]): Product[] {
   return list.map((p) => ({
     ...p,
     buyOptions: p.buyOptions.map((b) => {
       if (b.shop !== "Amazon" || b.target) return b;
+      const asin = ASIN_OVERRIDES_JP[p.id];
+      if (asin) {
+        return { ...b, target: { network: "amazon-jp" as const, asin } };
+      }
       return {
         ...b,
         target: {
