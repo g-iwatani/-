@@ -156,6 +156,44 @@ function slugifyAsin(asin) {
   return asin.toLowerCase();
 }
 
+/**
+ * Amazon 商品タイトル特有のキーワードスパム / 販促プレフィックスを剥がして、
+ * 「ブランド + 商品種別 + 主要特徴」 程度の 35 字以内に整形する。
+ *
+ * 入力例: "【Amazon.co.jp限定】BaoCheng 犬ハーネス 犬用胴輪 小型犬/中型犬/大型犬ハーネス..."
+ * 出力例: "BaoCheng 犬ハーネス 犬用胴輪 小型犬"
+ */
+function cleanProductName(raw) {
+  let s = raw;
+  // 1. 販促バッジ・括弧書きを除去
+  s = s.replace(/【[^】]*】/g, " ");
+  s = s.replace(/\[[^\]]*\]/g, " ");
+  s = s.replace(/\([^)]*\)/g, " ");
+  s = s.replace(/（[^）]*）/g, " ");
+  s = s.replace(/「[^」]*」/g, " ");
+  // 2. 連続空白を 1 つに
+  s = s.replace(/\s+/g, " ").trim();
+  // 3. 区切り文字で先頭セグメントだけ拾う (12 字以上ある場合のみ)
+  for (const cut of ["、", ",", "｜", "|"]) {
+    const parts = s.split(cut);
+    if (parts.length > 1 && parts[0].trim().length >= 12) {
+      s = parts[0].trim();
+      break;
+    }
+  }
+  // 4. ハード上限。最後の空白で切ってお尻が変にならないように
+  const MAX = 35;
+  if (s.length > MAX) {
+    const cut = s.lastIndexOf(" ", MAX - 2);
+    if (cut > 12) {
+      s = s.slice(0, cut);
+    } else {
+      s = s.slice(0, MAX - 1) + "…";
+    }
+  }
+  return s.trim();
+}
+
 function brandToCountry(brand) {
   // 雑だが生成ファイルなのでヒューリスティクスで OK
   if (/[ぁ-んァ-ヶ一-龯]/.test(brand)) return "JP";
@@ -202,7 +240,8 @@ function buildProduct(row, rank) {
   // breed size 指定なし = 全犬種対応 (空配列 = 全犬種というのが既存コード規約)
   const finalBreedSizes = uniqBreedSizes.length === 4 ? [] : uniqBreedSizes;
 
-  // 商品名が長すぎる場合の descJa: 全角カンマや【】で切る
+  const cleanedName = cleanProductName(name);
+  // descJa: クリーン名より長い "もう少し情報があるバージョン" を狙う
   const descJa =
     name.length > 80
       ? name
@@ -217,8 +256,8 @@ function buildProduct(row, rank) {
     id: `amz-${cat}-${slugifyAsin(asin)}`,
     brand,
     brandCountry: brandToCountry(brand),
-    nameJa: name.slice(0, 60),
-    nameEn: name.slice(0, 60), // CSV に英名なし
+    nameJa: cleanedName,
+    nameEn: cleanedName, // CSV に英名なし
     descJa,
     descEn: "",
     category: productCategory,
