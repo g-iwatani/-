@@ -32,6 +32,17 @@
     "cta_search": "Find by problem",
     "cta_guides": "Browse guides"
   },
+  "find": {
+    "title": "Site search",
+    "placeholder": "Search brands, products, keywords",
+    "submit": "Search",
+    "empty_prompt": "Type a keyword to start (e.g. \"harness pull\", \"Kong\", \"winter coat\").",
+    "no_results": "no products or guides matched. Try a different keyword.",
+    "browse_all": "Browse all products",
+    "section_products": "Products",
+    "section_guides": "Buying guides",
+    "header_aria": "Site search"
+  },
   "hero": {
     "eyebrow": "For mixes, smalls, and giants alike",
     "title": "Solve your dog's daily struggles\nwith the right product.",

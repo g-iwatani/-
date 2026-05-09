@@ -47,6 +47,25 @@ export function Header({ locale, dict }: Props) {
         </nav>
 
         <div className="flex items-center gap-2">
+          {/* Header free-text search (md+ visible). Mobile users use MobileMenu. */}
+          <form
+            method="GET"
+            action={`${root}/find`}
+            role="search"
+            aria-label={dict.find.header_aria}
+            className="hidden items-center rounded-full border border-border bg-card px-3 py-1.5 focus-within:border-primary md:flex"
+          >
+            <span aria-hidden className="mr-1.5 text-muted-fg">
+              🔍
+            </span>
+            <input
+              type="search"
+              name="q"
+              placeholder={dict.find.placeholder}
+              className="w-44 bg-transparent text-sm text-foreground placeholder:text-muted-fg focus:outline-none"
+              autoComplete="off"
+            />
+          </form>
           <LocaleSwitcher current={locale} />
           <Link
             href={`${root}/search`}

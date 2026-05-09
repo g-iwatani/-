@@ -105,6 +105,26 @@ export function MobileMenu({ navItems, ctaHref, ctaLabel, dict }: Props) {
               </button>
             </div>
 
+            <form
+              method="GET"
+              action={ctaHref.replace(/\/search$/, "/find")}
+              role="search"
+              aria-label={dict.find.header_aria}
+              className="mx-3 mt-3 flex items-center rounded-full border border-border bg-background px-3 py-2 focus-within:border-primary"
+              onSubmit={() => setOpen(false)}
+            >
+              <span aria-hidden className="mr-2 text-muted-fg">
+                🔍
+              </span>
+              <input
+                type="search"
+                name="q"
+                placeholder={dict.find.placeholder}
+                className="min-w-0 flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-fg focus:outline-none"
+                autoComplete="off"
+              />
+            </form>
+
             <nav className="flex-1 overflow-y-auto px-2 py-4">
               <ul className="space-y-1">
                 {navItems.map((item) => (
