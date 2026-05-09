@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { AffiliateDisclosure } from "@/components/AffiliateDisclosure";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { absoluteUrl, localizedAlternates, site } from "@/lib/site";
@@ -65,6 +66,7 @@ export default async function LocaleLayout({
 
   return (
     <>
+      <AffiliateDisclosure locale={locale} dict={dict} />
       <Header locale={locale} dict={dict} />
       <main className="flex-1">{children}</main>
       <Footer locale={locale} dict={dict} />

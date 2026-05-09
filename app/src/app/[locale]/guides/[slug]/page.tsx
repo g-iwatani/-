@@ -1,10 +1,44 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProductCard } from "@/components/ProductCard";
 import { format, formatLastUpdated } from "@/lib/format";
 import { type Guide, getGuide, guides, pickProductsForGuide } from "@/lib/guides";
-import { site } from "@/lib/site";
-import { getDictionary, hasLocale, locales } from "../../dictionaries";
+import { absoluteUrl, localizedAlternates, site } from "@/lib/site";
+import { defaultLocale, getDictionary, hasLocale, locales } from "../../dictionaries";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const safeLocale = hasLocale(locale) ? locale : defaultLocale;
+  const guide = getGuide(slug);
+  if (!guide) return {};
+  const title = safeLocale === "ja" ? guide.titleJa : guide.titleEn;
+  const lead = safeLocale === "ja" ? guide.leadJa : guide.leadEn;
+  const path = `/${safeLocale}/guides/${slug}`;
+  return {
+    title,
+    description: lead.slice(0, 160),
+    alternates: {
+      canonical: path,
+      languages: localizedAlternates(`/guides/${slug}`),
+    },
+    openGraph: {
+      type: "article",
+      url: absoluteUrl(path),
+      title,
+      description: lead.slice(0, 200),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: lead.slice(0, 200),
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const params: { locale: string; slug: string }[] = [];

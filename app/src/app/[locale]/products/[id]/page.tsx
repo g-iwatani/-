@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProductImage } from "@/components/ProductImage";
@@ -12,9 +13,48 @@ import {
   pickBestSize,
 } from "@/lib/matching";
 import { getProduct, products, resolveBuyUrl } from "@/lib/products";
-import { site } from "@/lib/site";
+import { absoluteUrl, localizedAlternates, site } from "@/lib/site";
 import { getProductTrust } from "@/lib/trust";
-import { getDictionary, hasLocale, locales } from "../../dictionaries";
+import { defaultLocale, getDictionary, hasLocale, locales } from "../../dictionaries";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; id: string }>;
+}): Promise<Metadata> {
+  const { locale, id } = await params;
+  const safeLocale = hasLocale(locale) ? locale : defaultLocale;
+  const product = getProduct(id);
+  if (!product) return {};
+  const name = safeLocale === "ja" ? product.nameJa : product.nameEn;
+  const desc = safeLocale === "ja" ? product.descJa : product.descEn;
+  const path = `/${safeLocale}/products/${id}`;
+  const titleSuffix =
+    safeLocale === "ja"
+      ? `${product.brand} | わんプロブレム`
+      : `${product.brand} | WanProblem`;
+  return {
+    title: `${name} - ${titleSuffix}`,
+    description: desc.slice(0, 160),
+    alternates: {
+      canonical: path,
+      languages: localizedAlternates(`/products/${id}`),
+    },
+    openGraph: {
+      type: "website",
+      url: absoluteUrl(path),
+      title: name,
+      description: desc.slice(0, 200),
+      images: product.imageUrl ? [{ url: product.imageUrl }] : undefined,
+    },
+    twitter: {
+      card: product.imageUrl ? "summary_large_image" : "summary",
+      title: name,
+      description: desc.slice(0, 200),
+      images: product.imageUrl ? [product.imageUrl] : undefined,
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const params: { locale: string; id: string }[] = [];

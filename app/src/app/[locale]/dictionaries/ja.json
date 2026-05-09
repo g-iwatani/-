@@ -120,6 +120,11 @@
   "badge": {
     "top_pick": "迷ったらコレ"
   },
+  "affiliate_disclosure": {
+    "aria_label": "アフィリエイトリンク表示",
+    "text": "当サイトはアフィリエイトプログラムを利用して商品を紹介しており、購入によりサイトに収益が発生する場合があります。",
+    "detail_link": "詳細はこちら"
+  },
   "guide": {
     "back_to_home": "← ホームへ",
     "lead_label": "この記事は",

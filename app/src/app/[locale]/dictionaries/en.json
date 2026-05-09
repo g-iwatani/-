@@ -120,6 +120,11 @@
   "badge": {
     "top_pick": "Editor's pick"
   },
+  "affiliate_disclosure": {
+    "aria_label": "Affiliate disclosure",
+    "text": "This site uses affiliate programs and may earn a commission when you buy through links on this page.",
+    "detail_link": "Learn more"
+  },
   "guide": {
     "back_to_home": "← Home",
     "lead_label": "In this guide",
