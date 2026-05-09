@@ -43,7 +43,7 @@ function detectLocale(request: NextRequest): (typeof locales)[number] {
   return defaultLocale;
 }
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (isReserved(pathname)) return;

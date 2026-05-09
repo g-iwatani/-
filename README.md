@@ -7,9 +7,35 @@
 
 ## Live
 
-- 本番(予定): https://wanproblem.com/ ※ ドメイン取得・Netlify紐付け待ち
-- Netlify 一時URL: https://swart-kappa-13.vercel.app/
+- 本番: https://wanproblem.com/
 - ブランチ: `claude/build-new-website-3AHnd`
+- ホスティング: **Cloudflare Workers**(@opennextjs/cloudflare 経由)。
+  Netlify から移行済み(クレジット枠回避のため)。
+
+## Cloudflare へのデプロイ手順(初回のみ)
+
+1. **https://dash.cloudflare.com/sign-up** でアカウント作成
+2. ダッシュボード左 **Workers & Pages** → **Create**
+3. **Connect to Git** → GitHub 認可 → `g-iwatani/-` を選択
+4. ブランチ: `claude/build-new-website-3AHnd`
+5. **Build settings**:
+   - Root directory: `app/`
+   - Build command: `npm run cf:build`
+   - Deploy command: `npx wrangler deploy`
+   - Build output: `(指定不要、wrangler.jsonc が自動指定)`
+6. **環境変数**(Netlify から移行する2点):
+   - `NEXT_PUBLIC_SITE_URL` = `https://wanproblem.com`
+   - `RAKUTEN_AFFILIATE_ID` = `(楽天アフィリID)`
+   - `RAKUTEN_APP_ID` = `(Rakuten Webservice App ID)`
+   - `RAKUTEN_ACCESS_KEY` = `(Rakuten Webservice Access Key)`
+7. **Deploy** → 1〜2分でビルド完了
+
+## カスタムドメイン(wanproblem.com)を Cloudflare に向ける
+
+1. Workers プロジェクト → **Settings** → **Domains & Routes**
+2. **Add → Custom domain** → `wanproblem.com` 入力
+3. お名前.com 側でネームサーバを Cloudflare 指定の値(`*.ns.cloudflare.com`)に変更
+4. SSL は自動発行。数分〜数時間で反映
 
 ## スコープ(MVP)
 
