@@ -120,6 +120,19 @@
   "badge": {
     "top_pick": "迷ったらコレ"
   },
+  "side_nav": {
+    "title": "悩みから探す",
+    "subtitle": "気になる悩みをタップして検索結果を絞り込み",
+    "aria_label": "悩みカテゴリナビ",
+    "see_all": "すべての悩みを見る →",
+    "categories": {
+      "season": "季節・天気",
+      "behavior": "しつけ・行動",
+      "care": "ケア・手入れ",
+      "purpose": "シーン・用途",
+      "size": "体型・犬種"
+    }
+  },
   "product_detail": {
     "size_chart": "サイズチャート",
     "size_recommended_for_dog": "あなたのワンちゃんへの推奨サイズ",

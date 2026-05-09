@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { ResultsView } from "@/components/ResultsView";
+import { SideConcernsNav } from "@/components/SideConcernsNav";
 import { breeds, getBreed } from "@/lib/breeds";
 import { concerns, getConcern } from "@/lib/concerns";
 import { matchProducts } from "@/lib/matching";
@@ -88,15 +89,37 @@ export default async function ResultsPage({
     breedNames,
   };
 
+  // サイドナビにクリック先 URL の base params として渡す。
+  // breeds / chest / back / neck はそのまま引き継ぎ、concerns だけ書き換える。
+  const inheritParams = new URLSearchParams();
+  if (breedIds.length > 0) inheritParams.set("breeds", breedIds.join(","));
+  if (chest != null) inheritParams.set("chest", String(chest));
+  if (back != null) inheritParams.set("back", String(back));
+  if (neck != null) inheritParams.set("neck", String(neck));
+
   return (
-    <ResultsView
-      locale={locale}
-      dict={dict}
-      initialMatches={matches}
-      selectedConcerns={selectedConcerns}
-      brands={listBrands()}
-      measurementsSummary={summary}
-    />
+    <div className="mx-auto grid max-w-7xl gap-6 px-5 lg:grid-cols-[260px_1fr]">
+      <aside className="hidden pt-5 lg:block">
+        <div className="sticky top-20">
+          <SideConcernsNav
+            locale={locale}
+            dict={dict}
+            activeConcernIds={concernIds}
+            inheritParams={inheritParams}
+          />
+        </div>
+      </aside>
+      <main className="min-w-0">
+        <ResultsView
+          locale={locale}
+          dict={dict}
+          initialMatches={matches}
+          selectedConcerns={selectedConcerns}
+          brands={listBrands()}
+          measurementsSummary={summary}
+        />
+      </main>
+    </div>
   );
 }
 

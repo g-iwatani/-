@@ -120,6 +120,19 @@
   "badge": {
     "top_pick": "Editor's pick"
   },
+  "side_nav": {
+    "title": "Browse by concern",
+    "subtitle": "Tap a concern to narrow the results",
+    "aria_label": "Concern category nav",
+    "see_all": "See all concerns →",
+    "categories": {
+      "season": "Season & weather",
+      "behavior": "Training & behavior",
+      "care": "Care & grooming",
+      "purpose": "Scenes & uses",
+      "size": "Build & breed"
+    }
+  },
   "product_detail": {
     "size_chart": "Size chart",
     "size_recommended_for_dog": "Suggested size for your dog",
