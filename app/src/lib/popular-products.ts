@@ -76,10 +76,22 @@ function bestRankOf(topRanks: Record<string, number>): number {
   return values.length === 0 ? 9999 : Math.min(...values);
 }
 
+/**
+ * Rakuten 画像 CDN は ?fitin=WxH でリサイズ可。
+ * ランキングページから取得した URL は 128:128 のサムネサイズ固定なので、
+ * 表示用に 400:400 へ差し替える (約3倍の解像度)。
+ */
+function upgradeImageQuality(url: string): string {
+  return url
+    .replace(/([?&])fitin=\d+:\d+/, "$1fitin=400:400")
+    .replace(/([?&])_ex=\d+x\d+/, "$1_ex=400x400");
+}
+
 const raw = generated as RawPopularProduct[];
 
 export const popularProducts: PopularProduct[] = raw.map((p) => ({
   ...p,
+  imageUrl: upgradeImageQuality(p.imageUrl),
   id: `${p.shopCode}/${p.itemCode}`,
   bestRank: bestRankOf(p.topRanks),
   internalCategory: classify(p),
