@@ -6,7 +6,7 @@ export const metadata = {
 };
 
 const LAST_UPDATED = "2026-05-07";
-const CONTACT_EMAIL = "hello@wanproblem.example";
+const CONTACT_EMAIL = "info@wanproblem.com";
 
 export default async function ContactPage({
   params,
