@@ -49,6 +49,22 @@ export type Guide = {
   leadJa: string;
   leadEn: string;
   /**
+   * 公開日 (ISO YYYY-MM-DD)。Article schema の datePublished に使う。
+   * E-E-A-T の信頼性シグナルなので、初回コミット時の実日付を入れる。
+   */
+  publishedAt: string;
+  /**
+   * 最終更新日 (ISO YYYY-MM-DD)。指定がなければ publishedAt と同じ扱い。
+   * 記事内容を実質的に書き換えた時にバンプする (型修正・誤字修正は対象外)。
+   */
+  updatedAt?: string;
+  /**
+   * 著者表示名。現状は固定で 「わんプロブレム編集部」 を想定。
+   * 個人名を持ち出して E-E-A-T の Experience を偽装することは禁止。
+   */
+  authorJa: string;
+  authorEn: string;
+  /**
    * 関連商品の自動選定クエリ。top_picks セクションで productIds が空の時に使う。
    * categories の OR ∩ concerns の OR でフィルタし popularity 順に切り出す。
    */
@@ -69,6 +85,9 @@ export const guides: Guide[] = [
       "首輪より体への負担が少なく、引っ張りグセのある子や気管が弱い犬種に向くハーネス。胸囲・首回りの実寸、装着しやすさ、引っ張り防止構造の有無で大きく満足度が変わります。本ガイドでは犬種・体型・お悩み別に、わんプロブレムが扱う約 200 商品から厳選してご紹介します。",
     leadEn:
       "A harness spreads the leash load across the chest instead of the neck — gentler on tracheas, safer for pullers. The right pick comes down to chest/neck circumference, ease of fitting, and whether you need a front-clip anti-pull design. We narrow our 200+ catalog down to a clean shortlist by breed, build, and concern.",
+    publishedAt: "2026-05-09",
+    authorJa: "わんプロブレム編集部",
+    authorEn: "WanProblem editorial team",
     productQuery: {
       categories: ["apparel"],
       concerns: ["pulls-leash", "small-breed", "wide-chest", "long-back"],
@@ -192,6 +211,9 @@ export const guides: Guide[] = [
       "子犬の最初の 1 週間は環境作りで決まります。ケージ・トイレ・ハーネス・噛むおもちゃ・鎮静ぬいぐるみまで、住環境とお留守番対応をひと通り揃えるための買い物リスト。本ガイドはわんプロブレムが扱う 200+ 商品から、子犬期に必要な定番だけを厳選。",
     leadEn:
       "The first week with a new puppy is decided by setup. This guide pulls together a tight shopping list — crate, potty pads, harness, chew toys, comfort plush — from our 200+ catalog, focused on what an 8–16-week-old actually needs.",
+    publishedAt: "2026-05-09",
+    authorJa: "わんプロブレム編集部",
+    authorEn: "WanProblem editorial team",
     productQuery: {
       categories: ["apparel", "toy", "env"],
       concerns: [
@@ -313,6 +335,9 @@ export const guides: Guide[] = [
       "7 歳を過ぎると関節・歯・体温調整能力が落ちはじめます。シニア犬期の散歩・睡眠・食事・お手入れを楽にするアイテムを、わんプロブレムの 200+ 商品から悩み別にピックアップ。介護用品は買うタイミングが遅れがちなので、症状が出る前に揃えるのがコツです。",
     leadEn:
       "After age 7, joints, teeth, and thermoregulation start to slip. We pull from our 200+ catalog the items that quietly make a senior dog's day easier — selected by symptom rather than category. Most owners buy these too late; pre-empt the symptoms.",
+    publishedAt: "2026-05-09",
+    authorJa: "わんプロブレム編集部",
+    authorEn: "WanProblem editorial team",
     productQuery: {
       categories: ["apparel", "env", "toy"],
       concerns: ["senior-dog", "cold-winter", "dental-care", "weight-management"],
@@ -428,6 +453,9 @@ export const guides: Guide[] = [
       "日本の夏の犬の散歩は、アスファルト 60℃・湿度 70% 越えで人間より深刻な脱水・熱中症リスクが続きます。クールベスト・クールマット・水飲み・氷嚢系を組み合わせて、真夏でも 20-30 分の散歩を継続するためのグッズ選定を解説。",
     leadEn:
       "Japanese summers hit dogs harder than humans — 60°C asphalt and 70%+ humidity make dehydration and heat stroke real risks. We cover cooling vests, mats, water bottles, and ice gear to keep 20–30-minute walks safe through August.",
+    publishedAt: "2026-05-09",
+    authorJa: "わんプロブレム編集部",
+    authorEn: "WanProblem editorial team",
     productQuery: {
       categories: ["apparel", "env"],
       concerns: ["hot-summer", "asphalt-hot"],

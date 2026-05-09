@@ -58,18 +58,16 @@ export function articleSchema(
 ): JsonLd {
   const headline = locale === "ja" ? guide.titleJa : guide.titleEn;
   const desc = locale === "ja" ? guide.leadJa : guide.leadEn;
-  // ISO date for site.lastUpdated。日付精度は月単位なのでその月の 1 日を採用。
-  const dateStr = `${site.lastUpdated.year}-${String(site.lastUpdated.month).padStart(2, "0")}-01`;
   return {
     "@context": "https://schema.org",
     "@type": "Article",
     headline,
     description: desc,
-    datePublished: dateStr,
-    dateModified: dateStr,
+    datePublished: guide.publishedAt,
+    dateModified: guide.updatedAt ?? guide.publishedAt,
     author: {
       "@type": "Organization",
-      name: locale === "ja" ? "わんプロブレム編集部" : "WanProblem editorial team",
+      name: locale === "ja" ? guide.authorJa : guide.authorEn,
       url: siteUrl,
     },
     publisher: {

@@ -115,6 +115,21 @@ export default async function GuidePage({
           {title}
         </h1>
         <p className="text-base leading-relaxed text-muted-fg">{lead}</p>
+        <p className="text-xs text-muted-fg">
+          <span className="font-semibold text-foreground">
+            {locale === "ja" ? guide.authorJa : guide.authorEn}
+          </span>
+          <span className="mx-2">·</span>
+          {locale === "ja" ? "公開: " : "Published: "}
+          <time dateTime={guide.publishedAt}>{guide.publishedAt}</time>
+          {guide.updatedAt && guide.updatedAt !== guide.publishedAt && (
+            <>
+              <span className="mx-2">·</span>
+              {locale === "ja" ? "更新: " : "Updated: "}
+              <time dateTime={guide.updatedAt}>{guide.updatedAt}</time>
+            </>
+          )}
+        </p>
       </header>
 
       <hr className="my-10 border-border" />
