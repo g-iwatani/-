@@ -2091,24 +2091,29 @@ const ASIN_OVERRIDES_JP: Record<string, string> = {
 /**
  * Amazon 行で target が未設定 (url: "#") のものを ASIN または検索URLターゲットに置換する。
  * ASIN_OVERRIDES_JP に id があれば直リンク、なければ brand+nameJa で検索 URL を生成する。
+ *
+ * 同時に、target も無く url も "#" のままの buyOption (= 楽天/公式の未実装プレースホルダ)
+ * をドロップする。死リンクボタンを表示してユーザの信頼を損なうのを防ぐため。
  */
 function enrichAmazonSearchTargets(list: Product[]): Product[] {
   return list.map((p) => ({
     ...p,
-    buyOptions: p.buyOptions.map((b) => {
-      if (b.shop !== "Amazon" || b.target) return b;
-      const asin = ASIN_OVERRIDES_JP[p.id];
-      if (asin) {
-        return { ...b, target: { network: "amazon-jp" as const, asin } };
-      }
-      return {
-        ...b,
-        target: {
-          network: "amazon-search-jp" as const,
-          query: `${p.brand} ${p.nameJa}`,
-        },
-      };
-    }),
+    buyOptions: p.buyOptions
+      .map((b): BuyOption => {
+        if (b.shop !== "Amazon" || b.target) return b;
+        const asin = ASIN_OVERRIDES_JP[p.id];
+        if (asin) {
+          return { ...b, target: { network: "amazon-jp", asin } };
+        }
+        return {
+          ...b,
+          target: {
+            network: "amazon-search-jp",
+            query: `${p.brand} ${p.nameJa}`,
+          },
+        };
+      })
+      .filter((b) => b.target || (b.url && b.url !== "#")),
   }));
 }
 
