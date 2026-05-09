@@ -9,6 +9,10 @@ export async function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
+// 1368 商品の SSG HTML が大きすぎて Workers にバンドルされない問題への一時対応。
+// 動的レンダーにすることで cache file を介さず handler.mjs から直接配信する。
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/popular">): Promise<Metadata> {
