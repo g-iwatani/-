@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Dictionary, Locale } from "@/app/[locale]/dictionaries";
 import { LocaleSwitcher } from "./LocaleSwitcher";
+import { MobileMenu } from "./MobileMenu";
 import { PawMark } from "./PawMark";
 
 type Props = {
@@ -14,6 +15,8 @@ export function Header({ locale, dict }: Props) {
     { href: `${root}/search`, label: dict.nav.search },
     { href: `${root}/results`, label: dict.nav.browse },
     { href: `${root}/popular`, label: dict.nav.popular },
+    { href: `${root}/guides/harness-buying-guide`, label: dict.nav.guides },
+    { href: `${root}/legal/about`, label: dict.nav.about },
   ];
 
   return (
@@ -51,6 +54,12 @@ export function Header({ locale, dict }: Props) {
           >
             {dict.hero.cta_primary}
           </Link>
+          <MobileMenu
+            navItems={navItems}
+            ctaHref={`${root}/search`}
+            ctaLabel={dict.hero.cta_primary}
+            dict={dict}
+          />
         </div>
       </div>
     </header>

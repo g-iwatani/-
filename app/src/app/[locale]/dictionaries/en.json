@@ -10,6 +10,11 @@
     "guides": "Breed guides",
     "about": "About"
   },
+  "mobile_menu": {
+    "open": "Open menu",
+    "close": "Close menu",
+    "aria_label": "Navigation"
+  },
   "hero": {
     "eyebrow": "For mixes, smalls, and giants alike",
     "title": "Solve your dog's daily struggles\nwith the right product.",
