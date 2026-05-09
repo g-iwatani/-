@@ -1,4 +1,5 @@
 import type { AffiliateTarget } from "./affiliate";
+import manualImagesData from "./manual-images.json";
 import generatedImages from "./rakuten-images.generated.json";
 import { amazonBestsellers } from "./amazon-bestsellers.generated";
 
@@ -7,6 +8,25 @@ import { amazonBestsellers } from "./amazon-bestsellers.generated";
  * scripts/fetch-rakuten-images.mjs が生成する。未設定なら空オブジェクト。
  */
 const rakutenImages: Record<string, string> = generatedImages;
+
+/**
+ * 公式ブランドサイト + 楽天ショップの手動採取画像。
+ * scripts/fetch-rakuten-images.mjs (rakuten-images.generated.json を再生成する) で
+ * 上書きされないよう別ファイルで管理している。
+ *
+ * 注意: 楽天ショップ検索からのフォールバック画像は厳密にブランド純正品の保証が
+ * ない。以下 8 件は browser Claude の探索で「ブランド名検索の上位ショップ画像」
+ * として取得されたもので、純正品との一致を後で目視で確認すること:
+ *   - free-stitch-bigtee
+ *   - snufflemat-doggone (DoggoneGood)
+ *   - petrepublique-grinder
+ *   - aquapaw-licker
+ *   - pet-glove-brush (DELOMO)
+ *   - pooch-outfitters-long-body
+ *   - frenchbull-wide-vest
+ *   - bivvy-emergency-kit
+ */
+const manualImages: Record<string, string> = manualImagesData;
 
 export type ProductCategory = "apparel" | "toy" | "env";
 
@@ -2028,11 +2048,12 @@ const rawProducts: Product[] = [
   },
 ];
 
-// generated.json で取得済みの画像URLを各商品にマージ
+// generated.json + manual-images.json で取得済みの画像URLを各商品にマージ。
+// rakuten 自動取得の方を優先 (より「正規品」確度が高い)、無ければ manual を採用。
 for (const p of rawProducts) {
-  if (!p.imageUrl && rakutenImages[p.id]) {
-    p.imageUrl = rakutenImages[p.id];
-  }
+  if (p.imageUrl) continue;
+  if (rakutenImages[p.id]) p.imageUrl = rakutenImages[p.id];
+  else if (manualImages[p.id]) p.imageUrl = manualImages[p.id];
 }
 
 import { buildAffiliateUrl } from "./affiliate";
