@@ -158,7 +158,14 @@ export const guides: Guide[] = [
         kind: "top_picks",
         titleJa: "わんプロブレム編集部のおすすめ 5 選",
         titleEn: "Editor's top 5 picks",
-        productIds: [],
+        // 編集部 Pick: 引っ張り防止 + サイズ展開 + 信頼ブランドの 4 軸で選定。
+        // ASIN 確認済 + 画像表示可の商品のみ。
+        productIds: [
+          "ruffwear-front-range",
+          "petsafe-easy-walk",
+          "puppia-soft-harness",
+          "gentle-leader-headcollar",
+        ],
       },
       {
         kind: "faq",
@@ -288,9 +295,17 @@ export const guides: Guide[] = [
       },
       {
         kind: "top_picks",
-        titleJa: "子犬期の必需品 8 選",
-        titleEn: "Eight puppy essentials",
-        productIds: [],
+        titleJa: "子犬期の必需品 6 選",
+        titleEn: "Six puppy essentials",
+        // 編集部 Pick: 噛むおもちゃ x 2 + 安全対策 + 安心グッズ + 調整しやすいハーネス
+        productIds: [
+          "kong-classic",
+          "nylabone-dura-chew",
+          "snuggle-puppy",
+          "puppia-soft-harness",
+          "carlson-pet-gate",
+          "outward-hound-puzzle",
+        ],
       },
       {
         kind: "faq",
@@ -408,7 +423,15 @@ export const guides: Guide[] = [
         kind: "top_picks",
         titleJa: "シニア犬向け定番 6 選",
         titleEn: "Six senior-dog staples",
-        productIds: [],
+        // 編集部 Pick: 関節 (肉球ワックス) + 歯磨き + シャンプー + ブラシ + 認知症予防 (パズル系)
+        productIds: [
+          "petsafe-paw-balm",
+          "virbac-toothpaste",
+          "burts-bees-shampoo",
+          "furminator-deshed",
+          "kong-wobbler",
+          "outward-hound-puzzle",
+        ],
       },
       {
         kind: "faq",
