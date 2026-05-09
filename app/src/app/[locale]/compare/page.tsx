@@ -115,6 +115,14 @@ function CompareGrid({
   locale: "ja" | "en";
   dict: Awaited<ReturnType<typeof getDictionary>>;
 }) {
+  // 差分ハイライト用に各 spec の「どの列が最良か」を事前計算する。
+  // 同値タイの場合は最初の出現を採用 (ユーザー選択順を尊重)。
+  // 価格は安い方が良いので符号反転、concern 件数は多い方が良いのでそのまま。
+  const lowestPriceIdx = bestIndexBy(products, (p) =>
+    -Math.min(...p.buyOptions.map((b) => b.priceJpy)),
+  );
+  const mostConcernsIdx = bestIndexBy(products, (p) => p.concerns.length);
+
   return (
     <div className="-mx-5 overflow-x-auto px-5">
       <div
@@ -123,12 +131,14 @@ function CompareGrid({
           gridAutoColumns: "minmax(15rem, 1fr)",
         }}
       >
-        {products.map((p) => (
+        {products.map((p, i) => (
           <CompareColumn
             key={p.id}
             product={p}
             locale={locale}
             dict={dict}
+            isBestPrice={products.length > 1 && i === lowestPriceIdx}
+            isBestConcerns={products.length > 1 && i === mostConcernsIdx}
           />
         ))}
       </div>
@@ -136,14 +146,33 @@ function CompareGrid({
   );
 }
 
+/** 最大値を持つ index を返す。スコア計算は呼び出し側で正負を調整。 */
+function bestIndexBy<T>(arr: T[], score: (x: T) => number): number {
+  if (arr.length === 0) return -1;
+  let bestIdx = 0;
+  let bestScore = score(arr[0]);
+  for (let i = 1; i < arr.length; i++) {
+    const s = score(arr[i]);
+    if (s > bestScore) {
+      bestScore = s;
+      bestIdx = i;
+    }
+  }
+  return bestIdx;
+}
+
 function CompareColumn({
   product,
   locale,
   dict,
+  isBestPrice,
+  isBestConcerns,
 }: {
   product: Product;
   locale: "ja" | "en";
   dict: Awaited<ReturnType<typeof getDictionary>>;
+  isBestPrice?: boolean;
+  isBestConcerns?: boolean;
 }) {
   const name = locale === "ja" ? product.nameJa : product.nameEn;
   const desc = locale === "ja" ? product.descJa : product.descEn;
@@ -205,9 +234,16 @@ function CompareColumn({
       </SpecRow>
 
       <SpecRow label={dict.compare_page.spec_price}>
-        <p className="text-xl font-extrabold text-primary">
-          {formatPrice(lowest, locale)}
-        </p>
+        <div className="flex items-center gap-2">
+          <p className="text-xl font-extrabold text-primary">
+            {formatPrice(lowest, locale)}
+          </p>
+          {isBestPrice && (
+            <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-800">
+              {dict.compare_page.badge_best_price}
+            </span>
+          )}
+        </div>
       </SpecRow>
 
       <SpecRow label={dict.compare_page.spec_buy}>
@@ -229,6 +265,11 @@ function CompareColumn({
       </SpecRow>
 
       <SpecRow label={dict.compare_page.spec_concerns}>
+        {isBestConcerns && (
+          <span className="mb-1 inline-flex rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">
+            {dict.compare_page.badge_most_concerns}
+          </span>
+        )}
         {concernLabels.length === 0 ? (
           <span className="text-xs text-muted-fg">—</span>
         ) : (

@@ -128,7 +128,10 @@
   "compare_toggle": {
     "add": "比較に追加",
     "in_compare": "比較中",
-    "full": "比較は最大4件まで"
+    "full": "比較は最大4件まで",
+    "toast_added": "比較リストに追加しました",
+    "toast_removed": "比較リストから外しました",
+    "toast_full": "比較は最大4件までです"
   },
   "compare_bar": {
     "aria_label": "比較リスト",
@@ -150,7 +153,9 @@
     "spec_buy": "購入",
     "spec_concerns": "解決できる悩み",
     "spec_tags": "主な特徴",
-    "spec_summary": "概要"
+    "spec_summary": "概要",
+    "badge_best_price": "最安",
+    "badge_most_concerns": "最多マッチ"
   },
   "affiliate_disclosure": {
     "aria_label": "アフィリエイトリンク表示",

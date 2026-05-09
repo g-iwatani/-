@@ -128,7 +128,10 @@
   "compare_toggle": {
     "add": "Add to compare",
     "in_compare": "In compare list",
-    "full": "Compare list full (max 4)"
+    "full": "Compare list full (max 4)",
+    "toast_added": "Added to compare",
+    "toast_removed": "Removed from compare",
+    "toast_full": "Compare list is full (max 4)"
   },
   "compare_bar": {
     "aria_label": "Compare list",
@@ -150,7 +153,9 @@
     "spec_buy": "Buy",
     "spec_concerns": "Concerns solved",
     "spec_tags": "Highlights",
-    "spec_summary": "Summary"
+    "spec_summary": "Summary",
+    "badge_best_price": "Lowest",
+    "badge_most_concerns": "Most concerns"
   },
   "affiliate_disclosure": {
     "aria_label": "Affiliate disclosure",

@@ -9,6 +9,7 @@ import {
   readCompareIds,
   writeCompareIds,
 } from "@/lib/compare";
+import { showToast } from "@/lib/toast";
 
 type Props = {
   productId: string;
@@ -43,14 +44,24 @@ export function CompareToggle({ productId, dict }: Props) {
   function toggle(e: React.MouseEvent | React.KeyboardEvent) {
     e.preventDefault();
     e.stopPropagation();
-    if (full) return;
+    if (full) {
+      showToast({ message: dict.compare_toggle.toast_full, type: "warning" });
+      return;
+    }
     const current = readCompareIds();
-    const next = current.includes(productId)
-      ? current.filter((id) => id !== productId)
-      : [...current, productId];
+    const adding = !current.includes(productId);
+    const next = adding
+      ? [...current, productId]
+      : current.filter((id) => id !== productId);
     writeCompareIds(next);
     setIds(next);
     dispatchCompareChange();
+    showToast({
+      message: adding
+        ? dict.compare_toggle.toast_added
+        : dict.compare_toggle.toast_removed,
+      type: adding ? "success" : "info",
+    });
   }
 
   // SSR/hydration 安定化のため、初回はチェックボックスのスケルトンだけ。
