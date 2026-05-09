@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MiniProductCard } from "@/components/MiniProductCard";
-import { ProductImage } from "@/components/ProductImage";
+import { ProductGallery } from "@/components/ProductGallery";
 import { Rail, RailItem } from "@/components/Rail";
 import { AFFILIATE_REL } from "@/lib/affiliate";
 import { getBreed } from "@/lib/breeds";
@@ -178,12 +178,11 @@ export default async function ProductPage({
 
       <div className="grid gap-10 md:grid-cols-[1.1fr_1fr] md:items-start">
         <div className="space-y-4">
-          <ProductImage
+          <ProductGallery
+            images={product.imageUrl ? [product.imageUrl] : []}
             palette={product.imagePalette}
             emoji={product.imageEmoji}
-            imageUrl={product.imageUrl}
             alt={name}
-            size="lg"
           />
           <div className="flex flex-wrap gap-2 text-xs">
             {tags.map((t) => (
