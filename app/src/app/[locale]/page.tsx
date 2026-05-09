@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { BreedChip } from "@/components/BreedChip";
 import { ConcernChip } from "@/components/ConcernChip";
 import { MiniProductCard } from "@/components/MiniProductCard";
+import { PopularProductCard } from "@/components/PopularProductCard";
 import { Rail, RailItem } from "@/components/Rail";
 import { breeds, getPopularBreeds } from "@/lib/breeds";
 import {
@@ -10,6 +11,7 @@ import {
   getConcernsByCategory,
   getPopularConcerns,
 } from "@/lib/concerns";
+import { topPopular } from "@/lib/popular-products";
 import { listBrands, products } from "@/lib/products";
 import { getDictionary, hasLocale } from "./dictionaries";
 
@@ -36,6 +38,7 @@ export default async function HomePage({
   const popularBreeds = getPopularBreeds();
   const allBreeds = breeds.filter((b) => b.id !== "mix" && !b.id.startsWith("unknown-"));
   const popularConcerns = getPopularConcerns(8);
+  const trendingPopular = topPopular(12);
 
   const rails: Array<{
     title: string;
@@ -218,6 +221,30 @@ export default async function HomePage({
           </RailItem>
         ))}
       </Rail>
+
+      {/* Trending on Rakuten rail (only when data exists) */}
+      {trendingPopular.length > 0 && (
+        <Rail
+          title={
+            locale === "ja" ? "楽天で今売れている" : "Trending on Rakuten now"
+          }
+          subtitle={
+            locale === "ja"
+              ? "ランキング上位を価格・評価で絞り込み可能"
+              : "Filter top-ranked items by price and rating"
+          }
+          viewAllHref={`${root}/popular`}
+          viewAllLabel={
+            locale === "ja" ? "全ての人気商品を見る" : "View all popular"
+          }
+        >
+          {trendingPopular.map((p) => (
+            <RailItem key={`pop-${p.id}`}>
+              <PopularProductCard product={p} locale={locale} variant="rail" />
+            </RailItem>
+          ))}
+        </Rail>
+      )}
 
       {/* Product rails */}
       {visibleRails.map((rail, idx) => {

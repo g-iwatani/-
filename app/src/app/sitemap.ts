@@ -8,6 +8,7 @@ const STATIC_PATHS = [
   "",
   "/search",
   "/results",
+  "/popular",
   "/legal/affiliate",
   "/legal/privacy",
   "/legal/terms",

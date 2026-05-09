@@ -13,6 +13,7 @@ export function Header({ locale, dict }: Props) {
   const navItems = [
     { href: `${root}/search`, label: dict.nav.search },
     { href: `${root}/results`, label: dict.nav.browse },
+    { href: `${root}/popular`, label: dict.nav.popular },
   ];
 
   return (
