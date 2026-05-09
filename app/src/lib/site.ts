@@ -31,6 +31,18 @@ export const site = {
    * 商品 CSV 取込やキュレーション差し込みのたびに手動でバンプ。
    */
   lastUpdated: { year: 2026, month: 5 },
+  /**
+   * トップページ Hero 直下に表示する「今月の編集部 1 押し」 商品。
+   * 月次で編集部が手動で入れ替える想定。reason* は商品ページの descJa
+   * とは別に「なぜ選んだか」 を 1〜2 文で書く。
+   */
+  featured: {
+    productId: "ruffwear-front-range",
+    reasonJa:
+      "前胸 D 環で引っ張りグセを矯正でき、サイズ展開・色展開ともに豊富。日本でも夜散歩に効く反射材付き。迷ったらこれ。",
+    reasonEn:
+      "A front-clip D-ring stops pulling, sizing and colorways are deep, and reflective trim covers night walks. Default-pick harness for most setups.",
+  },
 };
 
 export function absoluteUrl(path: string): string {

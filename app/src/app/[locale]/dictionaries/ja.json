@@ -15,6 +15,10 @@
     "close": "メニューを閉じる",
     "aria_label": "ナビゲーション"
   },
+  "featured": {
+    "eyebrow": "今月の編集部1押し",
+    "lowest_price_label": "最安値"
+  },
   "hero": {
     "eyebrow": "MIX犬・小型犬・大型犬すべてに",
     "title": "ワンちゃんの「困った」を、\nぴったりの商品で解決。",

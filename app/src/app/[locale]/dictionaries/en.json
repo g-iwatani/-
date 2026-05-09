@@ -15,6 +15,10 @@
     "close": "Close menu",
     "aria_label": "Navigation"
   },
+  "featured": {
+    "eyebrow": "Editor's pick of the month",
+    "lowest_price_label": "From"
+  },
   "hero": {
     "eyebrow": "For mixes, smalls, and giants alike",
     "title": "Solve your dog's daily struggles\nwith the right product.",

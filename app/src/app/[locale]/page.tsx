@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BreedChip } from "@/components/BreedChip";
 import { ConcernChip } from "@/components/ConcernChip";
+import { FeaturedProduct } from "@/components/FeaturedProduct";
+import { GuideCard } from "@/components/GuideCard";
 import { MiniProductCard } from "@/components/MiniProductCard";
 import { PopularProductCard } from "@/components/PopularProductCard";
 import { Rail, RailItem } from "@/components/Rail";
@@ -11,8 +13,15 @@ import {
   getConcernsByCategory,
   getPopularConcerns,
 } from "@/lib/concerns";
+import { formatLastUpdated } from "@/lib/format";
+import { guides } from "@/lib/guides";
 import { topPopular } from "@/lib/popular-products";
-import { listBrands, visibleProducts as products } from "@/lib/products";
+import {
+  getProduct,
+  listBrands,
+  visibleProducts as products,
+} from "@/lib/products";
+import { site } from "@/lib/site";
 import {
   StructuredData,
   organizationSchema,
@@ -192,6 +201,29 @@ export default async function HomePage({
         </div>
       </section>
 
+      {/* Editor's monthly featured product (hero card) */}
+      <FeaturedHero locale={locale} dict={dict} />
+
+      {/* Buying guides rail */}
+      <Rail
+        title={locale === "ja" ? "選び方ガイド" : "Buying guides"}
+        subtitle={
+          locale === "ja"
+            ? "編集部が悩み別に書き下ろし"
+            : "Editor-written, concern-first"
+        }
+        viewAllHref={`${root}/guides/${guides[0]?.slug ?? ""}`}
+        viewAllLabel={
+          locale === "ja" ? "全ガイドを見る" : "All guides"
+        }
+      >
+        {guides.map((g) => (
+          <RailItem key={g.slug}>
+            <GuideCard guide={g} locale={locale} />
+          </RailItem>
+        ))}
+      </Rail>
+
       {/* Popular breeds rail */}
       <Rail
         title={locale === "ja" ? "人気の犬種から探す" : "Popular breeds"}
@@ -369,6 +401,37 @@ export default async function HomePage({
 
 // concerns referenced for typing only
 void concerns;
+
+/**
+ * 編集部の今月の 1 押しヒーローカード。site.featured で指定された商品 ID を
+ * 解決して FeaturedProduct に渡す。指定 ID が無効な場合は何も描画しない (silent
+ * no-op) — 商品が削除されてもページ全体が壊れないように。
+ */
+function FeaturedHero({
+  locale,
+  dict,
+}: {
+  locale: "ja" | "en";
+  dict: Awaited<ReturnType<typeof getDictionary>>;
+}) {
+  const product = getProduct(site.featured.productId);
+  if (!product) return null;
+  const reason =
+    locale === "ja" ? site.featured.reasonJa : site.featured.reasonEn;
+  return (
+    <FeaturedProduct
+      product={product}
+      reason={reason}
+      monthLabel={formatLastUpdated(
+        site.lastUpdated.year,
+        site.lastUpdated.month,
+        locale,
+      )}
+      locale={locale}
+      dict={dict}
+    />
+  );
+}
 
 function HeroIllustration() {
   return (
