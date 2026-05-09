@@ -10,6 +10,7 @@
  * サイト内で価格/評価/レビュー数/カテゴリでフィルタ&ソート可能。
  */
 
+import { buildAffiliateUrl } from "./affiliate";
 import generated from "./popular-products.generated.json";
 
 export type PopularProductCategory =
@@ -47,9 +48,20 @@ export type PopularProduct = {
   bestRank: number;
   /** 内部標準カテゴリ (フィルタ用) */
   internalCategory: PopularProductCategory;
+  /**
+   * 楽天アフィリエイト経由の遷移URL。
+   * RAKUTEN_AFFILIATE_ID は NEXT_PUBLIC_ プレフィックス無しのため
+   * クライアントでは buildAffiliateUrl() が ID を取得できず素のURLを返す。
+   * よってここでサーバ側 (= モジュール init 時、build/SSR でenv読める) で
+   * 確定させ、クライアントには props として serialize して渡す。
+   */
+  affiliateUrl: string;
 };
 
-type RawPopularProduct = Omit<PopularProduct, "id" | "bestRank" | "internalCategory">;
+type RawPopularProduct = Omit<
+  PopularProduct,
+  "id" | "bestRank" | "internalCategory" | "affiliateUrl"
+>;
 
 const CATEGORY_KEYWORD_MAP: Array<[RegExp, PopularProductCategory]> = [
   [/服|ウェア|ジャケット|コート|レインコート|タンク|シャツ|ベスト|ドレス|パーカー/, "apparel"],
@@ -95,6 +107,11 @@ export const popularProducts: PopularProduct[] = raw.map((p) => ({
   id: `${p.shopCode}/${p.itemCode}`,
   bestRank: bestRankOf(p.topRanks),
   internalCategory: classify(p),
+  affiliateUrl: buildAffiliateUrl({
+    network: "rakuten",
+    shopCode: p.shopCode,
+    itemCode: p.itemCode,
+  }),
 }));
 
 export type PopularSortKey =

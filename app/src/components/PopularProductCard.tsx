@@ -1,4 +1,4 @@
-import { AFFILIATE_REL, buildAffiliateUrl } from "@/lib/affiliate";
+import { AFFILIATE_REL } from "@/lib/affiliate";
 import { formatPrice } from "@/lib/format";
 import { type PopularProduct, discountRate } from "@/lib/popular-products";
 import type { Locale } from "@/app/[locale]/dictionaries";
@@ -11,11 +11,9 @@ type Props = {
 };
 
 export function PopularProductCard({ product, locale, variant = "grid" }: Props) {
-  const href = buildAffiliateUrl({
-    network: "rakuten",
-    shopCode: product.shopCode,
-    itemCode: product.itemCode,
-  });
+  // affiliateUrl は popular-products.ts でサーバ側生成済み。クライアントから
+  // buildAffiliateUrl を呼ぶと NEXT_PUBLIC_ 無しの env が空で素URLになる罠を回避。
+  const href = product.affiliateUrl;
   const price = formatPrice(product.priceJpy, locale);
   const original =
     product.originalPriceJpy && product.originalPriceJpy > product.priceJpy
