@@ -87,6 +87,26 @@ function bestRankOf(topRanks: Record<string, number>): number {
 }
 
 /**
+ * 楽天ショップ名を表示用に整形する。「ペットゴー楽天市場店」 のような店舗名
+ * は brand badge にするとスパム見えするので、ノイズ表現を剥がす。
+ *
+ *  - 「楽天市場店」「楽天市場」サフィックスを削る
+ *  - 「(株)」「（株）」「株式会社」 を剥がす
+ *  - 余白を trim
+ *
+ * 結果が空文字 or 1 文字未満なら "楽天市場" にフォールバック。
+ */
+export function displayShopName(raw: string): string {
+  const cleaned = raw
+    .replace(/楽天市場店\s*$/u, "")
+    .replace(/楽天市場\s*$/u, "")
+    .replace(/[（(]株[)）]/gu, "")
+    .replace(/株式会社/gu, "")
+    .trim();
+  return cleaned.length >= 1 ? cleaned : "楽天市場";
+}
+
+/**
  * Rakuten 画像 CDN は ?fitin=WxH でリサイズ可。
  * ランキングページから取得した URL は 128:128 のサムネサイズ固定なので、
  * 表示用に 400:400 へ差し替える (約3倍の解像度)。

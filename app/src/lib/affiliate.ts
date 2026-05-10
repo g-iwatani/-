@@ -118,5 +118,12 @@ export function buildAffiliateUrl(target: AffiliateTarget): string {
   }
 }
 
-/** rel 属性を一元管理。FTC / 景表法 / Google 推奨に従う。 */
-export const AFFILIATE_REL = "nofollow noopener sponsored";
+/** rel 属性を一元管理。FTC / 景表法 / Google 推奨に従う。
+ *
+ * - nofollow: リンクジュース漏らし防止 (Google 推奨)
+ * - noopener: target=_blank の window.opener 攻撃防止
+ * - sponsored: アフィリエイト関係性の機械可読表示 (Google 推奨)
+ * - noreferrer: 自分の URL を遷移先に渡さないプライバシー配慮
+ *   Amazon/楽天 はクエリ tag/scid で計上するので referrer 依存せず安全。
+ */
+export const AFFILIATE_REL = "nofollow noopener noreferrer sponsored";

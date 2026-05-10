@@ -100,11 +100,18 @@ function FeedCard({ item, locale }: { item: FeedItem; locale: Locale }) {
         >
           {sourceLabel}
         </span>
-        {item.isExternal && (
-          <span className="absolute left-1.5 top-1.5 rounded bg-foreground/80 px-1 py-0.5 text-[9px] font-bold text-background">
-            PR
-          </span>
-        )}
+        {/* 景表法ステマ規制 (内閣府告示第19号, 2023年10月施行) は「広告で
+            あることを一般消費者が容易に判別できる表示を、目立つ場所に行う」
+            ことを要求。直 external の楽天/Amazon はもちろん、内部 /products/[id]
+            経由の Amazon・編集 カードも最終的にアフィリ送客するため、すべての
+            カードに PR バッジを出す。フッタの AffiliateDisclosure だけだと
+            個別広告表示要件を満たさないと解釈されるリスクがあるため。 */}
+        <span
+          aria-label="ad"
+          className="absolute left-1.5 top-1.5 rounded bg-foreground/85 px-1 py-0.5 text-[9px] font-bold text-background"
+        >
+          PR
+        </span>
       </div>
       <div className="flex flex-1 flex-col gap-0.5 px-2 py-2">
         <p className="text-[10px] font-bold uppercase tracking-wide text-muted-fg line-clamp-1">

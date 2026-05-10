@@ -254,7 +254,10 @@ function CompareColumn({
             rel={AFFILIATE_REL}
             className="inline-flex w-full items-center justify-center rounded-full bg-foreground px-3 py-2 text-xs font-bold text-background hover:opacity-90"
           >
-            <span aria-label="ad" className="mr-1 text-[9px] opacity-70">
+            <span
+              aria-label="ad"
+              className="mr-1 rounded bg-background/20 px-1 py-px text-[9px] font-bold"
+            >
               PR
             </span>
             {format(dict.product_card.buy_at, { shop: cta.shop })}

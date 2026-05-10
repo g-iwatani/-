@@ -276,9 +276,11 @@ export default async function ProductPage({
                 >
                   <div>
                     <p className="text-sm font-bold text-foreground">
+                      {/* 景表法ステマ規制対応。「容易に判別できる」要件のため
+                          フォア塗り + 白文字で muted 系より conspicuous に。 */}
                       <span
                         aria-label="ad"
-                        className="mr-1.5 rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-fg"
+                        className="mr-1.5 rounded bg-foreground/85 px-1.5 py-0.5 text-[10px] font-bold text-background"
                       >
                         PR
                       </span>
@@ -585,7 +587,12 @@ function StickyMobileCta({
           rel={AFFILIATE_REL}
           className="inline-flex shrink-0 items-center justify-center rounded-full bg-foreground px-5 py-3 text-sm font-bold text-background transition-opacity hover:opacity-90"
         >
-          <span aria-label="ad" className="mr-1 text-[10px] opacity-80">
+          {/* 景表法ステマ規制対応。CTA 全体が dark なので白枠 pill で明示。
+              opacity-80 だと「広告と判別できる」要件を満たさないリスクがあった。 */}
+          <span
+            aria-label="ad"
+            className="mr-1.5 rounded bg-background/20 px-1.5 py-0.5 text-[10px] font-bold"
+          >
             PR
           </span>
           {format(dict.product_card.buy_at, { shop: cta.shop })}

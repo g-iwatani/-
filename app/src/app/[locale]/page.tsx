@@ -7,7 +7,7 @@ import { Rail, RailItem } from "@/components/Rail";
 import { RecentRail } from "@/components/RecentRail";
 import { type Concern, getConcern, getPopularConcerns } from "@/lib/concerns";
 import { guides } from "@/lib/guides";
-import { topPopular } from "@/lib/popular-products";
+import { displayShopName, topPopular } from "@/lib/popular-products";
 import { listBrands, visibleProducts as products } from "@/lib/products";
 import {
   StructuredData,
@@ -262,7 +262,7 @@ function buildFeedItems(
           href: p.affiliateUrl,
           isExternal: true,
           imageUrl: p.imageUrl,
-          brand: p.shopName,
+          brand: displayShopName(p.shopName),
           name: p.nameJa,
           priceJpy: p.priceJpy,
         },
