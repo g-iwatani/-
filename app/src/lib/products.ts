@@ -417,7 +417,7 @@ const rawProducts: Product[] = [
         neckMax: 42,
       },
     ],
-    concerns: ["cute-outing", "small-breed", "senior-dog"],
+    concerns: ["cute-outing", "small-breed"],
     fitsBreedSizes: ["tiny", "small", "medium"],
     buyOptions: [{ shop: "楽天", url: "#", priceJpy: 3980, region: "jp" }],
     popularity: 68,
@@ -531,7 +531,7 @@ const rawProducts: Product[] = [
         neckMax: 34,
       },
     ],
-    concerns: ["cute-outing", "hot-summer", "small-breed"],
+    concerns: ["cute-outing", "small-breed"],
     fitsBreedSizes: ["tiny", "small"],
     buyOptions: [
       {
@@ -623,7 +623,7 @@ const rawProducts: Product[] = [
     sizes: [
       { label: "XS", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["lonely-when-alone", "destroys-toys"],
+    concerns: ["destroys-toys", "destructive-when-alone", "lonely-when-alone"],
     fitsBreedSizes: ["tiny", "small", "medium", "large"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 1280, priceUsd: 9, region: "global" },
@@ -649,7 +649,7 @@ const rawProducts: Product[] = [
     sizes: [
       { label: "Standard", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["lonely-when-alone", "noise-scared"],
+    concerns: ["lonely-when-alone", "picky-eater", "fast-eater"],
     fitsBreedSizes: ["tiny", "small", "medium", "large"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 2980, priceUsd: 19, region: "global" },
@@ -700,7 +700,7 @@ const rawProducts: Product[] = [
     sizes: [
       { label: "M", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["destroys-toys", "lonely-when-alone"],
+    concerns: ["destroys-toys", "dental-care", "biting-habit"],
     fitsBreedSizes: ["small", "medium", "large"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 2280, priceUsd: 15, region: "global" },
@@ -725,7 +725,7 @@ const rawProducts: Product[] = [
     sizes: [
       { label: "M", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["lonely-when-alone"],
+    concerns: ["destructive-when-alone", "lonely-when-alone", "weight-management"],
     fitsBreedSizes: ["small", "medium", "large"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 1680, priceUsd: 11, region: "global" },
@@ -795,7 +795,7 @@ const rawProducts: Product[] = [
         neckMax: 200,
       },
     ],
-    concerns: ["pulls-leash", "active-sports", "dog-run"],
+    concerns: ["long-walker", "active-sports", "outdoor-camping"],
     fitsBreedSizes: ["tiny", "small", "medium", "large", "giant"],
     buyOptions: [
       { shop: "公式", url: "#", priceJpy: 6800, priceUsd: 45, region: "global" },
@@ -824,7 +824,7 @@ const rawProducts: Product[] = [
       { label: "M", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
       { label: "L", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["cold-paws", "rainy-walk", "hot-summer"],
+    concerns: ["cold-paws", "rainy-walk", "asphalt-hot"],
     fitsBreedSizes: ["tiny", "small", "medium", "large"],
     buyOptions: [
       { shop: "公式", url: "#", priceJpy: 7800, priceUsd: 52, region: "global" },
@@ -935,7 +935,7 @@ const rawProducts: Product[] = [
         neckMax: 60,
       },
     ],
-    concerns: ["noise-scared", "lonely-when-alone"],
+    concerns: ["noise-scared", "anxiety-general"],
     fitsBreedSizes: ["tiny", "small", "medium", "large"],
     buyOptions: [
       { shop: "公式", url: "#", priceJpy: 5800, priceUsd: 39, region: "global" },
@@ -963,7 +963,7 @@ const rawProducts: Product[] = [
       { label: "M", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
       { label: "L", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["hot-summer", "senior-dog"],
+    concerns: ["hot-summer"],
     fitsBreedSizes: ["tiny", "small", "medium", "large", "giant"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 4980, priceUsd: 33, region: "global" },
@@ -1021,7 +1021,7 @@ const rawProducts: Product[] = [
       { label: "Mini", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
       { label: "Standard", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["fast-eater", "picky-eater", "lonely-when-alone"],
+    concerns: ["fast-eater", "picky-eater"],
     fitsBreedSizes: ["tiny", "small", "medium", "large"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 1980, priceUsd: 13, region: "global" },
@@ -1058,7 +1058,7 @@ const rawProducts: Product[] = [
       { label: "M", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
       { label: "L", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["picky-eater", "senior-dog"],
+    concerns: ["senior-dog"],
     fitsBreedSizes: ["small", "medium", "large", "giant"],
     buyOptions: [
       {
@@ -1092,7 +1092,7 @@ const rawProducts: Product[] = [
       { label: "M", chestMin: 46, chestMax: 58, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
       { label: "L", chestMin: 58, chestMax: 70, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["puppy", "small-breed", "slips-off"],
+    concerns: ["puppy", "small-breed"],
     fitsBreedSizes: ["tiny", "small", "medium"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 2380, priceUsd: 16, region: "global" },
@@ -1205,7 +1205,7 @@ const rawProducts: Product[] = [
     sizes: [
       { label: "One Size", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["long-coat-grooming", "heavy-shedding", "brushing-hates"],
+    concerns: ["long-coat-grooming", "heavy-shedding"],
     fitsBreedSizes: ["tiny", "small", "medium", "large"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 1980, priceUsd: 13, region: "global" },
@@ -1281,7 +1281,7 @@ const rawProducts: Product[] = [
     sizes: [
       { label: "One Size", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["nail-care-hates", "long-coat-grooming"],
+    concerns: [],
     fitsBreedSizes: ["tiny", "small", "medium", "large"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 14800, priceUsd: 99, region: "global" },
@@ -1306,7 +1306,7 @@ const rawProducts: Product[] = [
     sizes: [
       { label: "One Size", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["nail-care-hates", "senior-dog"],
+    concerns: ["nail-care-hates"],
     fitsBreedSizes: ["tiny", "small", "medium", "large"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 3280, priceUsd: 22, region: "global" },
@@ -1331,7 +1331,7 @@ const rawProducts: Product[] = [
     sizes: [
       { label: "One Size", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["bath-hates", "brushing-hates", "fast-eater", "lonely-when-alone"],
+    concerns: ["bath-hates", "brushing-hates", "fast-eater"],
     fitsBreedSizes: ["tiny", "small", "medium", "large"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 1680, priceUsd: 11, region: "global" },
@@ -1433,7 +1433,7 @@ const rawProducts: Product[] = [
       { label: "Wolf", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
       { label: "Souper", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["dental-care", "destroys-toys", "biting-habit"],
+    concerns: ["destroys-toys", "biting-habit", "dental-care"],
     fitsBreedSizes: ["small", "medium", "large", "giant"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 1480, priceUsd: 10, region: "global" },
@@ -1498,7 +1498,7 @@ const rawProducts: Product[] = [
     sizes: [
       { label: "One Size", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["pulls-leash", "wont-come", "barking", "scavenging", "jumps-on-people"],
+    concerns: ["wont-come"],
     fitsBreedSizes: ["tiny", "small", "medium", "large", "giant"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 1880, priceUsd: 13, region: "global" },
@@ -1526,7 +1526,7 @@ const rawProducts: Product[] = [
       { label: "Medium", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
       { label: "Large", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["pulls-leash", "reactive-bicycle", "barking-other-dogs"],
+    concerns: ["pulls-leash", "reactive-bicycle"],
     fitsBreedSizes: ["small", "medium", "large", "giant"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 3480, priceUsd: 23, region: "global" },
@@ -1552,7 +1552,7 @@ const rawProducts: Product[] = [
       { label: "9m", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
       { label: "15m", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["wont-come", "active-sports", "outdoor-camping"],
+    concerns: ["wont-come", "outdoor-camping"],
     fitsBreedSizes: ["small", "medium", "large", "giant"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 2880, priceUsd: 19, region: "global" },
@@ -1577,7 +1577,7 @@ const rawProducts: Product[] = [
     sizes: [
       { label: "60ml", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["anxiety-general", "noise-scared", "moving-home", "boarding", "carsick"],
+    concerns: ["anxiety-general", "noise-scared", "moving-home"],
     fitsBreedSizes: ["tiny", "small", "medium", "large", "giant"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 2680, priceUsd: 18, region: "global" },
@@ -1604,7 +1604,7 @@ const rawProducts: Product[] = [
       { label: "Size 3", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
       { label: "Size 5", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["scavenging", "biting-habit", "barking-guests"],
+    concerns: ["scavenging", "biting-habit", "reactive-bicycle"],
     fitsBreedSizes: ["small", "medium", "large", "giant"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 3680, priceUsd: 25, region: "global" },
@@ -1631,7 +1631,7 @@ const rawProducts: Product[] = [
       { label: "Lvl 2", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
       { label: "Lvl 3", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["destructive-when-alone", "lonely-when-alone", "fast-eater"],
+    concerns: ["lonely-when-alone", "weight-management", "picky-eater"],
     fitsBreedSizes: ["tiny", "small", "medium", "large"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 3280, priceUsd: 22, region: "global" },
@@ -1657,7 +1657,7 @@ const rawProducts: Product[] = [
       { label: "Small", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
       { label: "Large", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["lonely-when-alone", "fast-eater", "weight-management"],
+    concerns: ["fast-eater", "weight-management", "begging-for-food"],
     fitsBreedSizes: ["small", "medium", "large", "giant"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 2280, priceUsd: 15, region: "global" },
@@ -1683,7 +1683,7 @@ const rawProducts: Product[] = [
       { label: "Mini", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
       { label: "Original", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["destructive-when-alone", "weight-management", "active-sports"],
+    concerns: ["active-sports", "dog-run", "weight-management"],
     fitsBreedSizes: ["small", "medium", "large"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 11800, priceUsd: 79, region: "global" },
@@ -1708,7 +1708,7 @@ const rawProducts: Product[] = [
     sizes: [
       { label: "One Size", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["puppy", "moving-home", "anxiety-general", "lonely-when-alone", "noise-scared"],
+    concerns: ["puppy", "lonely-when-alone", "anxiety-general"],
     fitsBreedSizes: ["tiny", "small", "medium"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 4580, priceUsd: 31, region: "global" },
@@ -1735,7 +1735,7 @@ const rawProducts: Product[] = [
     sizes: [
       { label: "Standard", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["potty-training", "with-kids", "begging-for-food", "multi-dog"],
+    concerns: ["potty-training", "with-kids", "multi-dog"],
     fitsBreedSizes: ["tiny", "small", "medium", "large"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 8980, priceUsd: 60, region: "global" },
@@ -1806,7 +1806,7 @@ const rawProducts: Product[] = [
       { label: "M", chestMin: 56, chestMax: 71, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
       { label: "L", chestMin: 71, chestMax: 91, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["travel-car", "carsick", "active-sports"],
+    concerns: ["travel-car", "carsick"],
     fitsBreedSizes: ["small", "medium", "large", "giant"],
     buyOptions: [
       { shop: "公式", url: "#", priceJpy: 12800, priceUsd: 85, region: "global" },
@@ -1832,7 +1832,7 @@ const rawProducts: Product[] = [
       { label: "Small", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
       { label: "Medium", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["public-transport", "cafe-friendly", "travel-car", "boarding"],
+    concerns: ["public-transport", "cafe-friendly", "travel-car"],
     fitsBreedSizes: ["tiny", "small"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 9800, priceUsd: 65, region: "global" },
@@ -1857,7 +1857,7 @@ const rawProducts: Product[] = [
     sizes: [
       { label: "8-panel", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["multi-dog", "outdoor-camping", "disaster-prep", "potty-training"],
+    concerns: ["outdoor-camping", "disaster-prep", "potty-training"],
     fitsBreedSizes: ["small", "medium", "large"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 7800, priceUsd: 52, region: "global" },
@@ -2050,7 +2050,7 @@ const rawProducts: Product[] = [
       { label: "60g", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
       { label: "200g", chestMin: 0, chestMax: 200, backMin: 0, backMax: 200, neckMin: 0, neckMax: 200 },
     ],
-    concerns: ["asphalt-hot", "cold-paws", "long-walker"],
+    concerns: ["cold-paws", "asphalt-hot"],
     fitsBreedSizes: ["tiny", "small", "medium", "large", "giant"],
     buyOptions: [
       { shop: "Amazon", url: "#", priceJpy: 2480, priceUsd: 17, region: "global" },

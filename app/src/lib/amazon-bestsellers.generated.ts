@@ -15,7 +15,6 @@ export const amazonBestsellers: Product[] = [
     "category": "apparel",
     "sizes": [],
     "concerns": [
-      "hot-summer",
       "pulls-leash"
     ],
     "fitsBreedSizes": [
@@ -57,7 +56,6 @@ export const amazonBestsellers: Product[] = [
     "category": "apparel",
     "sizes": [],
     "concerns": [
-      "hot-summer",
       "pulls-leash"
     ],
     "fitsBreedSizes": [
@@ -200,8 +198,6 @@ export const amazonBestsellers: Product[] = [
     "category": "apparel",
     "sizes": [],
     "concerns": [
-      "hot-summer",
-      "senior-dog",
       "pulls-leash"
     ],
     "fitsBreedSizes": [
@@ -315,9 +311,7 @@ export const amazonBestsellers: Product[] = [
     "descEn": "",
     "category": "apparel",
     "sizes": [],
-    "concerns": [
-      "hot-summer"
-    ],
+    "concerns": [],
     "fitsBreedSizes": [
       "small",
       "tiny",
@@ -356,9 +350,7 @@ export const amazonBestsellers: Product[] = [
     "descEn": "",
     "category": "apparel",
     "sizes": [],
-    "concerns": [
-      "hot-summer"
-    ],
+    "concerns": [],
     "fitsBreedSizes": [
       "small",
       "tiny",
@@ -431,7 +423,6 @@ export const amazonBestsellers: Product[] = [
     "category": "apparel",
     "sizes": [],
     "concerns": [
-      "hot-summer",
       "pulls-leash"
     ],
     "fitsBreedSizes": [
@@ -508,9 +499,7 @@ export const amazonBestsellers: Product[] = [
     "descEn": "",
     "category": "apparel",
     "sizes": [],
-    "concerns": [
-      "hot-summer"
-    ],
+    "concerns": [],
     "fitsBreedSizes": [
       "large",
       "giant"
@@ -905,9 +894,7 @@ export const amazonBestsellers: Product[] = [
     "descEn": "",
     "category": "apparel",
     "sizes": [],
-    "concerns": [
-      "potty-training"
-    ],
+    "concerns": [],
     "fitsBreedSizes": [
       "small",
       "tiny",
@@ -946,9 +933,7 @@ export const amazonBestsellers: Product[] = [
     "descEn": "",
     "category": "apparel",
     "sizes": [],
-    "concerns": [
-      "hot-summer"
-    ],
+    "concerns": [],
     "fitsBreedSizes": [],
     "buyOptions": [
       {
@@ -982,7 +967,7 @@ export const amazonBestsellers: Product[] = [
     "category": "apparel",
     "sizes": [],
     "concerns": [
-      "hot-summer"
+      "potty-training"
     ],
     "fitsBreedSizes": [
       "medium"
@@ -1054,7 +1039,6 @@ export const amazonBestsellers: Product[] = [
     "category": "apparel",
     "sizes": [],
     "concerns": [
-      "hot-summer",
       "heavy-shedding"
     ],
     "fitsBreedSizes": [
@@ -1091,10 +1075,7 @@ export const amazonBestsellers: Product[] = [
     "descEn": "",
     "category": "apparel",
     "sizes": [],
-    "concerns": [
-      "hot-summer",
-      "heavy-shedding"
-    ],
+    "concerns": [],
     "fitsBreedSizes": [
       "small",
       "tiny",
@@ -1167,7 +1148,6 @@ export const amazonBestsellers: Product[] = [
     "category": "apparel",
     "sizes": [],
     "concerns": [
-      "potty-training",
       "rainy-walk"
     ],
     "fitsBreedSizes": [
@@ -1241,10 +1221,7 @@ export const amazonBestsellers: Product[] = [
     "descEn": "",
     "category": "apparel",
     "sizes": [],
-    "concerns": [
-      "hot-summer",
-      "heavy-shedding"
-    ],
+    "concerns": [],
     "fitsBreedSizes": [],
     "buyOptions": [
       {
@@ -1277,9 +1254,7 @@ export const amazonBestsellers: Product[] = [
     "descEn": "",
     "category": "apparel",
     "sizes": [],
-    "concerns": [
-      "hot-summer"
-    ],
+    "concerns": [],
     "fitsBreedSizes": [
       "small",
       "tiny",
@@ -1319,9 +1294,6 @@ export const amazonBestsellers: Product[] = [
     "category": "apparel",
     "sizes": [],
     "concerns": [
-      "hot-summer",
-      "senior-dog",
-      "potty-training",
       "rainy-walk"
     ],
     "fitsBreedSizes": [
@@ -1531,7 +1503,6 @@ export const amazonBestsellers: Product[] = [
     "category": "toy",
     "sizes": [],
     "concerns": [
-      "pulls-leash",
       "destroys-toys"
     ],
     "fitsBreedSizes": [],
@@ -1879,8 +1850,7 @@ export const amazonBestsellers: Product[] = [
     "category": "toy",
     "sizes": [],
     "concerns": [
-      "puppy",
-      "destroys-toys"
+      "puppy"
     ],
     "fitsBreedSizes": [
       "small",
@@ -1918,7 +1888,6 @@ export const amazonBestsellers: Product[] = [
     "category": "toy",
     "sizes": [],
     "concerns": [
-      "pulls-leash",
       "destroys-toys"
     ],
     "fitsBreedSizes": [
@@ -1959,9 +1928,7 @@ export const amazonBestsellers: Product[] = [
     "descEn": "",
     "category": "toy",
     "sizes": [],
-    "concerns": [
-      "cold-winter"
-    ],
+    "concerns": [],
     "fitsBreedSizes": [
       "small",
       "tiny"
@@ -2067,7 +2034,6 @@ export const amazonBestsellers: Product[] = [
     "category": "toy",
     "sizes": [],
     "concerns": [
-      "pulls-leash",
       "destroys-toys"
     ],
     "fitsBreedSizes": [],
@@ -2136,7 +2102,6 @@ export const amazonBestsellers: Product[] = [
     "category": "toy",
     "sizes": [],
     "concerns": [
-      "pulls-leash",
       "destroys-toys"
     ],
     "fitsBreedSizes": [],
@@ -2313,9 +2278,7 @@ export const amazonBestsellers: Product[] = [
     "descEn": "",
     "category": "toy",
     "sizes": [],
-    "concerns": [
-      "pulls-leash"
-    ],
+    "concerns": [],
     "fitsBreedSizes": [],
     "buyOptions": [
       {
@@ -2348,7 +2311,9 @@ export const amazonBestsellers: Product[] = [
     "descEn": "",
     "category": "env",
     "sizes": [],
-    "concerns": [],
+    "concerns": [
+      "senior-dog"
+    ],
     "fitsBreedSizes": [
       "small",
       "tiny"
@@ -2385,9 +2350,7 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "hot-summer",
-      "senior-dog",
-      "dental-care"
+      "hot-summer"
     ],
     "fitsBreedSizes": [],
     "buyOptions": [
@@ -2422,9 +2385,7 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "hot-summer",
-      "dental-care",
-      "senior-dog"
+      "hot-summer"
     ],
     "fitsBreedSizes": [
       "small",
@@ -2463,8 +2424,6 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "potty-training",
-      "rainy-walk",
       "senior-dog"
     ],
     "fitsBreedSizes": [
@@ -2505,9 +2464,7 @@ export const amazonBestsellers: Product[] = [
     "sizes": [],
     "concerns": [
       "cold-winter",
-      "hot-summer",
-      "dental-care",
-      "senior-dog"
+      "hot-summer"
     ],
     "fitsBreedSizes": [
       "small",
@@ -2545,10 +2502,7 @@ export const amazonBestsellers: Product[] = [
     "descEn": "",
     "category": "env",
     "sizes": [],
-    "concerns": [
-      "hot-summer",
-      "senior-dog"
-    ],
+    "concerns": [],
     "fitsBreedSizes": [],
     "buyOptions": [
       {
@@ -2582,9 +2536,7 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "hot-summer",
-      "dental-care",
-      "senior-dog"
+      "hot-summer"
     ],
     "fitsBreedSizes": [
       "small",
@@ -2622,9 +2574,7 @@ export const amazonBestsellers: Product[] = [
     "descEn": "",
     "category": "env",
     "sizes": [],
-    "concerns": [
-      "senior-dog"
-    ],
+    "concerns": [],
     "fitsBreedSizes": [
       "small",
       "tiny"
@@ -2661,9 +2611,7 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "hot-summer",
-      "potty-training",
-      "rainy-walk"
+      "hot-summer"
     ],
     "fitsBreedSizes": [
       "medium"
@@ -2700,9 +2648,7 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "hot-summer",
-      "dental-care",
-      "senior-dog"
+      "hot-summer"
     ],
     "fitsBreedSizes": [],
     "buyOptions": [
@@ -2737,8 +2683,6 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "potty-training",
-      "rainy-walk",
       "senior-dog"
     ],
     "fitsBreedSizes": [
@@ -2778,8 +2722,7 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "potty-training",
-      "rainy-walk"
+      "senior-dog"
     ],
     "fitsBreedSizes": [],
     "buyOptions": [
@@ -2814,8 +2757,7 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "cold-winter",
-      "senior-dog"
+      "cold-winter"
     ],
     "fitsBreedSizes": [],
     "buyOptions": [
@@ -3349,7 +3291,6 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "dental-care",
       "potty-training"
     ],
     "fitsBreedSizes": [
@@ -3424,7 +3365,7 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "dental-care"
+      "potty-training"
     ],
     "fitsBreedSizes": [],
     "buyOptions": [
@@ -3459,7 +3400,7 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "dental-care"
+      "potty-training"
     ],
     "fitsBreedSizes": [],
     "buyOptions": [
@@ -3494,7 +3435,6 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "dental-care",
       "potty-training"
     ],
     "fitsBreedSizes": [],
@@ -3530,7 +3470,6 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "dental-care",
       "potty-training"
     ],
     "fitsBreedSizes": [],
@@ -3566,7 +3505,7 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "dental-care"
+      "potty-training"
     ],
     "fitsBreedSizes": [],
     "buyOptions": [
@@ -3601,7 +3540,7 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "dental-care"
+      "potty-training"
     ],
     "fitsBreedSizes": [],
     "buyOptions": [
@@ -3636,7 +3575,7 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "dental-care"
+      "potty-training"
     ],
     "fitsBreedSizes": [],
     "buyOptions": [
@@ -3671,7 +3610,7 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "dental-care"
+      "potty-training"
     ],
     "fitsBreedSizes": [
       "small",
@@ -3709,7 +3648,7 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "dental-care"
+      "potty-training"
     ],
     "fitsBreedSizes": [],
     "buyOptions": [
@@ -3745,7 +3684,7 @@ export const amazonBestsellers: Product[] = [
     "sizes": [],
     "concerns": [
       "puppy",
-      "pulls-leash"
+      "potty-training"
     ],
     "fitsBreedSizes": [],
     "buyOptions": [
@@ -3780,7 +3719,6 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "dental-care",
       "potty-training"
     ],
     "fitsBreedSizes": [],
@@ -3816,7 +3754,7 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "dental-care"
+      "potty-training"
     ],
     "fitsBreedSizes": [],
     "buyOptions": [
@@ -3851,7 +3789,7 @@ export const amazonBestsellers: Product[] = [
     "category": "env",
     "sizes": [],
     "concerns": [
-      "dental-care"
+      "potty-training"
     ],
     "fitsBreedSizes": [
       "small",
@@ -4025,7 +3963,9 @@ export const amazonBestsellers: Product[] = [
     "descEn": "",
     "category": "env",
     "sizes": [],
-    "concerns": [],
+    "concerns": [
+      "heavy-shedding"
+    ],
     "fitsBreedSizes": [],
     "buyOptions": [
       {
@@ -4058,7 +3998,9 @@ export const amazonBestsellers: Product[] = [
     "descEn": "",
     "category": "env",
     "sizes": [],
-    "concerns": [],
+    "concerns": [
+      "heavy-shedding"
+    ],
     "fitsBreedSizes": [],
     "buyOptions": [
       {
@@ -4194,7 +4136,9 @@ export const amazonBestsellers: Product[] = [
     "descEn": "",
     "category": "env",
     "sizes": [],
-    "concerns": [],
+    "concerns": [
+      "heavy-shedding"
+    ],
     "fitsBreedSizes": [],
     "buyOptions": [
       {
