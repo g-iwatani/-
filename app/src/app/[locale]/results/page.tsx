@@ -64,6 +64,12 @@ export async function generateMetadata({
       type: "website",
       url: absoluteUrl(path),
       title: dynamicTitle,
+      images: ["/opengraph-image"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: dynamicTitle,
+      images: ["/opengraph-image"],
     },
     // 検索結果ページは多数の URL バリエーションを生む。代表 URL のみ index、それ以外
     // (連結ソート・絞り込み等) は検索エンジンが自動的に去ってくれるよう robots は緩く。

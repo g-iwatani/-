@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     default: `${site.nameJa} / ${site.nameEn}`,
     template: `%s | ${site.nameJa}`,
   },
-  description: site.taglineJa,
+  description: `${site.taglineJa} / ${site.taglineEn}`,
 };
 
 export default async function RootLayout({

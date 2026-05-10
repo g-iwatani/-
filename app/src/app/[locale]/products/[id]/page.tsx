@@ -61,13 +61,13 @@ export async function generateMetadata({
       url: absoluteUrl(path),
       title: name,
       description: desc.slice(0, 200),
-      images: product.imageUrl ? [{ url: product.imageUrl }] : undefined,
+      images: product.imageUrl ? [{ url: product.imageUrl }] : ["/opengraph-image"],
     },
     twitter: {
-      card: product.imageUrl ? "summary_large_image" : "summary",
+      card: "summary_large_image",
       title: name,
       description: desc.slice(0, 200),
-      images: product.imageUrl ? [product.imageUrl] : undefined,
+      images: product.imageUrl ? [product.imageUrl] : ["/opengraph-image"],
     },
   };
 }

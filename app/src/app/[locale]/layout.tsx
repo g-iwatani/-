@@ -45,12 +45,14 @@ export async function generateMetadata({
       title: dict.brand.name,
       description: dict.brand.tagline,
       locale: safe === "ja" ? "ja_JP" : "en_US",
+      images: ["/opengraph-image"],
     },
     twitter: {
       card: "summary_large_image",
       site: site.twitter,
       title: dict.brand.name,
       description: dict.brand.tagline,
+      images: ["/opengraph-image"],
     },
     robots: {
       index: true,

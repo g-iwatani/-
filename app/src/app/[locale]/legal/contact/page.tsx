@@ -29,10 +29,6 @@ function ContactJa() {
       <div className="callout">
         <strong>連絡先メールアドレス:</strong>{" "}
         <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-        <br />
-        <span style={{ fontSize: "0.8em", opacity: 0.85 }}>
-          ※ 正式運用前のため、上記アドレスは仮のプレースホルダです。実運用時に差し替えます。
-        </span>
       </div>
 
       <h2>受付内容</h2>
@@ -74,11 +70,6 @@ function ContactEn() {
       <div className="callout">
         <strong>Email:</strong>{" "}
         <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-        <br />
-        <span style={{ fontSize: "0.8em", opacity: 0.85 }}>
-          (Placeholder address during pre-launch. Will be replaced for live
-          operation.)
-        </span>
       </div>
 
       <h2>What we can help with</h2>

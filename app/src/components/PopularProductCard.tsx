@@ -66,7 +66,7 @@ export function PopularProductCard({
                     ? "bg-orange-400 text-orange-950"
                     : "bg-foreground text-background"
             }`}
-            aria-label={`${rank}位`}
+            aria-label={locale === "ja" ? `${rank}位` : `Rank ${rank}`}
           >
             {rank}
           </span>
@@ -98,7 +98,9 @@ export function PopularProductCard({
           <StarRating value={product.ratingAvg} />
           {product.ratingCount > 0 && (
             <span className="text-[11px] text-muted-fg">
-              {product.ratingCount.toLocaleString()}件
+              {locale === "ja"
+                ? `${product.ratingCount.toLocaleString()}件`
+                : product.ratingCount.toLocaleString()}
             </span>
           )}
         </div>

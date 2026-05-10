@@ -63,6 +63,13 @@ export async function generateMetadata({
       title: locale === "ja" ? titleJa : titleEn,
       description: desc,
       url: `/${locale}/concerns/${id}`,
+      images: ["/opengraph-image"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: locale === "ja" ? titleJa : titleEn,
+      description: desc,
+      images: ["/opengraph-image"],
     },
   };
 }

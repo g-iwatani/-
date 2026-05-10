@@ -39,11 +39,13 @@ export async function generateMetadata({
       url: absoluteUrl(path),
       title,
       description: lead.slice(0, 200),
+      images: ["/opengraph-image"],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description: lead.slice(0, 200),
+      images: ["/opengraph-image"],
     },
   };
 }
