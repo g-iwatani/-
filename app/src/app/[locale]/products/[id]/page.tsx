@@ -508,15 +508,50 @@ function StickyMobileCta({
 }) {
   if (!product) return null;
   if (product.buyOptions.length === 0) return null;
-  const amazonIdx = product.buyOptions.findIndex((b) =>
-    b.target?.network.startsWith("amazon-"),
+
+  // Sticky CTA は「確定価格 + 確定ASIN」 を持つ Amazon を最優先、その次に
+  // 確定 buyOption (rakuten / direct 等)、最後の手段として検索 fallback。
+  // 旧実装は amazon-search-jp も拾う先頭一致で、価格表示が search fallback
+  // (= 楽天 fallback の参考価格混入) を含んだ Math.min になっており、
+  // 実体のない安値を CTA に出していた (リリース監査で blocker 判定)。
+  const isFallback = (
+    n?: import("@/lib/affiliate").AffiliateTarget["network"],
+  ) =>
+    n === "amazon-search-jp" ||
+    n === "amazon-search-us" ||
+    n === "rakuten-search-jp";
+  const concreteAmazonIdx = product.buyOptions.findIndex(
+    (b) =>
+      (b.target?.network === "amazon-jp" || b.target?.network === "amazon-us"),
   );
-  const ctaIdx = amazonIdx >= 0 ? amazonIdx : 0;
+  const concreteOtherIdx = product.buyOptions.findIndex(
+    (b) =>
+      b.target &&
+      !isFallback(b.target.network) &&
+      b.target.network !== "amazon-jp" &&
+      b.target.network !== "amazon-us",
+  );
+  const fallbackIdx = product.buyOptions.findIndex((b) => b.target);
+  const ctaIdx =
+    concreteAmazonIdx >= 0
+      ? concreteAmazonIdx
+      : concreteOtherIdx >= 0
+        ? concreteOtherIdx
+        : fallbackIdx >= 0
+          ? fallbackIdx
+          : 0;
   const cta = product.buyOptions[ctaIdx];
   const ctaUrl = resolveBuyUrl(cta);
   if (ctaUrl === "#") return null;
   const name = locale === "ja" ? product.nameJa : product.nameEn;
-  const lowest = Math.min(...product.buyOptions.map((b) => b.priceJpy));
+
+  // 「最安値」 計算は search fallback を除外。fallback 同士しかない場合は
+  // 全部参考値なので価格非表示、CTA だけ出す。
+  const concretePrices = product.buyOptions
+    .filter((b) => !isFallback(b.target?.network))
+    .map((b) => b.priceJpy);
+  const lowest =
+    concretePrices.length > 0 ? Math.min(...concretePrices) : null;
   return (
     <div
       // bottom-16: MobileBottomNav の上に重ねる。lg:hidden は元から (デスクトップでは
@@ -532,9 +567,17 @@ function StickyMobileCta({
           <p className="line-clamp-1 text-sm font-bold text-foreground">
             {name}
           </p>
-          <p className="text-base font-extrabold text-primary">
-            {formatPrice(lowest, locale)}
-          </p>
+          {lowest != null ? (
+            <p className="text-base font-extrabold text-primary">
+              {formatPrice(lowest, locale)}
+            </p>
+          ) : (
+            // 確定価格を持つ shop が無い (= 検索 fallback だけ) の商品は
+            // 価格非表示。誤った安値を CTA に並べないため。
+            <p className="text-[11px] text-muted-fg">
+              {locale === "ja" ? "価格は遷移先で確認" : "See price"}
+            </p>
+          )}
         </div>
         <a
           href={ctaUrl}
