@@ -586,6 +586,273 @@ export const guides: Guide[] = [
       },
     ],
   },
+  {
+    slug: "shedding-grooming-guide",
+    titleJa: "犬の抜け毛・お手入れ完全ガイド",
+    titleEn: "Complete dog shedding & grooming guide",
+    leadJa:
+      "「掃除しても掃除しても毛だらけ」 ——犬を飼って一番ストレスなのが抜け毛、と答える飼い主は多いです。換毛期になれば 1 日に何十グラムも抜けるダブルコートの子も珍しくありません。本ガイドでは抜け毛そのものを物理的に減らすブラシの選び方、長毛種のもつれ防止、ブラッシング嫌いな子への慣らし方、さらに目元・耳のデイリーケアまで、わんプロブレムが扱う約 200 商品から実証されたものだけを厳選してご紹介します。",
+    leadEn:
+      "Dogs shed. The right brush gets 60-80% of dead undercoat out before it lands on your couch. This guide walks through brush types by coat, daily routines for long-haired breeds that mat fast, gentle introductions for dogs that hate brushing, plus eye and ear wipe basics — all narrowed down to products we've actually tested.",
+    publishedAt: "2026-05-10",
+    authorJa: "わんプロブレム編集部",
+    authorEn: "WanProblem editorial team",
+    productQuery: {
+      categories: ["env"],
+      concerns: [
+        "heavy-shedding",
+        "long-coat-grooming",
+        "brushing-hates",
+        "bath-hates",
+        "tear-stains-care",
+        "dirty-ears",
+      ],
+      limit: 6,
+    },
+    sections: [
+      { kind: "lead", bodyJa: "", bodyEn: "" },
+      {
+        kind: "points",
+        titleJa: "抜け毛 60% を減らす 5 つの基本",
+        titleEn: "Five basics that cut shedding by 60%",
+        itemsJa: [
+          {
+            headline: "毛質に合うブラシを 1 本決める",
+            body:
+              "ダブルコート (柴・コーギー・シェルティ) はアンダーコートに刃が届くデシェディングツール (FURminator など)、長毛シングルコート (マルチーズ・ヨークシャー) はもつれ取りのスリッカー、短毛 (フレンチブル・パグ) はラバーグローブ。ここを間違えると 30 分かけても毛が取れません。",
+          },
+          {
+            headline: "ブラッシングは 「散歩前」 にする",
+            body:
+              "散歩中に風で抜けた毛が部屋に持ち帰られるのを防ぎます。屋外ブラッシング → 屋内に入る前に再度ささっと、で抜け毛の家庭内流入を半減できます。集合住宅なら自分のベランダやドッグラン側がベター。",
+          },
+          {
+            headline: "ブラッシング嫌いはおやつ + 短時間で慣らす",
+            body:
+              "嫌がる子は痛くないラバーブラシかグローブ型から始め、最初は 30 秒で終了 + おやつ。Aquapaw のようなリックマット (壁吸盤付きなめなめパッド) を併用すると、犬が舐めることに集中している間に背中だけブラッシングできます。",
+          },
+          {
+            headline: "長毛種は週 3 回が最低ライン",
+            body:
+              "マルチーズ・トイプー・ポメラニアンなどは週 3 回未満だと毛玉が皮膚に密着してフェルト化し、自宅ブラシでは取れなくなります。スリッカー → コーム の 2 段使いで根本まで通すのが定石。痛がる子はピン先が球状の物 (Hertzko など) を。",
+          },
+          {
+            headline: "目元・耳のデイリーケアも 「お手入れ」 の一部",
+            body:
+              "涙やけ・耳垢は 1 日 1 回拭くだけで悪化を防げます。目元シート (Petio 等) と耳掃除シート (Earthbath 等) を散歩後の足拭きと同じ流れにすると習慣化しやすい。Q-tip での耳奥掃除は内耳を傷めるので NG、外耳のみ。",
+          },
+        ],
+        itemsEn: [
+          {
+            headline: "Match the brush to the coat",
+            body:
+              "Double-coated breeds (Shiba, Corgi, Sheltie) need an undercoat-rake style deshedder (FURminator). Long single-coats (Maltese, Yorkie) need a slicker for detangling. Short coats (Frenchie, Pug) just need a rubber grooming glove. Wrong tool = 30 minutes with little to show.",
+          },
+          {
+            headline: "Brush before the walk, not after",
+            body:
+              "Loose hair you missed at home gets pushed deeper into the coat by wind. Brush before going out, do a quick once-over before re-entering — household hair drops by ~50%.",
+          },
+          {
+            headline: "Train brush-haters with treats and short sessions",
+            body:
+              "Start with a soft rubber glove or pin-tipped slicker. End at 30 seconds + treat. A lick mat stuck to the wall (Aquapaw) keeps the dog focused while you brush their back without protest.",
+          },
+          {
+            headline: "Long coats need 3+ sessions a week, minimum",
+            body:
+              "Maltese, Toy Poodle, Pomeranian: skip 3-4 days and the mats felt against the skin and won't comb out. The pro routine is slicker → comb. Use ball-tipped pins (Hertzko etc.) for sensitive dogs.",
+          },
+          {
+            headline: "Eyes and ears count as grooming",
+            body:
+              "Daily eye wipes and ear wipes (gentle, no q-tip in the canal) prevent tear staining and ear infections. Make it part of the post-walk paw-wipe ritual and it becomes habit.",
+          },
+        ],
+      },
+      {
+        kind: "top_picks",
+        titleJa: "編集部のおすすめ 6 アイテム",
+        titleEn: "Editor's 6 picks",
+        productIds: [],
+      },
+      {
+        kind: "faq",
+        titleJa: "よくある質問",
+        titleEn: "FAQ",
+        itemsJa: [
+          {
+            q: "FURminator は本当に毛が減りますか?",
+            a: "ダブルコート犬種なら換毛期に 1 回の使用で抜け毛が手に取って分かるレベルで減ります。ただし力の入れすぎは皮膚を傷めるので、毛流れに沿って軽く滑らせるのが基本。短毛種・シングルコートには合いません。",
+          },
+          {
+            q: "毎日シャンプーしても問題ないですか?",
+            a: "問題あります。犬の皮膚は人より薄く pH も違うため、シャンプー頻度は月 1-2 回が目安。日常の汚れは温水での部分洗い + ブラシで対処してください。シャンプーのしすぎは皮脂バリアを壊し、かえって抜け毛とフケが増えます。",
+          },
+          {
+            q: "ブラッシング中に静電気で毛が散らかります",
+            a: "乾燥期は静電気防止スプレー (犬用) を全身にひと吹きしてからブラッシングすると毛が舞いません。スリッカーが乾燥していると静電気が起きやすいので、霧吹きで軽く湿らせるだけでも改善します。",
+          },
+          {
+            q: "ブラッシングを嫌がってブラシを噛んでしまいます",
+            a: "段階を戻してください。1) ブラシを見せる + おやつ、2) 体に触れる + おやつ、3) 1 ストロークだけ + おやつ。1 段階あたり数日かけて慣らします。Aquapaw のようなリックマットで意識を逸らす方法も有効。",
+          },
+        ],
+        itemsEn: [
+          {
+            q: "Does FURminator really reduce shedding?",
+            a: "On double-coated breeds during seasonal shed, you'll see a visibly smaller daily hair pile after one session. Don't press hard — glide along the coat. Not appropriate for short-haired or single-coated dogs.",
+          },
+          {
+            q: "Can I bathe my dog every day?",
+            a: "No. Dog skin is thinner than human skin and the pH differs. Bath every 4-8 weeks at most. For daily dirt, spot-rinse with warm water and brush. Over-bathing strips the skin barrier and can worsen shedding.",
+          },
+          {
+            q: "Static electricity makes hair fly during brushing",
+            a: "Mist a dog-safe anti-static spray over the coat or lightly dampen the slicker with a spray bottle. Especially in dry months.",
+          },
+          {
+            q: "My dog bites the brush",
+            a: "Step backward. (1) Show brush + treat. (2) Touch with brush + treat. (3) One stroke + treat. Each step a few days. A wall-mounted lick mat (Aquapaw) gives them something to focus on instead.",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    slug: "barking-training-guide",
+    titleJa: "犬の吠え・しつけ完全ガイド",
+    titleEn: "Complete dog barking & training guide",
+    leadJa:
+      "テキサス A&M 大学 2025 年の研究では「飼い犬の 99% に何らかの行動上の課題がある」 と報告されています。中でも吠え・引っ張り・飛びつき・拾い食いは最頻出の悩み。本ガイドでは、罰や叱責ではなく行動科学に基づいたしつけアプローチと、それを支援する実用ツール (ヘッドカラー・口輪・トリーナーポーチなど) を、わんプロブレムが扱う商品の中から選び方付きで解説します。",
+    leadEn:
+      "Texas A&M's 2025 research found 99% of pet dogs show at least one behavioral issue. Barking, pulling, jumping, and scavenging top the list. This guide covers reward-based training methods backed by behavior science, and the gear (head halters, basket muzzles, treat pouches) that makes them work — narrowed down to what we actually stock.",
+    publishedAt: "2026-05-10",
+    authorJa: "わんプロブレム編集部",
+    authorEn: "WanProblem editorial team",
+    productQuery: {
+      categories: ["env", "toy"],
+      concerns: [
+        "barking",
+        "barking-other-dogs",
+        "barking-guests",
+        "jumps-on-people",
+        "reactive-bicycle",
+        "scavenging",
+        "wont-come",
+      ],
+      limit: 6,
+    },
+    sections: [
+      { kind: "lead", bodyJa: "", bodyEn: "" },
+      {
+        kind: "points",
+        titleJa: "罰なしで吠え・引っ張りを減らす 5 原則",
+        titleEn: "Five reward-based principles",
+        itemsJa: [
+          {
+            headline: "「吠える前に」 ご褒美を出す",
+            body:
+              "問題行動が起きたあとに叱るのは効果が薄い (& 飼い主に対する不信を育てる)。インターホン・他犬・自転車など、吠え発生の 「前ぶれ」 を観察して、吠える前の段階でおやつをあげる。これを繰り返すと「インターホン = おやつが出る合図」 と学習し、吠える代わりに飼い主を見るようになります。",
+          },
+          {
+            headline: "おやつは 0.5 秒以内に出す",
+            body:
+              "犬の連合学習は遅くとも 1 秒以内が目安。胸ポケットからおやつを探していたら遅すぎます。トリーナーポーチ (PetSafe など) を腰につけ、片手で 1 秒以内におやつを出せる装備が前提になります。これがあるかないかでしつけの進度が 3 倍違います。",
+          },
+          {
+            headline: "引っ張り防止はヘッドカラーが最速",
+            body:
+              "ハーネスのフロントクリップ (Easy Walk 等) より、ヘッドカラー (PetSafe Gentle Leader) のほうが 「自分で軌道修正できる」 ため吠えかかり・反応性が高い犬には効果的。ただし慣らしには 3-5 日必要。最初は屋内で着けるだけ + おやつ、徐々に伸ばす。",
+          },
+          {
+            headline: "拾い食い対策はマズル + リコール訓練",
+            body:
+              "散歩中の拾い食いは消化器中毒のリスクがあるため即対応案件。Baskerville Ultra マズル (バスケット型 = 通気・水飲み可) で物理的に防ぎつつ、9m ロングリード (Mighty Paw 等) で 「呼び戻し」 を平行訓練すると、外でも飼い主の声に反応するようになります。",
+          },
+          {
+            headline: "留守番中の吠え・破壊にはコング",
+            body:
+              "分離不安由来の吠えは、出かける時に Kong Classic に冷凍したフードを詰めて渡すのが定番。固いゴムを舐めて中身を取り出すのに 30-60 分集中するため、外出後の最初の不安ピークを物理的に乗り越えられます。Kong Wobbler はおやつが転がり出る動的タイプで、活動的な子に。",
+          },
+        ],
+        itemsEn: [
+          {
+            headline: "Reward BEFORE the bark",
+            body:
+              "Punishing after the fact teaches the dog to fear you, not to stop barking. Watch for the trigger (doorbell, other dog, bike) and reward at the noticing stage — before they vocalize. The dog learns 'doorbell = treat-cue' and starts looking at you instead of barking.",
+          },
+          {
+            headline: "Deliver the treat in under half a second",
+            body:
+              "Canine associative learning windows close in ~1 second. Digging in your pocket loses the moment. A treat pouch on the hip (PetSafe etc.) is non-negotiable for serious training — the gap is 3× faster progress.",
+          },
+          {
+            headline: "Head halters beat front-clip harnesses for reactive dogs",
+            body:
+              "A Gentle Leader (PetSafe) gives the dog the ability to correct their own trajectory in a way no body harness can. Critical for reactive barkers. Conditioning takes 3-5 days — wear at home with treats first, scale up.",
+          },
+          {
+            headline: "Scavenging needs a basket muzzle + recall",
+            body:
+              "Picking up street trash is a poisoning risk. A Baskerville Ultra (basket-type, allows panting and drinking) is the physical block. In parallel, train recall on a 9m long line (Mighty Paw etc.) so your voice cuts through outdoor distraction.",
+          },
+          {
+            headline: "Crate-vocalizing? Kong with frozen food",
+            body:
+              "Separation-related vocalization: stuff a Kong Classic with frozen wet food before leaving. The dog spends 30-60 minutes working it out, getting through the worst initial spike. Kong Wobbler dispenses food as it tips — better for energetic dogs.",
+          },
+        ],
+      },
+      {
+        kind: "top_picks",
+        titleJa: "編集部のおすすめ 6 アイテム",
+        titleEn: "Editor's 6 picks",
+        productIds: [],
+      },
+      {
+        kind: "faq",
+        titleJa: "よくある質問",
+        titleEn: "FAQ",
+        itemsJa: [
+          {
+            q: "ヘッドカラーは虐待器具と聞きました",
+            a: "誤解です。ヘッドカラー (Gentle Leader) は競走馬のホルターと同じ仕組みで、頭の動きを軽く誘導するだけで首に圧をかけません。誤った使い方 (急に強く引く) で違和感を与えるケースがあるだけで、適切な慣らしと使用なら獣医師・行動学者の多くが推奨しています。",
+          },
+          {
+            q: "口輪は犬がかわいそうでは?",
+            a: "拾い食い・噛み事故・診察時のリスクを考えると、必要な場面では口輪のほうが犬を守ります。バスケット型 (Baskerville Ultra など) はパンティング・水飲み・おやつ受け取りが全部できるので、犬本人の苦痛は最小です。布タイプの締め付けマズルは長時間 NG。",
+          },
+          {
+            q: "コングに何を詰めればいいですか?",
+            a: "ふやかしたドッグフード + 少量のヨーグルト or 水気の少ないペーストを混ぜて凍らせるのが定番。冷凍するほど消費に時間がかかります。最初は緩めのペーストで成功体験を作り、徐々に難易度を上げてください。",
+          },
+          {
+            q: "ロングリードはどこで使えますか?",
+            a: "ドッグラン外の広場・河川敷・人気の少ない公園など。9m リードは便利ですが他の歩行者に絡む事故もあるため、必ず周囲を確認できる開けた場所で。スマホを見ながらは絶対 NG。",
+          },
+        ],
+        itemsEn: [
+          {
+            q: "I heard head halters are abusive",
+            a: "Misconception. A Gentle Leader works like a horse halter — it gently steers the head without putting pressure on the neck. Misuse (yanking) can be uncomfortable, but with correct conditioning most behaviorists and vets recommend them.",
+          },
+          {
+            q: "Isn't a muzzle cruel?",
+            a: "When the alternative is poisoning from scavenging or a bite incident, a muzzle protects the dog. Basket-type (Baskerville Ultra) allows panting, drinking, and taking treats — minimal welfare impact. Avoid cloth/closed muzzles for any extended duration.",
+          },
+          {
+            q: "What should I put in a Kong?",
+            a: "Soaked kibble + a little yogurt or thick paste, then freeze it. Frozen takes longer to extract. Start with looser fillings to build success, ramp up difficulty.",
+          },
+          {
+            q: "Where can I use a long line?",
+            a: "Open fields, riverbanks, quiet parks — any place you can see entanglement risks coming. 9m lines are great but tangle around strangers; never check your phone while using one.",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 /**
