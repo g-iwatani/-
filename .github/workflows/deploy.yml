@@ -40,12 +40,13 @@ jobs:
 
       - name: Wrangler deploy
         # cloudflare/wrangler-action はトークン経由で Cloudflare にデプロイする。
-        # CLOUDFLARE_API_TOKEN は GitHub repo secrets に "Edit Cloudflare Workers"
-        # 権限のトークンを登録しておく (ユーザー作業)。
+        # 必須 secret:
+        #   - CLOUDFLARE_API_TOKEN: "Edit Cloudflare Workers" 権限のトークン
+        #   - CLOUDFLARE_ACCOUNT_ID: 複数アカウント所持時 or auto-detect 失敗時に必須
+        # どちらかが欠けていると generic exit code 1 で落ちるので両方登録推奨。
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: app
-          # OpenNext は .open-next/worker.js をエントリにするため wrangler.jsonc に
-          # 既に記述されている。コマンド省略で deploy がそのまま走る。
           command: deploy
