@@ -19,7 +19,7 @@
   // ダッシュボード側で設定しても次回デプロイで消える。設定はこのファイルが信頼源。
   // 機密情報は wrangler secret put で別管理 (vars には平文OKなものだけ)。
   "vars": {
-    "NEXT_PUBLIC_SITE_URL": "https://a.iwatani-go.workers.dev",
+    "NEXT_PUBLIC_SITE_URL": "https://wanproblem.com",
     "RAKUTEN_AFFILIATE_ID": "539e4e74.6ad56816.539e4e75.134f4a19",
     "AMAZON_ASSOC_TAG_JP": "wanproblem-22"
     // Cloudflare Web Analytics の beacon token をここに追記すると、

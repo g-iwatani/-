@@ -1,13 +1,12 @@
 /**
  * サイト全体で使うメタ情報。
  * 本番URLは wrangler.jsonc の vars.NEXT_PUBLIC_SITE_URL で上書きする。
- * カスタムドメイン取得後はそちらを指す (例: https://wanproblem.com)。
+ *
+ * FALLBACK は wrangler.jsonc / .env 等の env が見えない環境 (一部のローカル
+ * テスト) で使われる安全網。本番デプロイ後はカスタムドメインを向ける。
  */
 
-// wanproblem.com は未取得 / DNS 未設定のため、現状の実デプロイ先を fallback に。
-// カスタムドメイン取得時に wrangler.jsonc 側を変えれば本番は新ドメインを向くので
-// この定数を都度書き換える必要はない (ローカル dev 用フォールバック)。
-const FALLBACK_URL = "https://a.iwatani-go.workers.dev";
+const FALLBACK_URL = "https://wanproblem.com";
 
 function rawUrl(): string {
   const env = process.env.NEXT_PUBLIC_SITE_URL;
