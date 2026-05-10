@@ -17,8 +17,7 @@ type Props = {
  */
 function isSearchFallback(opt: BuyOption): boolean {
   const net = opt.target?.network;
-  return net === "amazon-search-jp" || net === "amazon-search-us" ||
-    net === "rakuten-search-jp";
+  return net === "amazon-search-jp" || net === "rakuten-search-jp";
 }
 
 /**

@@ -516,20 +516,15 @@ function StickyMobileCta({
   // 実体のない安値を CTA に出していた (リリース監査で blocker 判定)。
   const isFallback = (
     n?: import("@/lib/affiliate").AffiliateTarget["network"],
-  ) =>
-    n === "amazon-search-jp" ||
-    n === "amazon-search-us" ||
-    n === "rakuten-search-jp";
+  ) => n === "amazon-search-jp" || n === "rakuten-search-jp";
   const concreteAmazonIdx = product.buyOptions.findIndex(
-    (b) =>
-      (b.target?.network === "amazon-jp" || b.target?.network === "amazon-us"),
+    (b) => b.target?.network === "amazon-jp",
   );
   const concreteOtherIdx = product.buyOptions.findIndex(
     (b) =>
       b.target &&
       !isFallback(b.target.network) &&
-      b.target.network !== "amazon-jp" &&
-      b.target.network !== "amazon-us",
+      b.target.network !== "amazon-jp",
   );
   const fallbackIdx = product.buyOptions.findIndex((b) => b.target);
   const ctaIdx =

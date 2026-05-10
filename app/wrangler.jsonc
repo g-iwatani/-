@@ -18,14 +18,27 @@
   // wrangler deploy はここに定義された vars で remote の Variables を上書きするため、
   // ダッシュボード側で設定しても次回デプロイで消える。設定はこのファイルが信頼源。
   // 機密情報は wrangler secret put で別管理 (vars には平文OKなものだけ)。
+  //
+  // MVP は JP 限定ローンチ。Amazon US / ValueCommerce / A8 / Impact 系は
+  // 実商品データで未使用のため affiliate.ts から外してある。海外送客や
+  // 直接プログラム連携を始める時に再導入する。
   "vars": {
     "NEXT_PUBLIC_SITE_URL": "https://wanproblem.com",
     "RAKUTEN_AFFILIATE_ID": "539e4e74.6ad56816.539e4e75.134f4a19",
     "AMAZON_ASSOC_TAG_JP": "wanproblem-22"
+    // ─────────────────────────────────────────────────────────────
     // Cloudflare Web Analytics の beacon token をここに追記すると、
     // 本番デプロイ後に全ページで PV / 直帰率 / 流入元の計測が始まる。
-    // ダッシュボードで「Web Analytics → サイトを追加」 すると token が払い出される。
-    // cookie/個人情報を送らないので同意バナー不要。空のままだと <script> 自体が注入されない。
+    //
+    // 取得手順 (1 分):
+    //   1. https://dash.cloudflare.com → Analytics & Logs → Web Analytics
+    //   2. 「サイトを追加」 → wanproblem.com を入力
+    //   3. 「Manual installation」 を選ぶと <script> タグが表示される
+    //   4. data-cf-beacon='{"token":"abc123..."}' の token 部分をコピー
+    //   5. このファイルの下記コメントを外して値を貼り付け → デプロイ
+    //
+    // cookie/個人情報を送らないので同意バナー不要 (景表法・GDPR 影響なし)。
+    // 空のままだと <script> 自体が注入されないので、計測オプトイン式。
     // "CLOUDFLARE_ANALYTICS_TOKEN": "xxxxxxxxxxxxxxxxxxxx"
   }
 }
