@@ -71,14 +71,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  // Concern result pages (deep-linked filter)
+  // 悩み別 LP (canonical SEO surface)。?concerns= 付き /results は param URL で
+  // Google が canonical 集約しないため、/concerns/[id] static page に一本化して
+  // priority を上げる。各悩みを個別の SEO 着地点として育てる。
   for (const locale of site.locales) {
     for (const c of concerns) {
       entries.push({
-        url: absoluteUrl(`/${locale}/results?concerns=${c.id}`),
+        url: absoluteUrl(`/${locale}/concerns/${c.id}`),
         lastModified: now,
         changeFrequency: "weekly",
-        priority: 0.5,
+        priority: 0.8,
+        alternates: {
+          languages: Object.fromEntries(
+            site.locales.map((l) => [
+              l,
+              absoluteUrl(`/${l}/concerns/${c.id}`),
+            ]),
+          ),
+        },
       });
     }
   }

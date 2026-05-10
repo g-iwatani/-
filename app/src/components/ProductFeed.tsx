@@ -1,20 +1,10 @@
 import Link from "next/link";
 import type { Locale } from "@/app/[locale]/dictionaries";
 import { AFFILIATE_REL } from "@/lib/affiliate";
+import { type FeedItem } from "@/lib/feed";
 import { formatPrice } from "@/lib/format";
 
-export type FeedItem = {
-  key: string;
-  /** "amazon" / "楽天" / "編集" 表示の元データ。badge 色分けに使用。 */
-  source: "amazon" | "rakuten" | "curated";
-  /** クリック先 URL。external (楽天直リンク) は target=_blank + アフィリ rel */
-  href: string;
-  isExternal: boolean;
-  imageUrl: string;
-  brand: string;
-  name: string;
-  priceJpy: number;
-};
+export type { FeedItem };
 
 type Props = {
   items: FeedItem[];
