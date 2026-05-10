@@ -560,7 +560,9 @@ function StickyMobileCta({
   const lowest = Math.min(...product.buyOptions.map((b) => b.priceJpy));
   return (
     <div
-      className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-card/95 px-4 pt-3 backdrop-blur-md shadow-[0_-4px_16px_rgba(0,0,0,0.06)] lg:hidden"
+      // bottom-16: MobileBottomNav の上に重ねる。lg:hidden は元から (デスクトップでは
+      // 通常 CTA が本文中で常に見えるので不要)。
+      className="fixed inset-x-0 bottom-16 z-30 border-t border-border bg-card/95 px-4 pt-3 backdrop-blur-md shadow-[0_-4px_16px_rgba(0,0,0,0.06)] lg:hidden"
       style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 0.75rem)" }}
     >
       <div className="mx-auto flex max-w-3xl items-center gap-3">

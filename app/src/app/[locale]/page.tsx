@@ -165,39 +165,71 @@ export default async function HomePage({
       <StructuredData
         items={[organizationSchema(locale), webSiteSchema(locale)]}
       />
-      {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div className="mx-auto max-w-7xl px-5 pt-10 pb-10 md:pt-16 md:pb-14">
-          <div className="grid gap-10 md:grid-cols-[3fr_2fr] md:items-center">
-            <div className="space-y-5">
-              <p className="inline-flex items-center rounded-full bg-primary-soft px-3 py-1 text-xs font-bold uppercase tracking-wide text-primary">
-                {dict.hero.eyebrow}
-              </p>
-              <h1 className="whitespace-pre-line text-3xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
-                {dict.hero.title}
-              </h1>
-              <p className="max-w-xl text-sm leading-relaxed text-muted-fg md:text-base">
-                {dict.hero.subtitle}
-              </p>
-              <div className="flex flex-wrap items-center gap-3 pt-1">
-                <Link
-                  href={`${root}/search`}
-                  className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-fg shadow-md shadow-primary/20 transition-transform hover:-translate-y-0.5"
-                >
-                  {dict.hero.cta_primary}
-                </Link>
-                <Link
-                  href="#popular-concerns"
-                  className="inline-flex items-center justify-center rounded-full border border-border bg-card px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:text-primary"
-                >
-                  {dict.hero.cta_secondary}
-                </Link>
-              </div>
-            </div>
+      {/* Hero (search-first, commerce reflex) */}
+      <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-primary-soft/40 to-background">
+        <div className="mx-auto max-w-5xl px-5 pt-8 pb-8 md:pt-12 md:pb-10">
+          <div className="text-center">
+            <p className="inline-flex items-center rounded-full bg-primary px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-primary-fg">
+              {dict.hero.eyebrow}
+            </p>
+            <h1 className="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-foreground md:text-4xl">
+              {dict.hero.title}
+            </h1>
+          </div>
 
-            <div className="relative">
-              <HeroIllustration />
-            </div>
+          {/* Big search input — the primary surface action */}
+          <form
+            method="GET"
+            action={`${root}/find`}
+            role="search"
+            className="mx-auto mt-6 flex max-w-2xl items-center gap-2 rounded-full border-2 border-primary bg-card px-2 py-2 shadow-lg shadow-primary/10 focus-within:border-primary md:px-3"
+          >
+            <span aria-hidden className="ml-2 text-xl">
+              🔍
+            </span>
+            <input
+              type="search"
+              name="q"
+              placeholder={dict.find.placeholder}
+              className="min-w-0 flex-1 bg-transparent px-1 py-2 text-base text-foreground placeholder:text-muted-fg focus:outline-none md:text-lg"
+              autoComplete="off"
+            />
+            <button
+              type="submit"
+              className="inline-flex shrink-0 items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-fg hover:opacity-90"
+            >
+              {dict.find.submit}
+            </button>
+          </form>
+
+          {/* Quick concern chips — top 5 popular */}
+          <div className="mx-auto mt-4 flex max-w-3xl flex-wrap items-center justify-center gap-2 px-3 text-xs">
+            <span className="text-muted-fg">{dict.hero.quick_label}</span>
+            {popularConcerns.slice(0, 6).map((c) => (
+              <Link
+                key={c.id}
+                href={`${root}/results?concerns=${c.id}`}
+                className="inline-flex items-center rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-fg transition-colors hover:border-primary hover:text-primary"
+              >
+                {locale === "ja" ? c.labelJa : c.labelEn}
+              </Link>
+            ))}
+          </div>
+
+          {/* Secondary CTAs (the question-flow + popular landing) */}
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+            <Link
+              href={`${root}/search`}
+              className="inline-flex items-center justify-center rounded-full bg-foreground px-5 py-2.5 text-sm font-bold text-background hover:opacity-90"
+            >
+              {dict.hero.cta_primary}
+            </Link>
+            <Link
+              href={`${root}/popular`}
+              className="inline-flex items-center justify-center rounded-full border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground hover:border-primary hover:text-primary"
+            >
+              {dict.hero.cta_popular ?? dict.nav.popular}
+            </Link>
           </div>
         </div>
       </section>
@@ -437,62 +469,3 @@ function FeaturedHero({
   );
 }
 
-function HeroIllustration() {
-  return (
-    <div className="relative mx-auto aspect-square max-w-md">
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 rounded-full"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 50% 60%, #fce6d8 0%, transparent 70%)",
-        }}
-      />
-      <svg
-        viewBox="0 0 400 400"
-        xmlns="http://www.w3.org/2000/svg"
-        className="relative h-full w-full"
-      >
-        <g opacity="0.18" fill="#d97a4e">
-          <ellipse cx="60" cy="80" rx="14" ry="12" />
-          <ellipse cx="80" cy="60" rx="6" ry="8" />
-          <ellipse cx="50" cy="55" rx="6" ry="8" />
-          <ellipse cx="38" cy="78" rx="6" ry="7" />
-          <ellipse cx="78" cy="92" rx="6" ry="7" />
-        </g>
-        <g opacity="0.16" fill="#6b8e4e">
-          <ellipse cx="340" cy="320" rx="14" ry="12" />
-          <ellipse cx="358" cy="302" rx="6" ry="8" />
-          <ellipse cx="328" cy="296" rx="6" ry="8" />
-        </g>
-        <g transform="translate(80,90)">
-          <rect
-            x="0"
-            y="0"
-            width="240"
-            height="220"
-            rx="32"
-            fill="#ffffff"
-            stroke="#ead9c2"
-            strokeWidth="2"
-          />
-          <g transform="translate(120,110)">
-            <ellipse cx="0" cy="20" rx="62" ry="56" fill="#fce6d8" />
-            <ellipse cx="-30" cy="-10" rx="20" ry="32" fill="#d97a4e" />
-            <ellipse cx="30" cy="-10" rx="20" ry="32" fill="#d97a4e" />
-            <circle cx="-20" cy="20" r="5" fill="#2d1f1a" />
-            <circle cx="20" cy="20" r="5" fill="#2d1f1a" />
-            <ellipse cx="0" cy="42" rx="8" ry="6" fill="#2d1f1a" />
-            <path
-              d="M-10 50 Q0 60 10 50"
-              stroke="#2d1f1a"
-              strokeWidth="3"
-              fill="none"
-              strokeLinecap="round"
-            />
-          </g>
-        </g>
-      </svg>
-    </div>
-  );
-}

@@ -15,6 +15,13 @@
     "close": "メニューを閉じる",
     "aria_label": "ナビゲーション"
   },
+  "bottom_nav": {
+    "home": "ホーム",
+    "search": "検索",
+    "compare": "比較",
+    "guides": "ガイド",
+    "aria_label": "下部ナビ"
+  },
   "featured": {
     "eyebrow": "今月の編集部1押し",
     "lowest_price_label": "最安値"
@@ -55,7 +62,9 @@
     "eyebrow": "MIX犬・小型犬・大型犬すべてに",
     "title": "ワンちゃんの「困った」を、\nぴったりの商品で解決。",
     "subtitle": "犬種・体型・困りごとを入力するだけ。複数のブランドから本当に合う商品が見つかります。発送はせず、ぜんぶ各ブランドの公式サイトに送客するだけの中立メディアです。",
-    "cta_primary": "うちの子に合うものを探す",
+    "cta_primary": "悩みから探す",
+    "cta_popular": "人気ランキング",
+    "quick_label": "人気のキーワード:",
     "cta_secondary": "人気の悩みから見る"
   },
   "popular_concerns": {

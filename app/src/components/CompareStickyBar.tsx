@@ -43,7 +43,9 @@ export function CompareStickyBar({ locale, dict }: Props) {
     <div
       role="region"
       aria-label={dict.compare_bar.aria_label}
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 px-4 pt-3 shadow-[0_-4px_16px_rgba(0,0,0,0.08)] backdrop-blur-md"
+      // モバイルでは bottom-16 (= 4rem) で MobileBottomNav (h-16) の上に重ねる。
+      // md+ では bottom nav が無いので bottom-0 に戻る。
+      className="fixed inset-x-0 bottom-16 z-40 border-t border-border bg-card/95 px-4 pt-3 shadow-[0_-4px_16px_rgba(0,0,0,0.08)] backdrop-blur-md md:bottom-0"
       style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 0.75rem)" }}
     >
       <div className="mx-auto flex max-w-3xl items-center justify-between gap-3">

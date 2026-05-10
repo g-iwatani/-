@@ -4,6 +4,7 @@ import { AffiliateDisclosure } from "@/components/AffiliateDisclosure";
 import { CompareStickyBar } from "@/components/CompareStickyBar";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { ToastContainer } from "@/components/ToastContainer";
 import { absoluteUrl, localizedAlternates, site } from "@/lib/site";
 import {
@@ -70,9 +71,10 @@ export default async function LocaleLayout({
     <>
       <AffiliateDisclosure locale={locale} dict={dict} />
       <Header locale={locale} dict={dict} />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 pb-16 md:pb-0">{children}</main>
       <Footer locale={locale} dict={dict} />
       <CompareStickyBar locale={locale} dict={dict} />
+      <MobileBottomNav locale={locale} dict={dict} />
       <ToastContainer />
     </>
   );

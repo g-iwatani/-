@@ -15,6 +15,13 @@
     "close": "Close menu",
     "aria_label": "Navigation"
   },
+  "bottom_nav": {
+    "home": "Home",
+    "search": "Search",
+    "compare": "Compare",
+    "guides": "Guides",
+    "aria_label": "Bottom navigation"
+  },
   "featured": {
     "eyebrow": "Editor's pick of the month",
     "lowest_price_label": "From"
@@ -55,7 +62,9 @@
     "eyebrow": "For mixes, smalls, and giants alike",
     "title": "Solve your dog's daily struggles\nwith the right product.",
     "subtitle": "Tell us your dog's breed, body, and what's bothering them. We surface the best-matching products across many brands. We don't ship anything — we just help you find them and link out to the brand's official site.",
-    "cta_primary": "Find what fits my dog",
+    "cta_primary": "Browse by concern",
+    "cta_popular": "Trending",
+    "quick_label": "Popular:",
     "cta_secondary": "Browse popular problems"
   },
   "popular_concerns": {
