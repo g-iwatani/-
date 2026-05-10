@@ -5,6 +5,7 @@ import { GuideCard } from "@/components/GuideCard";
 import { type FeedItem, ProductFeed } from "@/components/ProductFeed";
 import { Rail, RailItem } from "@/components/Rail";
 import { RecentRail } from "@/components/RecentRail";
+import { type Concern, getConcern, getPopularConcerns } from "@/lib/concerns";
 import { guides } from "@/lib/guides";
 import { topPopular } from "@/lib/popular-products";
 import { listBrands, visibleProducts as products } from "@/lib/products";
@@ -22,6 +23,7 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage({
   params,
+  searchParams,
 }: PageProps<"/[locale]">) {
   const { locale } = await params;
   if (!hasLocale(locale)) notFound();
@@ -32,9 +34,20 @@ export default async function HomePage({
   const recentLookup: Record<string, (typeof products)[number]> = {};
   for (const p of products) recentLookup[p.id] = p;
 
+  // 悩み chip フィルタ: ?concern=cold-winter 等で reel を絞る。
+  const sp = (await searchParams) ?? {};
+  const concernIdRaw = String(sp.concern ?? "").trim();
+  const activeConcern: Concern | undefined =
+    concernIdRaw === "" ? undefined : getConcern(concernIdRaw);
+  const activeConcernId = activeConcern?.id;
+
+  // 悩み chip 列のソース。popularity 上位 8 個。
+  const concernChips = getPopularConcerns(8);
+
   // メルカリ風 reel の元データを構築。Amazon / 楽天 / 編集部 の商品をミックスして
   // popularity 順で 60 件まで切り出す。画像必須 (visual reel なので)。
-  const feedItems = buildFeedItems(locale).slice(0, 60);
+  // activeConcernId 指定時は、Product 側 concerns に含まれるものだけ採用 (楽天は概念が無いので除外)。
+  const feedItems = buildFeedItems(locale, activeConcernId).slice(0, 60);
 
   return (
     <div className="pb-12">
@@ -42,7 +55,8 @@ export default async function HomePage({
         items={[organizationSchema(locale), webSiteSchema(locale)]}
       />
 
-      {/* Hero (compact: コピー最小 + メイン CTA 1個。検索バーはヘッダーに集約) */}
+      {/* Hero: 圧縮 + 悩み chip フィルタ。chip タップで reel が絞り込まれる。
+          メイン CTA はやめて chip 列を action surface にする (mybest/メルカリ流)。 */}
       <section className="relative border-b border-border bg-gradient-to-b from-primary-soft/30 to-background">
         <div className="mx-auto max-w-5xl px-5 py-5 md:py-7">
           <div className="text-center">
@@ -52,14 +66,30 @@ export default async function HomePage({
             <h1 className="mt-2 text-xl font-extrabold leading-tight tracking-tight text-foreground md:text-3xl">
               {dict.hero.title}
             </h1>
-            <div className="mt-4">
-              <Link
-                href={`${root}/search`}
-                className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-fg shadow-md shadow-primary/20 transition-transform hover:-translate-y-0.5"
-              >
-                {dict.hero.cta_primary}
-              </Link>
-            </div>
+          </div>
+          <div
+            className="mt-4 -mx-5 flex gap-2 overflow-x-auto px-5 pb-1"
+            style={{ scrollbarWidth: "none" }}
+            role="tablist"
+            aria-label={
+              locale === "ja" ? "人気の悩みフィルタ" : "Popular concern filters"
+            }
+          >
+            <ConcernChipLink
+              href={root}
+              active={!activeConcernId}
+              label={locale === "ja" ? "すべて" : "All"}
+            />
+            {concernChips.map((c) => (
+              <ConcernChipLink
+                key={c.id}
+                href={
+                  activeConcernId === c.id ? root : `${root}?concern=${c.id}`
+                }
+                active={activeConcernId === c.id}
+                label={locale === "ja" ? c.labelJa : c.labelEn}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -68,11 +98,22 @@ export default async function HomePage({
           商品 → カテゴリ → 商品 → 履歴 → 商品 → ガイド → 商品 の縦シーケンス。
           最初の chunk から商品を出すことで「ファーストビューに商品」 を満たす。 */}
 
-      {/* chunk 1: 上位 12 件 (= mobile で 6 行、ファーストビューに 2-3 行入る) */}
+      {/* chunk 1: 上位 12 件 (= mobile で 6 行、ファーストビューに 2-3 行入る)。
+          activeConcern に応じて見出しを動的に切替え。 */}
       <ProductFeed
         items={feedItems.slice(0, 12)}
         locale={locale}
         showHeader
+        titleJa={
+          activeConcern
+            ? `${activeConcern.labelJa} のおすすめ`
+            : "今みんなが買ってる"
+        }
+        titleEn={
+          activeConcern
+            ? `Picks for ${activeConcern.labelEn}`
+            : "Trending now"
+        }
       />
 
       {/* intermission 1: カテゴリアイコン (1 タップでフィルタへ) */}
@@ -175,13 +216,19 @@ export default async function HomePage({
  * - 楽天 popular: bestRank が低い (= 上位) ほど高 popularity
  * - 編集部 (curated, "amz-*" 以外): popularity 0-100
  *
- * 全部同じ FeedItem 形に揃え、popularity 降順でソート。画像なしは弾く。
+ * concernFilter 指定時は、Product 側 concerns に含まれる物だけ通す。
+ * 楽天 popular は concern メタが無いのでこの場合は除外。全部同じ FeedItem 形に
+ * 揃え、popularity 降順でソート。画像なしは弾く。
  */
-function buildFeedItems(locale: "ja" | "en"): FeedItem[] {
+function buildFeedItems(
+  locale: "ja" | "en",
+  concernFilter?: string,
+): FeedItem[] {
   const items: { item: FeedItem; pop: number }[] = [];
 
   for (const p of products) {
     if (!p.imageUrl) continue;
+    if (concernFilter && !p.concerns.includes(concernFilter)) continue;
     const isAmazon = p.id.startsWith("amz-");
     const lowest = Math.min(...p.buyOptions.map((b) => b.priceJpy));
     items.push({
@@ -199,24 +246,53 @@ function buildFeedItems(locale: "ja" | "en"): FeedItem[] {
     });
   }
 
-  for (const p of topPopular(40)) {
-    if (!p.imageUrl) continue;
-    items.push({
-      item: {
-        key: `rkt-${p.id}`,
-        source: "rakuten",
-        href: p.affiliateUrl,
-        isExternal: true,
-        imageUrl: p.imageUrl,
-        brand: p.shopName,
-        name: p.nameJa,
-        priceJpy: p.priceJpy,
-      },
-      // bestRank: 1 (最良) ≈ 99、20位 ≈ 80。100 - bestRank で popularity 0-100 化
-      pop: Math.max(0, 100 - p.bestRank),
-    });
+  // 楽天 popular は concern メタを持たないので、フィルタ ON 時はスキップ
+  if (!concernFilter) {
+    for (const p of topPopular(40)) {
+      if (!p.imageUrl) continue;
+      items.push({
+        item: {
+          key: `rkt-${p.id}`,
+          source: "rakuten",
+          href: p.affiliateUrl,
+          isExternal: true,
+          imageUrl: p.imageUrl,
+          brand: p.shopName,
+          name: p.nameJa,
+          priceJpy: p.priceJpy,
+        },
+        // bestRank: 1 (最良) ≈ 99、20位 ≈ 80。100 - bestRank で popularity 0-100 化
+        pop: Math.max(0, 100 - p.bestRank),
+      });
+    }
   }
 
   items.sort((a, b) => b.pop - a.pop);
   return items.map((x) => x.item);
+}
+
+/** Hero 内の悩みフィルタ chip。アクティブ時は primary 塗り、非アクティブは枠線。 */
+function ConcernChipLink({
+  href,
+  active,
+  label,
+}: {
+  href: string;
+  active: boolean;
+  label: string;
+}) {
+  return (
+    <Link
+      href={href}
+      role="tab"
+      aria-selected={active}
+      className={`inline-flex shrink-0 items-center rounded-full px-4 py-2 text-xs font-bold transition-colors md:text-sm ${
+        active
+          ? "bg-primary text-primary-fg shadow-md"
+          : "border border-border bg-card text-muted-fg hover:border-primary hover:text-primary"
+      }`}
+    >
+      {label}
+    </Link>
+  );
 }
