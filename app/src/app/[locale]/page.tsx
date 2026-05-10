@@ -57,12 +57,15 @@ export default async function HomePage({
       <section className="relative border-b border-border bg-gradient-to-b from-primary-soft/30 to-background">
         <div className="mx-auto max-w-5xl px-5 py-5 md:py-7">
           <div className="text-center">
-            <p className="inline-flex items-center rounded-full bg-primary px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary-fg md:text-[11px]">
+            <p className="inline-flex items-center rounded-full border border-primary/30 bg-primary-soft px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-primary md:text-xs">
               {dict.hero.eyebrow}
             </p>
-            <h1 className="mt-2 text-xl font-extrabold leading-tight tracking-tight text-foreground md:text-3xl">
+            <h1 className="mt-3 whitespace-pre-line text-xl font-extrabold leading-tight tracking-tight text-foreground md:text-3xl">
               {dict.hero.title}
             </h1>
+            <p className="mt-2 text-xs leading-relaxed text-muted-fg md:text-sm">
+              {dict.hero.tagline}
+            </p>
           </div>
           {/* chip 列。TOP は active 状態を持たない (絞り込み無し)。各 chip は
               /concerns/[id] 静的 LP に navigate する。SEO 上の理由は

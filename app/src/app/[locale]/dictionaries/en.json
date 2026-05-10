@@ -1,7 +1,7 @@
 {
   "brand": {
     "name": "WanProblem",
-    "tagline": "Match your dog's troubles with the right gear from anywhere."
+    "tagline": "Find dog gear by concern — searchable across Amazon, Rakuten, and official brand sites."
   },
   "nav": {
     "search": "Find by problem",
@@ -55,8 +55,9 @@
     "header_aria": "Site search"
   },
   "hero": {
-    "eyebrow": "For mixes, smalls, and giants alike",
-    "title": "Solve your dog's daily struggles\nwith the right product.",
+    "eyebrow": "Amazon · Rakuten · Official brands",
+    "title": "Start from what's bothering your dog.\nFind what actually fits.",
+    "tagline": "Pick a concern. Compare across 3 marketplaces in one view.",
     "subtitle": "Tell us your dog's breed, body, and what's bothering them. We surface the best-matching products across many brands. We don't ship anything — we just help you find them and link out to the brand's official site.",
     "cta_primary": "Browse by concern",
     "cta_popular": "Trending",

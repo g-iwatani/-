@@ -124,7 +124,7 @@ export default async function ConcernPage({
               {locale === "ja" ? "悩み別" : "Concerns"}
             </span>
           </nav>
-          <p className="mt-3 inline-flex items-center rounded-full bg-primary px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary-fg md:text-[11px]">
+          <p className="mt-3 inline-flex items-center rounded-full border border-primary/30 bg-primary-soft px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-primary md:text-xs">
             {locale === "ja" ? "悩み別おすすめ" : "Concern-first picks"}
           </p>
           <h1 className="mt-2 text-2xl font-extrabold leading-tight tracking-tight text-foreground md:text-4xl">
