@@ -26,8 +26,7 @@ function AffiliateJa() {
 
       <div className="callout">
         <strong>このサイトは広告を含みます。</strong>
-        わんプロブレムは Amazon アソシエイトプログラム、楽天アフィリエイト、
-        A8.net、ValueCommerce、Impact、Skimlinks
+        わんプロブレムは Amazon アソシエイトプログラム、楽天アフィリエイト
         などのアフィリエイトプログラムに参加しており、リンク経由で商品が購入された場合、
         運営者に成果報酬が支払われます。
       </div>
@@ -41,12 +40,8 @@ function AffiliateJa() {
 
       <h2>2. 加入しているアフィリエイトプログラム</h2>
       <ul>
-        <li>Amazon アソシエイトプログラム(amazon.co.jp / amazon.com)</li>
+        <li>Amazon アソシエイトプログラム(amazon.co.jp)</li>
         <li>楽天アフィリエイト(楽天市場・楽天ブックスなど)</li>
-        <li>A8.net</li>
-        <li>ValueCommerce(バリューコマース)</li>
-        <li>Impact(インパクト)</li>
-        <li>Skimlinks(スキムリンクス)</li>
         <li>各ブランドが公開している直接アフィリエイトプログラム</li>
       </ul>
 
@@ -104,9 +99,8 @@ function AffiliateEn() {
       <div className="callout">
         <strong>This site contains advertising.</strong>{" "}
         WanProblem participates in affiliate programs including Amazon
-        Associates, Rakuten Affiliate, A8.net, ValueCommerce, Impact, and
-        Skimlinks. We may earn a commission at no extra cost to you when you
-        purchase through links on this site.
+        Associates and Rakuten Affiliate. We may earn a commission at no extra
+        cost to you when you purchase through links on this site.
       </div>
 
       <h2>1. About affiliate links</h2>
@@ -119,12 +113,8 @@ function AffiliateEn() {
 
       <h2>2. Programs we participate in</h2>
       <ul>
-        <li>Amazon Associates (amazon.co.jp / amazon.com)</li>
+        <li>Amazon Associates (amazon.co.jp)</li>
         <li>Rakuten Affiliate</li>
-        <li>A8.net</li>
-        <li>ValueCommerce</li>
-        <li>Impact</li>
-        <li>Skimlinks</li>
         <li>Direct brand affiliate programs</li>
       </ul>
 
@@ -132,7 +122,7 @@ function AffiliateEn() {
       <p>
         We disclose advertising in compliance with the Japan Premiums and
         Misrepresentation Prevention Act (景品表示法 / stealth marketing
-        regulation, effective October 2023) and the U.S. FTC Endorsement Guides.
+        regulation, effective October 2023).
       </p>
 
       <h2>4. How we recommend products</h2>

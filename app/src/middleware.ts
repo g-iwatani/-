@@ -48,10 +48,15 @@ export function middleware(request: NextRequest) {
 
   if (isReserved(pathname)) return;
 
-  const hasLocale = locales.some(
+  const matchedLocale = locales.find(
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`),
   );
-  if (hasLocale) return;
+  if (matchedLocale) {
+    // Pass locale through to the root layout so <html lang> matches the URL.
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set("x-locale", matchedLocale);
+    return NextResponse.next({ request: { headers: requestHeaders } });
+  }
 
   const locale = detectLocale(request);
   const url = request.nextUrl.clone();

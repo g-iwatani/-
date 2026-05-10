@@ -33,14 +33,16 @@ function isSearchFallback(opt: BuyOption): boolean {
  * 比較できる差別化要素 (= サイトのコア moat) が機能していなかった。
  */
 export function BuyOptionsCompare({ options, locale, buyAtTemplate }: Props) {
-  if (options.length === 0) return null;
+  // resolveBuyUrl が "#" を返す (target も url も無い) 行は描画しない。
+  const resolvable = options.filter((o) => resolveBuyUrl(o) !== "#");
+  if (resolvable.length === 0) return null;
 
   // 安い順に並べる。同価格は元の順序を維持 (stable sort)。
   // 「最安値」 計算には search fallback (価格確定していない) を含めない。
-  const sorted = [...options].sort((a, b) => a.priceJpy - b.priceJpy);
+  const sorted = [...resolvable].sort((a, b) => a.priceJpy - b.priceJpy);
   const concreteOptions = sorted.filter((o) => !isSearchFallback(o));
   const lowest = concreteOptions[0]?.priceJpy;
-  const hasMultiple = options.length > 1;
+  const hasMultiple = resolvable.length > 1;
   const hasPriceSpread =
     concreteOptions.length >= 2 &&
     concreteOptions.some((o) => o.priceJpy !== lowest);
@@ -54,8 +56,8 @@ export function BuyOptionsCompare({ options, locale, buyAtTemplate }: Props) {
             {locale === "ja" ? "販売店比較" : "Compare merchants"}
             <span className="ml-1.5 font-normal normal-case tracking-normal text-muted-fg/80">
               {locale === "ja"
-                ? `${options.length}件`
-                : `${options.length} stores`}
+                ? `${resolvable.length}件`
+                : `${resolvable.length} stores`}
             </span>
           </p>
           {hasPriceSpread && (

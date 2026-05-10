@@ -146,12 +146,18 @@ function BuyOptionsRow({
   dict: Dictionary;
   resolvedUrls: string[];
 }) {
+  const options = product.buyOptions
+    .map((opt, i) => ({ opt, url: resolvedUrls[i], idx: i }))
+    .filter((row): row is { opt: typeof row.opt; url: string; idx: number } =>
+      Boolean(row.url),
+    );
+  if (options.length === 0) return null;
   return (
     <div className="flex flex-wrap gap-2 border-t border-border pt-3">
-      {product.buyOptions.map((opt, i) => (
+      {options.map(({ opt, url, idx }) => (
         <a
-          key={`${opt.shop}-${i}`}
-          href={resolvedUrls[i] ?? "#"}
+          key={`${opt.shop}-${idx}`}
+          href={url}
           target="_blank"
           rel={AFFILIATE_REL}
           className="inline-flex flex-1 items-center justify-center rounded-full border border-border bg-background px-3 py-1.5 text-[11px] font-semibold text-muted-fg transition-colors hover:border-primary hover:text-primary"

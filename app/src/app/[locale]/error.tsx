@@ -31,7 +31,7 @@ export default function LocaleError({
   const homeHref = `/${locale}`;
 
   const t = {
-    headline: locale === "ja" ? "Something went wrong" : "Something went wrong",
+    headline: locale === "ja" ? "エラーが発生しました" : "Something went wrong",
     title:
       locale === "ja"
         ? "ページの表示中にエラーが発生しました"
