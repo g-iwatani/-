@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BuyOptionsCompare } from "@/components/BuyOptionsCompare";
 import { MiniProductCard } from "@/components/MiniProductCard";
 import { ProductGallery } from "@/components/ProductGallery";
 import { Rail, RailItem } from "@/components/Rail";
@@ -265,48 +266,14 @@ export default async function ProductPage({
             <h3 className="text-xs font-bold uppercase tracking-wide text-muted-fg">
               {dict.product_detail.buy_options}
             </h3>
-            <div className="grid gap-2">
-              {product.buyOptions.map((opt, i) => (
-                <a
-                  key={`${opt.shop}-${i}`}
-                  href={resolveBuyUrl(opt)}
-                  target="_blank"
-                  rel={AFFILIATE_REL}
-                  className="flex items-center justify-between rounded-2xl border border-card-border bg-card px-5 py-4 transition-all hover:border-primary hover:shadow-md"
-                >
-                  <div>
-                    <p className="text-sm font-bold text-foreground">
-                      {/* 景表法ステマ規制対応。「容易に判別できる」要件のため
-                          フォア塗り + 白文字で muted 系より conspicuous に。 */}
-                      <span
-                        aria-label="ad"
-                        className="mr-1.5 rounded bg-foreground/85 px-1.5 py-0.5 text-[10px] font-bold text-background"
-                      >
-                        PR
-                      </span>
-                      {format(dict.product_card.buy_at, { shop: opt.shop })}
-                    </p>
-                    <p className="mt-1 text-xs text-muted-fg">
-                      {opt.region === "jp"
-                        ? locale === "ja"
-                          ? "日本国内発送"
-                          : "Ships in Japan"
-                        : locale === "ja"
-                          ? "国際配送あり"
-                          : "Ships internationally"}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xl font-extrabold text-primary">
-                      {formatPrice(opt.priceJpy, locale)}
-                    </p>
-                    <p className="text-[10px] uppercase tracking-wide text-muted-fg">
-                      {locale === "ja" ? "ショップへ移動" : "Open shop"} ↗
-                    </p>
-                  </div>
-                </a>
-              ))}
-            </div>
+            {/* Trivago / 価格.com 流の販売店比較。複数 shop の時は最安値
+                ハイライト + 「販売店比較 N件」 ヘッダ。元実装は縦リストで
+                「ただ並べるだけ」 だったため moat が機能していなかった。 */}
+            <BuyOptionsCompare
+              options={product.buyOptions}
+              locale={locale}
+              buyAtTemplate={dict.product_card.buy_at}
+            />
             <p className="text-[11px] leading-relaxed text-muted-fg">
               {dict.product_detail.external_disclaimer}
             </p>
