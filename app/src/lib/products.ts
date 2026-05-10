@@ -2143,10 +2143,53 @@ function enrichAmazonSearchTargets(list: Product[]): Product[] {
   });
 }
 
-export const products: Product[] = enrichAmazonSearchTargets([
-  ...rawProducts,
-  ...amazonBestsellers,
-]);
+/**
+ * 商品詳細の販売店比較を実機能させるため、Amazon と Amazon search-fallback
+ * 以外で Amazon のみの商品 (= 9 割) に楽天検索 fallback を追加する。
+ *
+ * これで:
+ *   - BuyOptionsCompare が常に 2 行以上になり Trivago 体験が成立
+ *   - 楽天で当該商品 (or 類似品) を購入したユーザに楽天 affiliate コミッション
+ *   - Amazon 在庫切れ時の代替動線を提供
+ *
+ * 価格は不明 (検索なので) のため、rakuten-search エントリは Amazon の価格を
+ * 「参考表示」 として転用する。実価格は遷移先で変わる旨は dict 側の disclaimer
+ * で説明済み。複数 source 並べる moat の体感が最優先。
+ *
+ * 既に楽天 buyOption (rakuten or rakuten-search) を持っている商品にはスキップ。
+ */
+function addRakutenSearchFallback(list: Product[]): Product[] {
+  return list.map((p) => {
+    const hasRakuten = p.buyOptions.some(
+      (b) =>
+        b.target?.network === "rakuten" ||
+        b.target?.network === "rakuten-search-jp" ||
+        b.shop === "楽天",
+    );
+    if (hasRakuten) return p;
+    if (p.buyOptions.length === 0) return p;
+    const referencePrice = Math.min(...p.buyOptions.map((b) => b.priceJpy));
+    return {
+      ...p,
+      buyOptions: [
+        ...p.buyOptions,
+        {
+          shop: "楽天",
+          target: {
+            network: "rakuten-search-jp",
+            query: `${p.brand} ${p.nameJa}`,
+          },
+          priceJpy: referencePrice,
+          region: "jp",
+        },
+      ],
+    };
+  });
+}
+
+export const products: Product[] = addRakutenSearchFallback(
+  enrichAmazonSearchTargets([...rawProducts, ...amazonBestsellers]),
+);
 
 /**
  * 一覧/検索/ブランドリストはこちらを使う。imageUrl 未設定の商品は表示せず、

@@ -42,6 +42,14 @@ export type AffiliateTarget =
       itemCode: string; // shopCode/itemCode 形式
     }
   | {
+      // 楽天市場の特定商品 ID が無い場合のフォールバック。検索結果ページに
+      // affiliate ID 付きで送る。ユーザーが楽天内で当該商品 (or 類似品) を
+      // 買えば成果計上される (24時間 cookie)。商品詳細ページで「楽天でも探す」
+      // という cross-source 比較を成立させるために導入。
+      network: "rakuten-search-jp";
+      query: string;
+    }
+  | {
       network: "valuecommerce";
       directUrl: string; // VC で広告主のリンクを発行した先(deep link)
     }
@@ -90,6 +98,13 @@ export function buildAffiliateUrl(target: AffiliateTarget): string {
       if (!id) return itemUrl;
       // hb.afl.rakuten.co.jp/ichiba/{id}/ で楽天市場商品にトラッキング付与
       const encoded = encodeURIComponent(itemUrl);
+      return `https://hb.afl.rakuten.co.jp/ichiba/${id}/?pc=${encoded}&m=${encoded}`;
+    }
+    case "rakuten-search-jp": {
+      const id = env("RAKUTEN_AFFILIATE_ID");
+      const searchUrl = `https://search.rakuten.co.jp/search/mall/${encodeURIComponent(target.query)}/`;
+      if (!id) return searchUrl;
+      const encoded = encodeURIComponent(searchUrl);
       return `https://hb.afl.rakuten.co.jp/ichiba/${id}/?pc=${encoded}&m=${encoded}`;
     }
     case "valuecommerce": {

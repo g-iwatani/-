@@ -11,12 +11,24 @@ type Props = {
 };
 
 /**
+ * 検索 fallback 系 (Amazon search / Rakuten search) の target かを判定。
+ * これらは商品 ID が無いまま検索ページへ送るので価格は確定しない。
+ * UI では「参考価格」表記にして、誤認を避ける。
+ */
+function isSearchFallback(opt: BuyOption): boolean {
+  const net = opt.target?.network;
+  return net === "amazon-search-jp" || net === "amazon-search-us" ||
+    net === "rakuten-search-jp";
+}
+
+/**
  * 商品詳細ページの多店舗比較テーブル。Trivago / 価格.com 流のレイアウト。
  *
  * - 価格降順ソート → 最安値の行に「最安値」バッジ
  * - shop 名 (Amazon / 楽天 / 公式) を強調表示
  * - 配送地域・PR 表示・外部遷移を 1 行内で完結
  * - 1 件しか buyOption が無い商品でも問題なく成立 (バッジは出さない)
+ * - 検索 fallback の行は「参考」表記 + 「最安値」 候補から除外
  *
  * 元実装は縦リストで「価格が大きく出るだけ」 だったので、複数ソース横断で
  * 比較できる差別化要素 (= サイトのコア moat) が機能していなかった。
@@ -25,10 +37,14 @@ export function BuyOptionsCompare({ options, locale, buyAtTemplate }: Props) {
   if (options.length === 0) return null;
 
   // 安い順に並べる。同価格は元の順序を維持 (stable sort)。
+  // 「最安値」 計算には search fallback (価格確定していない) を含めない。
   const sorted = [...options].sort((a, b) => a.priceJpy - b.priceJpy);
-  const lowest = sorted[0]?.priceJpy;
+  const concreteOptions = sorted.filter((o) => !isSearchFallback(o));
+  const lowest = concreteOptions[0]?.priceJpy;
   const hasMultiple = options.length > 1;
-  const hasPriceSpread = sorted.some((o) => o.priceJpy !== lowest);
+  const hasPriceSpread =
+    concreteOptions.length >= 2 &&
+    concreteOptions.some((o) => o.priceJpy !== lowest);
 
   return (
     <div className="overflow-hidden rounded-2xl border border-card-border bg-card">
@@ -53,7 +69,9 @@ export function BuyOptionsCompare({ options, locale, buyAtTemplate }: Props) {
 
       <ul>
         {sorted.map((opt, i) => {
-          const isLowest = hasMultiple && hasPriceSpread && opt.priceJpy === lowest;
+          const isFallback = isSearchFallback(opt);
+          const isLowest =
+            hasMultiple && hasPriceSpread && !isFallback && opt.priceJpy === lowest;
           return (
             <li
               key={`${opt.shop}-${i}`}
@@ -83,27 +101,43 @@ export function BuyOptionsCompare({ options, locale, buyAtTemplate }: Props) {
                       PR
                     </span>
                     <span className="truncate">
-                      {buyAtTemplate.replace("{shop}", opt.shop)}
+                      {isFallback
+                        ? locale === "ja"
+                          ? `${opt.shop}で探す`
+                          : `Search on ${opt.shop}`
+                        : buyAtTemplate.replace("{shop}", opt.shop)}
                     </span>
                   </p>
                   <p className="mt-1 text-[11px] text-muted-fg md:text-xs">
-                    {opt.region === "jp"
+                    {isFallback
                       ? locale === "ja"
-                        ? "日本国内発送"
-                        : "Ships in Japan"
-                      : locale === "ja"
-                        ? "国際配送あり"
-                        : "Ships internationally"}
+                        ? "検索結果ページへ移動"
+                        : "Opens search results"
+                      : opt.region === "jp"
+                        ? locale === "ja"
+                          ? "日本国内発送"
+                          : "Ships in Japan"
+                        : locale === "ja"
+                          ? "国際配送あり"
+                          : "Ships internationally"}
                   </p>
                 </div>
                 <div className="shrink-0 text-right">
-                  <p
-                    className={`text-xl font-extrabold md:text-2xl ${
-                      isLowest ? "text-primary" : "text-foreground"
-                    }`}
-                  >
-                    {formatPrice(opt.priceJpy, locale)}
-                  </p>
+                  {isFallback ? (
+                    // 価格未確定の検索 fallback。「最安値」 競争には参加せず、
+                    // 「他のショップでも探す」 セカンダリ動線として並ぶ。
+                    <p className="text-xs text-muted-fg md:text-sm">
+                      {locale === "ja" ? "価格は遷移先で確認" : "See price"}
+                    </p>
+                  ) : (
+                    <p
+                      className={`text-xl font-extrabold md:text-2xl ${
+                        isLowest ? "text-primary" : "text-foreground"
+                      }`}
+                    >
+                      {formatPrice(opt.priceJpy, locale)}
+                    </p>
+                  )}
                   <p className="text-[10px] uppercase tracking-wide text-muted-fg">
                     {locale === "ja" ? "ショップへ" : "Open shop"} ↗
                   </p>
