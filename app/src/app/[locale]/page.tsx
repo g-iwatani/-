@@ -7,9 +7,8 @@ import { GuideCard } from "@/components/GuideCard";
 import { RecentRail } from "@/components/RecentRail";
 import { SeasonalBanner } from "@/components/SeasonalBanner";
 import { MiniProductCard } from "@/components/MiniProductCard";
-import { PopularProductCard } from "@/components/PopularProductCard";
 import { Rail, RailItem } from "@/components/Rail";
-import { RankedMiniCard } from "@/components/RankedMiniCard";
+import { TopPicksGrid } from "@/components/TopPicksGrid";
 import { breeds, getPopularBreeds } from "@/lib/breeds";
 import {
   concerns,
@@ -170,74 +169,34 @@ export default async function HomePage({
       <StructuredData
         items={[organizationSchema(locale), webSiteSchema(locale)]}
       />
-      {/* Hero (search-first, commerce reflex) */}
-      <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-primary-soft/40 to-background">
-        <div className="mx-auto max-w-5xl px-5 pt-8 pb-8 md:pt-12 md:pb-10">
+      {/* Hero (compact: コピー最小 + メイン CTA 1個。検索バーはヘッダーに集約) */}
+      <section className="relative border-b border-border bg-gradient-to-b from-primary-soft/30 to-background">
+        <div className="mx-auto max-w-5xl px-5 py-5 md:py-7">
           <div className="text-center">
-            <p className="inline-flex items-center rounded-full bg-primary px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-primary-fg">
+            <p className="inline-flex items-center rounded-full bg-primary px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary-fg md:text-[11px]">
               {dict.hero.eyebrow}
             </p>
-            <h1 className="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-foreground md:text-4xl">
+            <h1 className="mt-2 text-xl font-extrabold leading-tight tracking-tight text-foreground md:text-3xl">
               {dict.hero.title}
             </h1>
-          </div>
-
-          {/* Big search input — the primary surface action */}
-          <form
-            method="GET"
-            action={`${root}/find`}
-            role="search"
-            className="mx-auto mt-6 flex max-w-2xl items-center gap-2 rounded-full border-2 border-primary bg-card px-2 py-2 shadow-lg shadow-primary/10 focus-within:border-primary md:px-3"
-          >
-            <span aria-hidden className="ml-2 text-xl">
-              🔍
-            </span>
-            <input
-              type="search"
-              name="q"
-              placeholder={dict.find.placeholder}
-              className="min-w-0 flex-1 bg-transparent px-1 py-2 text-base text-foreground placeholder:text-muted-fg focus:outline-none md:text-lg"
-              autoComplete="off"
-            />
-            <button
-              type="submit"
-              className="inline-flex shrink-0 items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-bold text-primary-fg hover:opacity-90"
-            >
-              {dict.find.submit}
-            </button>
-          </form>
-
-          {/* Quick concern chips — top 5 popular */}
-          <div className="mx-auto mt-4 flex max-w-3xl flex-wrap items-center justify-center gap-2 px-3 text-xs">
-            <span className="text-muted-fg">{dict.hero.quick_label}</span>
-            {popularConcerns.slice(0, 6).map((c) => (
+            <div className="mt-4">
               <Link
-                key={c.id}
-                href={`${root}/results?concerns=${c.id}`}
-                className="inline-flex items-center rounded-full border border-border bg-card px-3 py-1.5 text-xs font-semibold text-muted-fg transition-colors hover:border-primary hover:text-primary"
+                href={`${root}/search`}
+                className="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-bold text-primary-fg shadow-md shadow-primary/20 transition-transform hover:-translate-y-0.5"
               >
-                {locale === "ja" ? c.labelJa : c.labelEn}
+                {dict.hero.cta_primary}
               </Link>
-            ))}
-          </div>
-
-          {/* Secondary CTAs (the question-flow + popular landing) */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-            <Link
-              href={`${root}/search`}
-              className="inline-flex items-center justify-center rounded-full bg-foreground px-5 py-2.5 text-sm font-bold text-background hover:opacity-90"
-            >
-              {dict.hero.cta_primary}
-            </Link>
-            <Link
-              href={`${root}/popular`}
-              className="inline-flex items-center justify-center rounded-full border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground hover:border-primary hover:text-primary"
-            >
-              {dict.hero.cta_popular ?? dict.nav.popular}
-            </Link>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* Top picks grid (Amazon TOP3 + 楽天 TOP3 = ファーストビュー直下の商品 grid) */}
+      <TopPicksGrid
+        amazon={amazonTop10.slice(0, 3)}
+        rakuten={trendingPopular.slice(0, 3)}
+        locale={locale}
+      />
 
       {/* Category icon grid (Mercari/ZOZO-style commerce reflex) */}
       <CategoryGrid locale={locale} />
@@ -247,55 +206,6 @@ export default async function HomePage({
 
       {/* Recently viewed (localStorage, hidden when empty) */}
       <RecentRail locale={locale} lookup={recentLookup} />
-
-      {/* Amazon best-sellers TOP 10 — popularity-driven social proof */}
-      {amazonTop10.length > 0 && (
-        <Rail
-          title={
-            locale === "ja" ? "Amazon 売れ筋 TOP 10" : "Amazon top 10"
-          }
-          subtitle={
-            locale === "ja"
-              ? "Amazon JP 売れ筋ランキング上位 (月次更新)"
-              : "Amazon JP best-seller ranking (refreshed monthly)"
-          }
-        >
-          {amazonTop10.map((p, i) => (
-            <RailItem key={`amz-${p.id}`}>
-              <RankedMiniCard
-                product={p}
-                rank={i + 1}
-                locale={locale}
-                href={`${root}/products/${p.id}`}
-              />
-            </RailItem>
-          ))}
-        </Rail>
-      )}
-
-      {/* Rakuten 売れ筋 TOP 10 (kept here, original rail below removed) */}
-      {trendingPopular.length > 0 && (
-        <Rail
-          title={
-            locale === "ja" ? "楽天 売れ筋 TOP 10" : "Rakuten top 10"
-          }
-          subtitle={
-            locale === "ja"
-              ? "楽天市場のランキング上位 (リアルタイム連動)"
-              : "Rakuten Ichiba ranking (live)"
-          }
-          viewAllHref={`${root}/popular`}
-          viewAllLabel={
-            locale === "ja" ? "全ての人気商品を見る" : "View all popular"
-          }
-        >
-          {trendingPopular.slice(0, 10).map((p, i) => (
-            <RailItem key={`rkt-${p.id}`}>
-              <PopularProductCard product={p} locale={locale} variant="rail" rank={i + 1} />
-            </RailItem>
-          ))}
-        </Rail>
-      )}
 
       {/* Buying guides rail */}
       <Rail

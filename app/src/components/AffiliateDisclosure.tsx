@@ -23,15 +23,15 @@ export function AffiliateDisclosure({ locale, dict }: Props) {
     <div
       role="note"
       aria-label={dict.affiliate_disclosure.aria_label}
-      className="border-b border-amber-200 bg-amber-50 px-4 py-1.5 text-center text-[11px] leading-relaxed text-amber-900 sm:text-xs"
+      className="border-b border-border bg-muted/40 px-4 py-1 text-center text-[10px] leading-tight text-muted-fg sm:text-[11px]"
     >
-      <span className="mr-1.5 inline-flex items-center justify-center rounded bg-amber-600 px-1.5 py-0.5 text-[10px] font-bold text-white">
+      <span className="mr-1 inline-flex items-center justify-center rounded bg-foreground/70 px-1 py-px text-[9px] font-bold text-background">
         PR
       </span>
       {dict.affiliate_disclosure.text}{" "}
       <Link
         href={`/${locale}/legal/affiliate`}
-        className="underline hover:text-amber-700"
+        className="underline hover:text-foreground"
       >
         {dict.affiliate_disclosure.detail_link}
       </Link>
