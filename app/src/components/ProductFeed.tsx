@@ -3,6 +3,7 @@ import type { Locale } from "@/app/[locale]/dictionaries";
 import { AFFILIATE_REL } from "@/lib/affiliate";
 import { type FeedItem } from "@/lib/feed";
 import { formatPrice } from "@/lib/format";
+import { StarRating } from "./StarRating";
 
 export type { FeedItem };
 
@@ -116,6 +117,19 @@ function FeedCard({ item, locale }: { item: FeedItem; locale: Locale }) {
         <p className="t-card-title line-clamp-2 group-hover:text-primary">
           {item.name}
         </p>
+        {/* ★評価 + 件数: ratingAvg がある source (現在は楽天 popular) のみ表示。
+            Amazon/curated は PA-API 未承認・元データ無しで未表示。
+            CTR への寄与が確認されたら Amazon の rating 取得策を検討。 */}
+        {item.ratingAvg != null && item.ratingAvg > 0 && (
+          <div className="mt-0.5 flex items-center gap-1">
+            <StarRating value={item.ratingAvg} size="sm" />
+            {item.ratingCount != null && item.ratingCount > 0 && (
+              <span className="text-[10px] text-muted-fg">
+                ({item.ratingCount.toLocaleString()})
+              </span>
+            )}
+          </div>
+        )}
         <p className="t-price mt-auto pt-1">
           {formatPrice(item.priceJpy, locale)}
         </p>

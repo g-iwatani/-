@@ -24,6 +24,13 @@ export type FeedItem = {
   brand: string;
   name: string;
   priceJpy: number;
+  /**
+   * 0-5 の評価値。データがあるソース (現在は楽天 popular のみ) で渡す。
+   * Amazon は PA-API 未承認のため null、curated はそもそも元データ無し。
+   */
+  ratingAvg?: number | null;
+  /** レビュー件数。0 や undefined の場合は非表示。 */
+  ratingCount?: number;
 };
 
 export function buildFeedItems(
@@ -68,6 +75,11 @@ export function buildFeedItems(
           brand: displayShopName(p.shopName),
           name: p.nameJa,
           priceJpy: p.priceJpy,
+          // 楽天 Item Search API 由来の評価値・件数。アフィリ担当レビュー
+          // 「ratingAvg/ratingCount を捨てている、★+件数 表示で CTR
+          // +15-25% 取れる」 への対応で feed まで持ち越す。
+          ratingAvg: p.ratingAvg,
+          ratingCount: p.ratingCount,
         },
         // bestRank: 1 (最良) ≈ 99、20位 ≈ 80。100 - bestRank で popularity 0-100 化
         pop: Math.max(0, 100 - p.bestRank),
