@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { MiniProductCard } from "@/components/MiniProductCard";
 import { ProductGallery } from "@/components/ProductGallery";
 import { Rail, RailItem } from "@/components/Rail";
+import { RecentTracker } from "@/components/RecentTracker";
 import { AFFILIATE_REL } from "@/lib/affiliate";
 import { getBreed } from "@/lib/breeds";
 import { getConcern } from "@/lib/concerns";
@@ -167,6 +168,7 @@ export default async function ProductPage({
       <StructuredData
         items={[productSchema(product, pageUrl, resolvedBuyUrls, locale), breadcrumbs]}
       />
+      <RecentTracker productId={product.id} />
       <div className="mb-6">
         <Link
           href={`/${locale}/results?${queryString.toString()}`}

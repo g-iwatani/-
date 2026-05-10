@@ -5,6 +5,7 @@ import { CategoryGrid } from "@/components/CategoryGrid";
 import { ConcernChip } from "@/components/ConcernChip";
 import { FeaturedProduct } from "@/components/FeaturedProduct";
 import { GuideCard } from "@/components/GuideCard";
+import { RecentRail } from "@/components/RecentRail";
 import { SeasonalBanner } from "@/components/SeasonalBanner";
 import { MiniProductCard } from "@/components/MiniProductCard";
 import { PopularProductCard } from "@/components/PopularProductCard";
@@ -57,6 +58,10 @@ export default async function HomePage({
   const root = `/${locale}`;
 
   const popularBreeds = getPopularBreeds();
+  // RecentRail (client) に渡す id → Product lookup。visibleProducts 全件を
+  // 投影するので 50KB ほど HTML に乗るが、homepage の 1 度きりなので OK。
+  const recentLookup: Record<string, (typeof products)[number]> = {};
+  for (const p of products) recentLookup[p.id] = p;
   const allBreeds = breeds.filter((b) => b.id !== "mix" && !b.id.startsWith("unknown-"));
   const popularConcerns = getPopularConcerns(8);
   const trendingPopular = topPopular(12);
@@ -240,6 +245,9 @@ export default async function HomePage({
 
       {/* Seasonal campaign banner (current month → matching guide) */}
       <SeasonalBanner locale={locale} />
+
+      {/* Recently viewed (localStorage, hidden when empty) */}
+      <RecentRail locale={locale} lookup={recentLookup} />
 
       {/* Editor's monthly featured product (hero card) */}
       <FeaturedHero locale={locale} dict={dict} />
