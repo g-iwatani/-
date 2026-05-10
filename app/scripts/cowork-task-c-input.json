@@ -1,0 +1,662 @@
+[
+  {
+    "id": "ruffwear-overcoat-utility",
+    "brand": "Ruffwear",
+    "name": "オーバーコート ユーティリティ",
+    "desc": "撥水・防風・保温の3拍子。アウトドア犬の冬を支える定番ジャケット。",
+    "category": "apparel",
+    "concerns": [
+      "cold-winter",
+      "rainy-walk",
+      "active-sports"
+    ]
+  },
+  {
+    "id": "hurtta-summit-parka",
+    "brand": "Hurtta",
+    "name": "サミットパーカ",
+    "desc": "極寒対応。フィンランド発、本気の冬装備。シェルティから大型犬まで。",
+    "category": "apparel",
+    "concerns": [
+      "cold-winter",
+      "active-sports"
+    ]
+  },
+  {
+    "id": "canada-pooch-cool-vest",
+    "brand": "Canada Pooch",
+    "name": "クールベスト",
+    "desc": "水で濡らして着せるだけ。気化熱で体温を下げる夏の救世主。",
+    "category": "apparel",
+    "concerns": [
+      "hot-summer",
+      "active-sports"
+    ]
+  },
+  {
+    "id": "mandarine-bros-raincoat",
+    "brand": "Mandarine Brothers",
+    "name": "ハイブリッドレインコート",
+    "desc": "脚まで覆う4本足タイプのレインコート。雨の日の散歩を変える1着。",
+    "category": "apparel",
+    "concerns": [
+      "rainy-walk",
+      "small-breed"
+    ]
+  },
+  {
+    "id": "free-stitch-bigtee",
+    "brand": "Free Stitch",
+    "name": "ビッグTシャツ",
+    "desc": "ゆったり着られる、抜け毛キャッチも兼ねたデイリーTシャツ。",
+    "category": "apparel",
+    "concerns": [
+      "cute-outing",
+      "small-breed",
+      "senior-dog"
+    ]
+  },
+  {
+    "id": "alphaicon-down",
+    "brand": "ALPHAICON",
+    "name": "ライトダウンコート",
+    "desc": "国産ダウンの軽量防寒着。MIX犬・小型犬の細部までフィットするパターン。",
+    "category": "apparel",
+    "concerns": [
+      "cold-winter",
+      "small-breed",
+      "mix-fit"
+    ]
+  },
+  {
+    "id": "milkypaws-summer-dress",
+    "brand": "milkypaws",
+    "name": "サマーリネンドレス",
+    "desc": "リネン100%のさらりとしたドレス。お出かけ・撮影に。",
+    "category": "apparel",
+    "concerns": [
+      "cute-outing",
+      "hot-summer",
+      "small-breed"
+    ]
+  },
+  {
+    "id": "fuzzyard-fleece",
+    "brand": "FuzzYard",
+    "name": "フリースパーカ",
+    "desc": "ダブルフリースの軽量パーカ。秋〜春の3シーズン使えるデイリーアウター。",
+    "category": "apparel",
+    "concerns": [
+      "cold-winter",
+      "cute-outing"
+    ]
+  },
+  {
+    "id": "kong-classic",
+    "brand": "Kong",
+    "name": "クラシック コング",
+    "desc": "中におやつを詰めて長時間集中。留守番・分離不安の定番アイテム。",
+    "category": "toy",
+    "concerns": [
+      "lonely-when-alone",
+      "destroys-toys"
+    ]
+  },
+  {
+    "id": "snufflemat-doggone",
+    "brand": "DoggoneGood",
+    "name": "スナッフルマット",
+    "desc": "ドライフードを隠して鼻で探させる。脳と鼻を5倍疲れさせるマット。",
+    "category": "toy",
+    "concerns": [
+      "lonely-when-alone",
+      "noise-scared"
+    ]
+  },
+  {
+    "id": "westpaw-jive",
+    "brand": "West Paw",
+    "name": "ジャイブ ボール",
+    "desc": "天然ゴム製の不規則バウンドボール。ヘビーチュワーでも長持ち。",
+    "category": "toy",
+    "concerns": [
+      "destroys-toys",
+      "active-sports",
+      "dog-run"
+    ]
+  },
+  {
+    "id": "petstages-deerhorn",
+    "brand": "Petstages",
+    "name": "デンタルチュー(鹿角)",
+    "desc": "天然鹿角の長持ちチュー。歯磨き効果と長時間の集中。",
+    "category": "toy",
+    "concerns": [
+      "destroys-toys",
+      "lonely-when-alone"
+    ]
+  },
+  {
+    "id": "petsafe-busy-buddy",
+    "brand": "PetSafe",
+    "name": "ビジーバディ パズル",
+    "desc": "回すとフードが落ちる仕組み。1人遊びを劇的に伸ばすトリーター。",
+    "category": "toy",
+    "concerns": [
+      "lonely-when-alone"
+    ]
+  },
+  {
+    "id": "ruffwear-front-range",
+    "brand": "Ruffwear",
+    "name": "フロントレンジ ハーネス",
+    "desc": "胸とハンドル両アタッチメント。引っ張り癖の犬に最適。",
+    "category": "env",
+    "concerns": [
+      "pulls-leash",
+      "active-sports",
+      "dog-run"
+    ]
+  },
+  {
+    "id": "muttluks-boots",
+    "brand": "Muttluks",
+    "name": "オールウェザー ブーツ",
+    "desc": "凍結路面・融雪剤・熱いアスファルトから肉球を守る通年ブーツ。",
+    "category": "env",
+    "concerns": [
+      "cold-paws",
+      "rainy-walk",
+      "hot-summer"
+    ]
+  },
+  {
+    "id": "petsafe-easy-walk",
+    "brand": "PetSafe",
+    "name": "イージーウォーク ハーネス",
+    "desc": "胸前リードで引っ張りを優しく抑制。トレーニング初心者に。",
+    "category": "env",
+    "concerns": [
+      "pulls-leash"
+    ]
+  },
+  {
+    "id": "thundershirt",
+    "brand": "ThunderShirt",
+    "name": "サンダーシャツ",
+    "desc": "圧迫で安心感を与えるベスト。雷・花火・留守番の不安に。",
+    "category": "env",
+    "concerns": [
+      "noise-scared",
+      "lonely-when-alone"
+    ]
+  },
+  {
+    "id": "coolerdog-mat",
+    "brand": "Cooler Dog",
+    "name": "クールマット",
+    "desc": "ジェル充填。電源不要で体温を逃がす夏のベッド。",
+    "category": "env",
+    "concerns": [
+      "hot-summer",
+      "senior-dog"
+    ]
+  },
+  {
+    "id": "iris-stairs",
+    "brand": "アイリスオーヤマ",
+    "name": "犬用ステップ",
+    "desc": "ソファ・ベッドへの段差をなくす。シニア犬や腰の弱い犬に。",
+    "category": "env",
+    "concerns": [
+      "senior-dog"
+    ]
+  },
+  {
+    "id": "outward-hound-slow-bowl",
+    "brand": "Outward Hound",
+    "name": "ファンフィーダー(スローフィーダーボウル)",
+    "desc": "迷路状の凹凸で食事ペースを自然に落とす。早食い・退屈に。",
+    "category": "env",
+    "concerns": [
+      "fast-eater",
+      "picky-eater",
+      "lonely-when-alone"
+    ]
+  },
+  {
+    "id": "richell-bowl-stand",
+    "brand": "Richell",
+    "name": "高さ調整できる食器スタンド",
+    "desc": "首と背中の負担を減らす高さ調整スタンド。シニア犬・大型犬・うつむき食いの子に。",
+    "category": "env",
+    "concerns": [
+      "picky-eater",
+      "senior-dog"
+    ]
+  },
+  {
+    "id": "puppia-soft-harness",
+    "brand": "Puppia",
+    "name": "ソフトハーネス",
+    "desc": "首に圧をかけない胴ベルト式のソフトハーネス。子犬や小型犬の散歩デビューに。",
+    "category": "env",
+    "concerns": [
+      "puppy",
+      "small-breed",
+      "slips-off"
+    ]
+  },
+  {
+    "id": "ruffwear-stash-bag",
+    "brand": "Ruffwear",
+    "name": "スタッシュバッグ(ウンチ袋ホルダー)",
+    "desc": "リードに付ける処理袋ホルダー。長時間散歩・ドッグラン派の必需品。",
+    "category": "env",
+    "concerns": [
+      "long-walker",
+      "active-sports"
+    ]
+  },
+  {
+    "id": "ruffwear-quencher-bowl",
+    "brand": "Ruffwear",
+    "name": "クエンチャー 折りたたみボウル",
+    "desc": "コンパクトに折りたためる携帯ボウル。アウトドア・長時間散歩・夏場の水分補給に。",
+    "category": "env",
+    "concerns": [
+      "long-walker",
+      "active-sports",
+      "hot-summer"
+    ]
+  },
+  {
+    "id": "furminator-deshed",
+    "brand": "FURminator",
+    "name": "アンダーコートデシェディングツール",
+    "desc": "短毛・長毛それぞれに最適化された刃で、アンダーコートを効率的に取り除く定番ブラシ。",
+    "category": "env",
+    "concerns": [
+      "heavy-shedding",
+      "long-coat-grooming"
+    ]
+  },
+  {
+    "id": "hertzko-slicker",
+    "brand": "Hertzko",
+    "name": "セルフクリーニングスリッカーブラシ",
+    "desc": "ボタンひとつで毛玉を排出。長毛・カーリーコート犬の毎日のもつれ防止に。",
+    "category": "env",
+    "concerns": [
+      "long-coat-grooming",
+      "heavy-shedding",
+      "brushing-hates"
+    ]
+  },
+  {
+    "id": "earthbath-ear-wipes",
+    "brand": "Earthbath",
+    "name": "イヤーワイプ(耳掃除シート)",
+    "desc": "天然素材ベースの優しい耳掃除シート。日常ケアで耳の汚れを軽減。",
+    "category": "env",
+    "concerns": [
+      "dirty-ears"
+    ]
+  },
+  {
+    "id": "petio-eye-wipes",
+    "brand": "Petio",
+    "name": "目元クリーンシート",
+    "desc": "毎日の目元のお手入れに。涙やけが気になる飼い主が選んでいる定番ケア用品。",
+    "category": "env",
+    "concerns": [
+      "tear-stains-care"
+    ]
+  },
+  {
+    "id": "wahl-bravura-trimmer",
+    "brand": "Wahl",
+    "name": "ブラブラ コードレストリマー",
+    "desc": "音が静かなコードレストリマー。爪切りや顔まわりの毛のお手入れに使える兼用機。",
+    "category": "env",
+    "concerns": [
+      "nail-care-hates",
+      "long-coat-grooming"
+    ]
+  },
+  {
+    "id": "petrepublique-grinder",
+    "brand": "Pet Republique",
+    "name": "電動ネイルグラインダー",
+    "desc": "切らずに削る電動爪ヤスリ。爪切りが苦手な子に音が静かなモデルがおすすめ。",
+    "category": "env",
+    "concerns": [
+      "nail-care-hates",
+      "senior-dog"
+    ]
+  },
+  {
+    "id": "aquapaw-licker",
+    "brand": "Aquapaw",
+    "name": "ペットスローフィーダー(吸盤付き)",
+    "desc": "壁に吸盤で貼り付けるリックマット。お風呂やドライヤー時の気を逸らすのに最適。",
+    "category": "env",
+    "concerns": [
+      "bath-hates",
+      "brushing-hates",
+      "fast-eater",
+      "lonely-when-alone"
+    ]
+  },
+  {
+    "id": "burts-bees-shampoo",
+    "brand": "Burt's Bees",
+    "name": "ナチュラル ドッグシャンプー",
+    "desc": "天然由来成分配合のマイルドなシャンプー。バスタイムを優しく。",
+    "category": "env",
+    "concerns": [
+      "bath-hates"
+    ]
+  },
+  {
+    "id": "pet-glove-brush",
+    "brand": "DELOMO",
+    "name": "グルーミンググローブ",
+    "desc": "撫でながらブラッシング。ブラシ嫌いな子にも触る延長として馴染みやすい。",
+    "category": "env",
+    "concerns": [
+      "brushing-hates",
+      "heavy-shedding"
+    ]
+  },
+  {
+    "id": "virbac-toothpaste",
+    "brand": "Virbac",
+    "name": "C.E.T 歯磨きペースト",
+    "desc": "獣医師が推奨することの多いデンタルペースト。フレーバー付きで犬が嫌がりにくい。",
+    "category": "env",
+    "concerns": [
+      "dental-care"
+    ]
+  },
+  {
+    "id": "nylabone-dura-chew",
+    "brand": "Nylabone",
+    "name": "デュラチュー パワーチュー",
+    "desc": "ヘビーチュワー対応のデンタルチュー。歯垢を物理的に減らしながら長時間遊べる。",
+    "category": "toy",
+    "concerns": [
+      "dental-care",
+      "destroys-toys",
+      "biting-habit"
+    ]
+  },
+  {
+    "id": "greenies-dental-treats",
+    "brand": "Greenies",
+    "name": "グリニーズ オリジナル",
+    "desc": "毎日のデンタル習慣に。サイズ別パッケージで噛みごたえも適切。",
+    "category": "env",
+    "concerns": [
+      "dental-care"
+    ]
+  },
+  {
+    "id": "petsafe-treat-pouch",
+    "brand": "PetSafe",
+    "name": "トリートポーチ",
+    "desc": "ご褒美をすぐ渡せるトレーニング必携アイテム。マグネット式の口で片手アクセス。",
+    "category": "env",
+    "concerns": [
+      "pulls-leash",
+      "wont-come",
+      "barking",
+      "scavenging",
+      "jumps-on-people"
+    ]
+  },
+  {
+    "id": "gentle-leader-headcollar",
+    "brand": "PetSafe",
+    "name": "ジェントルリーダー ヘッドカラー",
+    "desc": "頭部装着型のしつけ補助具。引っ張り癖の改善に高い実績がある定番。",
+    "category": "env",
+    "concerns": [
+      "pulls-leash",
+      "reactive-bicycle",
+      "barking-other-dogs"
+    ]
+  },
+  {
+    "id": "mighty-paw-long-leash",
+    "brand": "Mighty Paw",
+    "name": "ロングリード(9m)",
+    "desc": "呼び戻しトレーニングに使う長いリード。広い場所で安全に練習できる。",
+    "category": "env",
+    "concerns": [
+      "wont-come",
+      "active-sports",
+      "outdoor-camping"
+    ]
+  },
+  {
+    "id": "adaptil-spray",
+    "brand": "Adaptil",
+    "name": "犬用フェロモンスプレー",
+    "desc": "母犬のフェロモンを再現したスプレー。クレートやキャリーに吹きかけて安心感を補助。",
+    "category": "env",
+    "concerns": [
+      "anxiety-general",
+      "noise-scared",
+      "moving-home",
+      "boarding",
+      "carsick"
+    ]
+  },
+  {
+    "id": "baskerville-muzzle",
+    "brand": "Baskerville",
+    "name": "ウルトラマズル(口輪)",
+    "desc": "通気性の高いバスケット型マズル。拾い食い防止や来客対応の補助に。",
+    "category": "env",
+    "concerns": [
+      "scavenging",
+      "biting-habit",
+      "barking-guests"
+    ]
+  },
+  {
+    "id": "outward-hound-puzzle",
+    "brand": "Outward Hound",
+    "name": "ニーナオットソン パズル",
+    "desc": "難易度別の知育パズル。隠したフードを犬が探して開ける、留守番にも最適。",
+    "category": "toy",
+    "concerns": [
+      "destructive-when-alone",
+      "lonely-when-alone",
+      "fast-eater"
+    ]
+  },
+  {
+    "id": "kong-wobbler",
+    "brand": "Kong",
+    "name": "コング ウォブラー",
+    "desc": "倒すとフードが少しずつ出る。早食い対策にもなる動的フード給仕。",
+    "category": "toy",
+    "concerns": [
+      "lonely-when-alone",
+      "fast-eater",
+      "weight-management"
+    ]
+  },
+  {
+    "id": "ifetch-launcher",
+    "brand": "iFetch",
+    "name": "自動ボールランチャー",
+    "desc": "ボールを入れると自動で投げてくれる。室内・庭での運動量を確保。",
+    "category": "toy",
+    "concerns": [
+      "destructive-when-alone",
+      "weight-management",
+      "active-sports"
+    ]
+  },
+  {
+    "id": "snuggle-puppy",
+    "brand": "Snuggle Puppy",
+    "name": "心音つきぬいぐるみ",
+    "desc": "リアルな心音と温かさで安心感を作る。子犬・引っ越し直後・分離不安に。",
+    "category": "toy",
+    "concerns": [
+      "puppy",
+      "moving-home",
+      "anxiety-general",
+      "lonely-when-alone",
+      "noise-scared"
+    ]
+  },
+  {
+    "id": "carlson-pet-gate",
+    "brand": "Carlson",
+    "name": "ペット用ゲート(自立式)",
+    "desc": "工具不要で設置できる自立型ゲート。トイレトレーニングや子供との境界線づくりに。",
+    "category": "env",
+    "concerns": [
+      "potty-training",
+      "with-kids",
+      "begging-for-food",
+      "multi-dog"
+    ]
+  },
+  {
+    "id": "wagworld-pads",
+    "brand": "WagWorld",
+    "name": "薄型ペットシーツ(レギュラー)",
+    "desc": "コスパ重視の毎日使いシーツ。トイレトレーニング期にまとめ買い向き。",
+    "category": "env",
+    "concerns": [
+      "potty-training",
+      "puppy"
+    ]
+  },
+  {
+    "id": "sleepypod-clickit",
+    "brand": "Sleepypod",
+    "name": "クリックイット スポーツ(車用ハーネス)",
+    "desc": "クラッシュテスト済みの車載シートベルトハーネス。安全性で選ぶならこれ。",
+    "category": "env",
+    "concerns": [
+      "travel-car",
+      "carsick",
+      "active-sports"
+    ]
+  },
+  {
+    "id": "sherpa-carrier",
+    "brand": "Sherpa",
+    "name": "オリジナル デラックス キャリア",
+    "desc": "JAL/ANA等の機内持ち込みサイズに対応。電車・カフェ移動にも便利。",
+    "category": "env",
+    "concerns": [
+      "public-transport",
+      "cafe-friendly",
+      "travel-car",
+      "boarding"
+    ]
+  },
+  {
+    "id": "midwest-foldable-pen",
+    "brand": "MidWest",
+    "name": "折りたたみケージ",
+    "desc": "折りたたみ可能なメタルペン。多頭飼育・キャンプ・災害時の備えに。",
+    "category": "env",
+    "concerns": [
+      "multi-dog",
+      "outdoor-camping",
+      "disaster-prep",
+      "potty-training"
+    ]
+  },
+  {
+    "id": "kurgo-dog-backpack",
+    "brand": "Kurgo",
+    "name": "ドッグバックパック(犬用)",
+    "desc": "犬自身が背負うアウトドア用バックパック。長時間散歩・ハイキングに。",
+    "category": "env",
+    "concerns": [
+      "outdoor-camping",
+      "active-sports",
+      "long-walker"
+    ]
+  },
+  {
+    "id": "mighty-paw-led-collar",
+    "brand": "Mighty Paw",
+    "name": "LED ライトアップカラー",
+    "desc": "夜の散歩・キャンプ・災害時の視認性確保。USB充電対応。",
+    "category": "env",
+    "concerns": [
+      "outdoor-camping",
+      "disaster-prep",
+      "long-walker"
+    ]
+  },
+  {
+    "id": "kurgo-loft-bed",
+    "brand": "Kurgo",
+    "name": "ロフトワンダーベッド(携帯ベッド)",
+    "desc": "丸めて持ち運べる旅行用ベッド。ペットホテル・キャンプ・引越し直後の安心アイテムに。",
+    "category": "env",
+    "concerns": [
+      "boarding",
+      "moving-home",
+      "outdoor-camping"
+    ]
+  },
+  {
+    "id": "pooch-outfitters-long-body",
+    "brand": "Pooch Outfitters",
+    "name": "ロングボディフード(胴長犬向け)",
+    "desc": "ダックスフンドやコーギーの胴長体型に合わせたパターンで作られたフード。",
+    "category": "apparel",
+    "concerns": [
+      "long-back",
+      "small-breed",
+      "mix-fit"
+    ]
+  },
+  {
+    "id": "frenchbull-wide-vest",
+    "brand": "Frenchic",
+    "name": "ワイドチェストベスト(短頭種向け)",
+    "desc": "フレンチブル・パグ等の太い胸囲に合わせた特殊パターン。アジャスタ付き。",
+    "category": "apparel",
+    "concerns": [
+      "wide-chest",
+      "mix-fit",
+      "slips-off"
+    ]
+  },
+  {
+    "id": "bivvy-emergency-kit",
+    "brand": "Bivvy",
+    "name": "ペット防災キット",
+    "desc": "ペット用の非常持ち出しキット。フード・水・首輪・ライト等を一式パッケージ化。",
+    "category": "env",
+    "concerns": [
+      "disaster-prep"
+    ]
+  },
+  {
+    "id": "petsafe-paw-balm",
+    "brand": "Musher's Secret",
+    "name": "肉球ワックス(マッシャーズシークレット)",
+    "desc": "肉球に塗ると保護膜を作る天然ワックス。熱いアスファルト・凍結路面・乾燥対策に。",
+    "category": "env",
+    "concerns": [
+      "asphalt-hot",
+      "cold-paws",
+      "long-walker"
+    ]
+  }
+]
