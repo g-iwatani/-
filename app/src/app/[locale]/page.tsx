@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BreedChip } from "@/components/BreedChip";
+import { CategoryGrid } from "@/components/CategoryGrid";
 import { ConcernChip } from "@/components/ConcernChip";
 import { FeaturedProduct } from "@/components/FeaturedProduct";
 import { GuideCard } from "@/components/GuideCard";
@@ -233,6 +234,9 @@ export default async function HomePage({
           </div>
         </div>
       </section>
+
+      {/* Category icon grid (Mercari/ZOZO-style commerce reflex) */}
+      <CategoryGrid locale={locale} />
 
       {/* Seasonal campaign banner (current month → matching guide) */}
       <SeasonalBanner locale={locale} />
