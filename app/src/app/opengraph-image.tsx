@@ -1,6 +1,8 @@
 import { ImageResponse } from "next/og";
 import { site } from "@/lib/site";
 
+// Cloudflare Workers + OpenNext で next/og を動かすために必要
+export const runtime = "edge";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const alt = `${site.nameJa} / ${site.nameEn}`;

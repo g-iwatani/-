@@ -3,8 +3,11 @@ import { getGuide } from "@/lib/guides";
 import { site } from "@/lib/site";
 import { defaultLocale, hasLocale } from "../../dictionaries";
 
+// 同上 — Cloudflare Workers + OpenNext で next/og を動かすため明示
+export const runtime = "edge";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+export const alt = `${site.nameJa} 選び方ガイド`;
 
 /**
  * ガイド記事用 OG 画像。タイトル + リード冒頭 + ブランド表示。

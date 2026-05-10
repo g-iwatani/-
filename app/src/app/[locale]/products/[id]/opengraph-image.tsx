@@ -3,8 +3,13 @@ import { getProduct } from "@/lib/products";
 import { site } from "@/lib/site";
 import { defaultLocale, hasLocale } from "../../dictionaries";
 
+// Cloudflare Workers では Edge Runtime 必須 (Node 専用 API を持つ next/og の
+// 一部機能を WebAssembly fallback に切替えるため)。指定無しだと OpenNext で
+// Workers にデプロイした時に 500 エラーで OG 画像が出ない。
+export const runtime = "edge";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+export const alt = `${site.nameJa} 商品ページ`;
 
 /**
  * 商品ページ専用 OG 画像。SNS シェア時に商品名 + ブランド + サイト名を
