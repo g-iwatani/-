@@ -7,6 +7,7 @@ import { ProductFeed } from "@/components/ProductFeed";
 import { Rail, RailItem } from "@/components/Rail";
 import {
   type Concern,
+  chipLabel,
   concerns,
   getConcern,
   getConcernsByCategory,
@@ -208,7 +209,7 @@ export default async function ConcernPage({
                   : "border border-border bg-card text-muted-fg hover:border-primary hover:text-primary"
               }`}
             >
-              {locale === "ja" ? c.labelJa : c.labelEn}
+              {chipLabel(c, locale)}
             </Link>
           ))}
         </div>

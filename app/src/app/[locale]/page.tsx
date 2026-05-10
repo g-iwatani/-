@@ -5,7 +5,7 @@ import { GuideCard } from "@/components/GuideCard";
 import { ProductFeed } from "@/components/ProductFeed";
 import { Rail, RailItem } from "@/components/Rail";
 import { RecentRail } from "@/components/RecentRail";
-import { getPopularConcerns } from "@/lib/concerns";
+import { chipLabel, getPopularConcerns } from "@/lib/concerns";
 import { buildFeedItems } from "@/lib/feed";
 import { guides } from "@/lib/guides";
 import { listBrands, visibleProducts as products } from "@/lib/products";
@@ -79,7 +79,7 @@ export default async function HomePage({
               <ConcernChipLink
                 key={c.id}
                 href={`${root}/concerns/${c.id}`}
-                label={locale === "ja" ? c.labelJa : c.labelEn}
+                label={chipLabel(c, locale)}
               />
             ))}
           </div>

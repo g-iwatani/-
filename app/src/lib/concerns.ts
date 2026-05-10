@@ -5,6 +5,12 @@ export type Concern = {
   category: ConcernCategory;
   labelJa: string;
   labelEn: string;
+  /**
+   * 短縮表記。TOP の chip 列など狭い surface で使用。未定義時は labelJa を使う。
+   * 5-8 文字程度で「タップしたくなる粒度」に揃える ("抜け毛対策" "夏の暑さ" 等)。
+   */
+  chipLabelJa?: string;
+  chipLabelEn?: string;
   descJa: string;
   descEn: string;
   /**
@@ -17,6 +23,12 @@ export type Concern = {
   popularity: number;
   iconKey: string;
 };
+
+/** chip 表示用ラベルを取得。chipLabelJa/En が未定義なら label にフォールバック。 */
+export function chipLabel(c: Concern, locale: "ja" | "en"): string {
+  if (locale === "ja") return c.chipLabelJa ?? c.labelJa;
+  return c.chipLabelEn ?? c.labelEn;
+}
 
 /**
  * 悩みマスタ。最終的にはアクセスログの検索クエリ集計で順位を動的に
@@ -32,6 +44,8 @@ export const concerns: Concern[] = [
     category: "care",
     labelJa: "抜け毛が多くて掃除が大変",
     labelEn: "Heavy shedding — cleaning is exhausting",
+    chipLabelJa: "抜け毛対策",
+    chipLabelEn: "Shedding",
     descJa:
       "抜け毛キャッチのウェアやデイリーブラシ、コロコロ・ブラシ系。掃除負担を物理で減らす。",
     descEn:
@@ -132,6 +146,8 @@ export const concerns: Concern[] = [
     category: "behavior",
     labelJa: "吠え声が大きい / よく吠える",
     labelEn: "Barks too much / too loud",
+    chipLabelJa: "無駄吠え",
+    chipLabelEn: "Barking",
     descJa:
       "クレートトレーニング、知育トイ、ベスト型の落ち着きグッズ。",
     descEn:
@@ -168,6 +184,8 @@ export const concerns: Concern[] = [
     category: "behavior",
     labelJa: "散歩で引っ張る",
     labelEn: "Pulls on the leash",
+    chipLabelJa: "引っ張り癖",
+    chipLabelEn: "Pulling",
     descJa:
       "引っ張り防止ハーネスやノーパルハーネス系で散歩を楽に。",
     descEn:
@@ -252,6 +270,8 @@ export const concerns: Concern[] = [
     category: "behavior",
     labelJa: "留守番が苦手で寂しがる",
     labelEn: "Hates being home alone",
+    chipLabelJa: "留守番グッズ",
+    chipLabelEn: "Home alone",
     descJa:
       "知育トイ、ノーズワークマット、コング系で頭と時間を満たす。",
     descEn:
@@ -340,6 +360,8 @@ export const concerns: Concern[] = [
     category: "size",
     labelJa: "MIX犬で服のサイズが合わない",
     labelEn: "Mix breed sizing is hard",
+    chipLabelJa: "MIX犬の服",
+    chipLabelEn: "Mix sizing",
     descJa:
       "親犬種が違うと体型もまちまち。各ブランドのサイズ表をどう読むか難しい。",
     descEn:
@@ -362,6 +384,8 @@ export const concerns: Concern[] = [
     category: "size",
     labelJa: "小型犬・MIX犬向けの選び方が分からない",
     labelEn: "Don't know how to pick for small / mixed breeds",
+    chipLabelJa: "小型犬向け",
+    chipLabelEn: "Small breed",
     descJa: "情報が大型犬・有名犬種に偏りがち。うちの子に合うものをどう選ぶ?",
     descEn:
       "Most guides target larger or pure breeds. How do I pick for mine?",
@@ -401,6 +425,8 @@ export const concerns: Concern[] = [
     category: "season",
     labelJa: "暑がりで夏が心配",
     labelEn: "Overheats easily in summer",
+    chipLabelJa: "夏の暑さ",
+    chipLabelEn: "Summer heat",
     descJa: "アスファルトの熱、湿気、エアコンとの温度差。夏場の外出・室内対策。",
     descEn: "Hot asphalt, humidity, indoor AC swings — summer needs help.",
     popularity: 88,
@@ -421,6 +447,8 @@ export const concerns: Concern[] = [
     category: "season",
     labelJa: "寒がりで冬の散歩が辛そう",
     labelEn: "Struggles with cold winter walks",
+    chipLabelJa: "冬の寒さ",
+    chipLabelEn: "Winter cold",
     descJa: "短毛・小型犬は特に冷えやすい。防寒着で快適に。",
     descEn: "Short-haired or small breeds get cold fast. Outerwear matters.",
     popularity: 82,

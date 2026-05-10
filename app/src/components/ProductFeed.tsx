@@ -66,15 +66,11 @@ export function ProductFeed({
 }
 
 function FeedCard({ item, locale }: { item: FeedItem; locale: Locale }) {
-  const sourceClass =
-    item.source === "amazon"
-      ? "bg-amber-500 text-white"
-      : item.source === "rakuten"
-        ? "bg-rose-500 text-white"
-        : "bg-emerald-600 text-white";
-  const sourceLabel =
-    item.source === "amazon" ? "Amazon" : item.source === "rakuten" ? "楽天" : "編集";
-
+  // UI レビューで「amber/rose/emerald の色付き source バッジが 60 カードに
+  // 散らばって紙吹雪 (confetti) 状態」 と指摘されたため、色付き source 表示は
+  // 廃止。出所識別は brand 文字列と destination の挙動 (内部/外部) で十分。
+  // 残すバッジは PR (景表法対応) と外部リンク矢印 (UX 上 「サイトを離れる」
+  // を予告) の 2 種だけに絞ってカード自体を主役にする。
   const inner = (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-card-border bg-card transition-all hover:-translate-y-0.5 hover:shadow-md">
       <div className="relative aspect-square overflow-hidden bg-muted">
@@ -85,23 +81,27 @@ function FeedCard({ item, locale }: { item: FeedItem; locale: Locale }) {
           loading="lazy"
           className="h-full w-full object-cover object-center transition-transform group-hover:scale-105"
         />
-        <span
-          className={`absolute right-1.5 top-1.5 rounded px-1.5 py-0.5 text-[9px] font-bold ${sourceClass}`}
-        >
-          {sourceLabel}
-        </span>
         {/* 景表法ステマ規制 (内閣府告示第19号, 2023年10月施行) は「広告で
             あることを一般消費者が容易に判別できる表示を、目立つ場所に行う」
             ことを要求。直 external の楽天/Amazon はもちろん、内部 /products/[id]
             経由の Amazon・編集 カードも最終的にアフィリ送客するため、すべての
-            カードに PR バッジを出す。フッタの AffiliateDisclosure だけだと
-            個別広告表示要件を満たさないと解釈されるリスクがあるため。 */}
+            カードに PR バッジを出す。 */}
         <span
           aria-label="ad"
           className="absolute left-1.5 top-1.5 rounded bg-foreground/85 px-1 py-0.5 text-[9px] font-bold text-background"
         >
           PR
         </span>
+        {item.isExternal && (
+          // 外部サイトへ離脱する旨を矢印アイコンだけで示す。テキストでも
+          // alt/aria で読み上げ可能。
+          <span
+            aria-label={locale === "ja" ? "外部サイトへ" : "External site"}
+            className="absolute right-1.5 top-1.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-background/90 text-[10px] text-foreground shadow-sm"
+          >
+            ↗
+          </span>
+        )}
       </div>
       <div className="flex flex-1 flex-col gap-0.5 px-2 py-2">
         <p className="text-[10px] font-bold uppercase tracking-wide text-muted-fg line-clamp-1">
