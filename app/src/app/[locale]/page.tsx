@@ -212,29 +212,33 @@ export default async function HomePage({
 
 /**
  * メルカリ風 reel の元データ生成。
- * - Amazon-bestseller (id "amz-*"): popularity がそのまま 0-100 で乗ってる
- * - 楽天 popular: bestRank が低い (= 上位) ほど高 popularity
- * - 編集部 (curated, "amz-*" 以外): popularity 0-100
+ *
+ * source 別 (Amazon / 楽天 / 編集部) に各々 popularity 降順でソートし、
+ * 「Amazon 1 件 → 楽天 1 件 → 編集部 1 件 → Amazon 2 件 → ...」 の
+ * ラウンドロビンで合流させる。各 source の popularity スケールが異なる
+ * (Amazon 50-80 / 楽天 80-99 / curated 50-95) ため単純 sort だと楽天が
+ * 上位を独占するのを回避。
  *
  * concernFilter 指定時は、Product 側 concerns に含まれる物だけ通す。
- * 楽天 popular は concern メタが無いのでこの場合は除外。全部同じ FeedItem 形に
- * 揃え、popularity 降順でソート。画像なしは弾く。
+ * 楽天 popular は concern メタが無いのでこの場合は除外。
  */
 function buildFeedItems(
   locale: "ja" | "en",
   concernFilter?: string,
 ): FeedItem[] {
-  const items: { item: FeedItem; pop: number }[] = [];
+  const amazonGroup: { item: FeedItem; pop: number }[] = [];
+  const curatedGroup: { item: FeedItem; pop: number }[] = [];
+  const rakutenGroup: { item: FeedItem; pop: number }[] = [];
 
   for (const p of products) {
     if (!p.imageUrl) continue;
     if (concernFilter && !p.concerns.includes(concernFilter)) continue;
     const isAmazon = p.id.startsWith("amz-");
     const lowest = Math.min(...p.buyOptions.map((b) => b.priceJpy));
-    items.push({
+    const entry = {
       item: {
         key: p.id,
-        source: isAmazon ? "amazon" : "curated",
+        source: isAmazon ? ("amazon" as const) : ("curated" as const),
         href: `/${locale}/products/${p.id}`,
         isExternal: false,
         imageUrl: p.imageUrl,
@@ -243,14 +247,15 @@ function buildFeedItems(
         priceJpy: lowest,
       },
       pop: p.popularity,
-    });
+    };
+    (isAmazon ? amazonGroup : curatedGroup).push(entry);
   }
 
   // 楽天 popular は concern メタを持たないので、フィルタ ON 時はスキップ
   if (!concernFilter) {
     for (const p of topPopular(40)) {
       if (!p.imageUrl) continue;
-      items.push({
+      rakutenGroup.push({
         item: {
           key: `rkt-${p.id}`,
           source: "rakuten",
@@ -267,8 +272,21 @@ function buildFeedItems(
     }
   }
 
-  items.sort((a, b) => b.pop - a.pop);
-  return items.map((x) => x.item);
+  amazonGroup.sort((a, b) => b.pop - a.pop);
+  curatedGroup.sort((a, b) => b.pop - a.pop);
+  rakutenGroup.sort((a, b) => b.pop - a.pop);
+
+  // ラウンドロビン: Amazon → 楽天 → 編集 の順で 1 つずつ取る。空グループはスキップ。
+  const out: FeedItem[] = [];
+  const groups = [amazonGroup, rakutenGroup, curatedGroup];
+  let i = 0;
+  while (groups.some((g) => g[i])) {
+    for (const g of groups) {
+      if (g[i]) out.push(g[i].item);
+    }
+    i++;
+  }
+  return out;
 }
 
 /** Hero 内の悩みフィルタ chip。アクティブ時は primary 塗り、非アクティブは枠線。 */
