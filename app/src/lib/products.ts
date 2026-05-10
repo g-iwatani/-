@@ -26,7 +26,15 @@ const rakutenImages: Record<string, string> = generatedImages;
  *   - frenchbull-wide-vest
  *   - bivvy-emergency-kit
  */
-const manualImages: Record<string, string> = manualImagesData;
+/**
+ * manual-images.json は値が string (1 枚) または string[] (複数枚アングル)
+ * のどちらでも受け付ける。最初の URL が hero 画像 (= imageUrl)、それ以降は
+ * ProductGallery の追加サムネイルとして表示される。
+ *
+ * cowork (browser Claude) で公式サイト・楽天商品ページから複数枚の URL を
+ * 集めた商品はそのまま array で記入する。後方互換のため旧 string 形式も維持。
+ */
+const manualImages: Record<string, string | string[]> = manualImagesData;
 
 export type ProductCategory = "apparel" | "toy" | "env";
 
@@ -75,6 +83,13 @@ export type Product = {
   popularity: number; // 0-100
   /** 商品画像URL(楽天/Amazon/ブランド公式の物)。未設定なら imagePalette+emoji のフォールバック表示 */
   imageUrl?: string;
+  /**
+   * ギャラリー用の追加画像 (商品の別アングル / カラー違い等)。
+   * 詳細ページの ProductGallery でサムネイル切替で表示される。
+   * 1 枚目は imageUrl と重複しても構わない (Gallery 側で重複除去しないので
+   * 重複させたい場合のみ含める)。
+   */
+  imageUrls?: string[];
   imagePalette: { from: string; to: string };
   imageEmoji: string;
   tagsJa: string[];
@@ -2050,10 +2065,27 @@ const rawProducts: Product[] = [
 
 // generated.json + manual-images.json で取得済みの画像URLを各商品にマージ。
 // rakuten 自動取得の方を優先 (より「正規品」確度が高い)、無ければ manual を採用。
+// manual 側は string (1 枚) / string[] (複数アングル) どちらも受け付ける。
+// 配列の場合: 1 枚目を imageUrl (hero / OG / カード用)、残りを imageUrls
+// (ProductGallery のサムネイル) に振り分ける。
 for (const p of rawProducts) {
-  if (p.imageUrl) continue;
-  if (rakutenImages[p.id]) p.imageUrl = rakutenImages[p.id];
-  else if (manualImages[p.id]) p.imageUrl = manualImages[p.id];
+  if (!p.imageUrl) {
+    if (rakutenImages[p.id]) {
+      p.imageUrl = rakutenImages[p.id];
+    } else if (manualImages[p.id]) {
+      const m = manualImages[p.id];
+      if (Array.isArray(m)) {
+        p.imageUrl = m[0];
+        if (m.length > 1) p.imageUrls = m;
+      } else {
+        p.imageUrl = m;
+      }
+    }
+  } else if (!p.imageUrls && manualImages[p.id]) {
+    // imageUrl が既にあっても、追加アングルが manual 側で配列定義されていれば取り込む。
+    const m = manualImages[p.id];
+    if (Array.isArray(m) && m.length > 1) p.imageUrls = m;
+  }
 }
 
 import { buildAffiliateUrl } from "./affiliate";

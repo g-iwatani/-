@@ -181,7 +181,15 @@ export default async function ProductPage({
       <div className="grid gap-8 md:grid-cols-[1.1fr_1fr] md:items-start md:gap-10">
         <div>
           <ProductGallery
-            images={product.imageUrl ? [product.imageUrl] : []}
+            images={
+              // 詳細ページのみ追加アングル (imageUrls) を見せる。OG / カード /
+              // 一覧は imageUrl 単独 (hero) で統一して印象が散らかるのを防ぐ。
+              product.imageUrls && product.imageUrls.length > 0
+                ? product.imageUrls
+                : product.imageUrl
+                  ? [product.imageUrl]
+                  : []
+            }
             palette={product.imagePalette}
             emoji={product.imageEmoji}
             alt={name}
