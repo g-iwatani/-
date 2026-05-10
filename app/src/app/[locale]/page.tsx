@@ -3,28 +3,26 @@ import { notFound } from "next/navigation";
 import { BreedChip } from "@/components/BreedChip";
 import { CategoryGrid } from "@/components/CategoryGrid";
 import { ConcernChip } from "@/components/ConcernChip";
-import { FeaturedProduct } from "@/components/FeaturedProduct";
 import { GuideCard } from "@/components/GuideCard";
 import { RecentRail } from "@/components/RecentRail";
 import { SeasonalBanner } from "@/components/SeasonalBanner";
 import { MiniProductCard } from "@/components/MiniProductCard";
 import { PopularProductCard } from "@/components/PopularProductCard";
 import { Rail, RailItem } from "@/components/Rail";
+import { RankedMiniCard } from "@/components/RankedMiniCard";
 import { breeds, getPopularBreeds } from "@/lib/breeds";
 import {
   concerns,
   getConcernsByCategory,
   getPopularConcerns,
 } from "@/lib/concerns";
-import { formatLastUpdated } from "@/lib/format";
 import { guides } from "@/lib/guides";
 import { topPopular } from "@/lib/popular-products";
 import {
-  getProduct,
+  getAmazonTopN,
   listBrands,
   visibleProducts as products,
 } from "@/lib/products";
-import { site } from "@/lib/site";
 import {
   StructuredData,
   organizationSchema,
@@ -65,6 +63,7 @@ export default async function HomePage({
   const allBreeds = breeds.filter((b) => b.id !== "mix" && !b.id.startsWith("unknown-"));
   const popularConcerns = getPopularConcerns(8);
   const trendingPopular = topPopular(12);
+  const amazonTop10 = getAmazonTopN(10);
 
   const rails: Array<{
     title: string;
@@ -249,8 +248,54 @@ export default async function HomePage({
       {/* Recently viewed (localStorage, hidden when empty) */}
       <RecentRail locale={locale} lookup={recentLookup} />
 
-      {/* Editor's monthly featured product (hero card) */}
-      <FeaturedHero locale={locale} dict={dict} />
+      {/* Amazon best-sellers TOP 10 — popularity-driven social proof */}
+      {amazonTop10.length > 0 && (
+        <Rail
+          title={
+            locale === "ja" ? "Amazon 売れ筋 TOP 10" : "Amazon top 10"
+          }
+          subtitle={
+            locale === "ja"
+              ? "Amazon JP 売れ筋ランキング上位 (月次更新)"
+              : "Amazon JP best-seller ranking (refreshed monthly)"
+          }
+        >
+          {amazonTop10.map((p, i) => (
+            <RailItem key={`amz-${p.id}`}>
+              <RankedMiniCard
+                product={p}
+                rank={i + 1}
+                locale={locale}
+                href={`${root}/products/${p.id}`}
+              />
+            </RailItem>
+          ))}
+        </Rail>
+      )}
+
+      {/* Rakuten 売れ筋 TOP 10 (kept here, original rail below removed) */}
+      {trendingPopular.length > 0 && (
+        <Rail
+          title={
+            locale === "ja" ? "楽天 売れ筋 TOP 10" : "Rakuten top 10"
+          }
+          subtitle={
+            locale === "ja"
+              ? "楽天市場のランキング上位 (リアルタイム連動)"
+              : "Rakuten Ichiba ranking (live)"
+          }
+          viewAllHref={`${root}/popular`}
+          viewAllLabel={
+            locale === "ja" ? "全ての人気商品を見る" : "View all popular"
+          }
+        >
+          {trendingPopular.slice(0, 10).map((p, i) => (
+            <RailItem key={`rkt-${p.id}`}>
+              <PopularProductCard product={p} locale={locale} variant="rail" rank={i + 1} />
+            </RailItem>
+          ))}
+        </Rail>
+      )}
 
       {/* Buying guides rail */}
       <Rail
@@ -314,30 +359,6 @@ export default async function HomePage({
           </RailItem>
         ))}
       </Rail>
-
-      {/* Trending on Rakuten rail (only when data exists) */}
-      {trendingPopular.length > 0 && (
-        <Rail
-          title={
-            locale === "ja" ? "楽天で今売れている" : "Trending on Rakuten now"
-          }
-          subtitle={
-            locale === "ja"
-              ? "ランキング上位を価格・評価で絞り込み可能"
-              : "Filter top-ranked items by price and rating"
-          }
-          viewAllHref={`${root}/popular`}
-          viewAllLabel={
-            locale === "ja" ? "全ての人気商品を見る" : "View all popular"
-          }
-        >
-          {trendingPopular.map((p) => (
-            <RailItem key={`pop-${p.id}`}>
-              <PopularProductCard product={p} locale={locale} variant="rail" />
-            </RailItem>
-          ))}
-        </Rail>
-      )}
 
       {/* Product rails */}
       {visibleRails.map((rail, idx) => {
@@ -450,34 +471,6 @@ export default async function HomePage({
 // concerns referenced for typing only
 void concerns;
 
-/**
- * 編集部の今月の 1 押しヒーローカード。site.featured で指定された商品 ID を
- * 解決して FeaturedProduct に渡す。指定 ID が無効な場合は何も描画しない (silent
- * no-op) — 商品が削除されてもページ全体が壊れないように。
- */
-function FeaturedHero({
-  locale,
-  dict,
-}: {
-  locale: "ja" | "en";
-  dict: Awaited<ReturnType<typeof getDictionary>>;
-}) {
-  const product = getProduct(site.featured.productId);
-  if (!product) return null;
-  const reason =
-    locale === "ja" ? site.featured.reasonJa : site.featured.reasonEn;
-  return (
-    <FeaturedProduct
-      product={product}
-      reason={reason}
-      monthLabel={formatLastUpdated(
-        site.lastUpdated.year,
-        site.lastUpdated.month,
-        locale,
-      )}
-      locale={locale}
-      dict={dict}
-    />
-  );
-}
+// FeaturedHero (編集部の月次 1 押し) は信号弱いため廃止。代わりに Amazon TOP10 +
+// 楽天 TOP10 のランキングベース rail を hero 直下に配置 (Snidan/Mercari/ZOZO 流)。
 

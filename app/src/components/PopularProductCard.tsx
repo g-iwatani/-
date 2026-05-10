@@ -8,9 +8,16 @@ type Props = {
   product: PopularProduct;
   locale: Locale;
   variant?: "rail" | "grid";
+  /** ランキング rail で使用時の順位 (1-N)。指定時は左上に順位バッジを描画。 */
+  rank?: number;
 };
 
-export function PopularProductCard({ product, locale, variant = "grid" }: Props) {
+export function PopularProductCard({
+  product,
+  locale,
+  variant = "grid",
+  rank,
+}: Props) {
   // affiliateUrl は popular-products.ts でサーバ側生成済み。クライアントから
   // buildAffiliateUrl を呼ぶと NEXT_PUBLIC_ 無しの env が空で素URLになる罠を回避。
   const href = product.affiliateUrl;
@@ -41,7 +48,25 @@ export function PopularProductCard({ product, locale, variant = "grid" }: Props)
           loading="lazy"
           className="h-full w-full object-cover object-center transition-transform group-hover:scale-105"
         />
-        <span className="absolute left-2 top-2 rounded-md bg-foreground/80 px-1.5 py-0.5 text-[10px] font-bold text-background">
+        {rank !== undefined && (
+          <span
+            className={`absolute left-2 top-2 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full text-base font-black shadow-md ${
+              rank === 1
+                ? "bg-amber-400 text-amber-950"
+                : rank === 2
+                  ? "bg-zinc-300 text-zinc-900"
+                  : rank === 3
+                    ? "bg-orange-400 text-orange-950"
+                    : "bg-foreground text-background"
+            }`}
+            aria-label={`${rank}位`}
+          >
+            {rank}
+          </span>
+        )}
+        <span
+          className={`absolute ${rank !== undefined ? "right-2" : "left-2"} top-2 rounded-md bg-foreground/80 px-1.5 py-0.5 text-[10px] font-bold text-background`}
+        >
           PR
         </span>
         {off > 0 && (

@@ -2175,6 +2175,18 @@ export function listBrands(): string[] {
 }
 
 /**
+ * Amazon-bestseller 由来の商品の TOP N を popularity 降順で返す。
+ * id プレフィックス "amz-" で識別 (build-amazon-bestsellers.mjs 規約)。
+ * 画像必須なので visibleProducts ベース。
+ */
+export function getAmazonTopN(n: number): Product[] {
+  return visibleProducts
+    .filter((p) => p.id.startsWith("amz-"))
+    .sort((a, b) => b.popularity - a.popularity)
+    .slice(0, n);
+}
+
+/**
  * 詳細ページの「同じブランドの他商品」 rail 用。同一ブランド名で別 ID の商品を
  * popularity 順に切り出す。MIX 起源 (amz-* + curated 同一ブランド) も問題なく
  * 拾える。

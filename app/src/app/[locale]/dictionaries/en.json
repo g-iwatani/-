@@ -22,10 +22,6 @@
     "guides": "Guides",
     "aria_label": "Bottom navigation"
   },
-  "featured": {
-    "eyebrow": "Editor's pick of the month",
-    "lowest_price_label": "From"
-  },
   "related": {
     "same_brand_title": "More from {brand}",
     "same_brand_subtitle": "Other products from the same brand",

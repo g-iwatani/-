@@ -22,10 +22,6 @@
     "guides": "ガイド",
     "aria_label": "下部ナビ"
   },
-  "featured": {
-    "eyebrow": "今月の編集部1押し",
-    "lowest_price_label": "最安値"
-  },
   "related": {
     "same_brand_title": "{brand} の他商品",
     "same_brand_subtitle": "同じブランドからもう少し見てみる",
