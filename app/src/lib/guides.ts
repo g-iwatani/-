@@ -853,6 +853,265 @@ export const guides: Guide[] = [
       },
     ],
   },
+  {
+    slug: "mix-breed-fit-guide",
+    titleJa: "MIX犬・体型違いの犬の服選び完全ガイド",
+    titleEn: "Sizing dog clothes for mixed breeds and odd shapes",
+    leadJa:
+      "MIX犬・ダックスフンドのような胴長犬・フレンチブルのような胸囲広めの短頭種は、ブランドの「S/M/L」 表記だけでは合いません。胸囲・首回り・背丈の 3 軸で実測してから選ぶのが鉄則。本ガイドでは採寸の手順、ブランドごとのサイズ展開の癖、フィット失敗を防ぐ「2 段階購入」 戦略、すぐ脱げてしまう子への対策まで、わんプロブレムの 200 商品から検証済みのアイテムをご紹介します。",
+    leadEn:
+      "Mixed breeds, dachshunds, French bulldogs — brand-default S/M/L sizing fails them all. Measure chest girth, neck, and back length first. This guide covers measurement technique, brand-specific quirks, a 2-step purchase strategy to avoid fit failures, and what to do for dogs whose clothes constantly slip off.",
+    publishedAt: "2026-05-10",
+    authorJa: "わんプロブレム編集部",
+    authorEn: "WanProblem editorial team",
+    productQuery: {
+      categories: ["apparel"],
+      concerns: ["mix-fit", "slips-off", "cute-outing", "small-breed"],
+      limit: 6,
+    },
+    sections: [
+      { kind: "lead", bodyJa: "", bodyEn: "" },
+      {
+        kind: "points",
+        titleJa: "サイズ失敗ゼロの 5 原則",
+        titleEn: "Five rules for zero-failure sizing",
+        itemsJa: [
+          {
+            headline: "胸囲・首回り・背丈の 3 軸を 1cm 単位で実測する",
+            body:
+              "前足の付け根の少し後ろを胸囲、首の付け根を首回り、首の付け根から尻尾の付け根までを背丈。柔らかいメジャーで指 2 本入る余裕で計測してください。S/M/L の表だけ見て買うと半分以上が「微妙にきつい / ゆるい」 で着てくれません。",
+          },
+          {
+            headline: "ブランドごとに 「平均犬」 の体型が違う",
+            body:
+              "ALPHAICON は MIX 犬・小型 ~ 中型を想定したフィット感。Mandarine Brothers は柴犬・コーギー寄り。Frenchic は短頭種専用。Pooch Outfitters はダックス専用。先にブランドの想定体型を見て、自分の子の体型と一致するブランドを 2-3 個に絞ると失敗が激減します。",
+          },
+          {
+            headline: "胴長犬種は 「背丈」 が決め手",
+            body:
+              "ダックスフンド・コーギー・MIX 胴長系は胸囲ベースで選ぶと背中が短くてお尻が出るか、背中合わせると胸囲がブカブカ。Pooch Outfitters Long Body のような胴長専用パターンか、背丈レンジが胸囲とは独立した SKU 展開のブランドを選んでください。",
+          },
+          {
+            headline: "脱げやすい子は 「お腹側ベルクロ + 後ろ足穴」 タイプを",
+            body:
+              "脚を動かすと前にずれる、頭を振ると首から抜ける ——構造的にお腹側で固定する設計と、後ろ足のループ穴があれば回転 / 滑り上がりを物理的に止められます。Frenchic ワイドチェスト ベスト など短頭種向けは特にこの構造を持ちます。",
+          },
+          {
+            headline: "「2 段階購入」 で大失敗を防ぐ",
+            body:
+              "気になるブランドが見つかったら、最初に 1 着だけ Amazon / 楽天 等で買って試着。ジャストフィットを確認してから同ブランドの他色 / 他種類をまとめ買い。フィット未確認のままシーズン分まとめ買いして全部合わなかった ——これが最大の損失です。",
+          },
+        ],
+        itemsEn: [
+          {
+            headline: "Measure chest, neck, and back to the centimeter",
+            body:
+              "Chest just behind the front legs, neck at the base, back from neck base to tail base. Soft tape, 2-finger slack. Skip this step and half your purchases will be slightly off.",
+          },
+          {
+            headline: "Brands have different 'average dog' assumptions",
+            body:
+              "ALPHAICON targets mixed and small-medium. Mandarine Brothers leans Shiba/Corgi. Frenchic is short-faced specialty. Pooch Outfitters is dachshund specialty. Match your dog's body type to the brand's intended one and your hit rate jumps.",
+          },
+          {
+            headline: "For long-bodied dogs, back length is the deciding axis",
+            body:
+              "Dachshunds, corgis, long-bodied mixes: chest-first sizing leaves the back exposed; back-first sizing makes the chest baggy. Pick brands with long-body-specific patterns or independent back-length SKUs.",
+          },
+          {
+            headline: "If clothes slip off, look for belly velcro + rear leg loops",
+            body:
+              "Movement-induced slipping is structural. Belly-side closure plus rear-leg loops physically prevent rotation and ride-up. Frenchic's wide-chest vest does this for short-faced breeds.",
+          },
+          {
+            headline: "Buy ONE first, then bulk",
+            body:
+              "Found a brand? Buy a single piece, fit-check, then go back for color variants and seasonal duplicates. Don't bulk-buy a season's worth before the fit is confirmed.",
+          },
+        ],
+      },
+      {
+        kind: "top_picks",
+        titleJa: "編集部のおすすめアイテム",
+        titleEn: "Editor's picks",
+        productIds: [],
+      },
+      {
+        kind: "faq",
+        titleJa: "よくある質問",
+        titleEn: "FAQ",
+        itemsJa: [
+          {
+            q: "MIX犬の場合、親犬種が分からないと選べませんか?",
+            a: "親犬種が分からなくても、自分の子の胸囲・首回り・背丈を実測して数値で選べば問題ありません。商品ページのサイズ表に必ず数値レンジが書かれているので、その範囲に入るサイズを選ぶだけです。",
+          },
+          {
+            q: "成長中の子犬には大きめを買って育てるべき?",
+            a: "大きめを買って育つのを待つのは推奨しません。脱げやすく動きを阻害し、結果として服を嫌がる原因に。成長期はワンサイズ刻みで実用フィット品を都度買い替えるのが、結局コスパも良いです。",
+          },
+          {
+            q: "サイズが合わなかった服は返品できますか?",
+            a: "ブランド・販売店によりポリシーが異なります。Amazon は 30 日以内の試着返品可 (商品状態次第)、楽天は店舗ごとに異なるため購入前に必ず返品ポリシーを確認してください。タグ・包装は捨てずに保管を。",
+          },
+          {
+            q: "夏服と冬服でサイズ感は変わりますか?",
+            a: "変わります。夏のメッシュ素材は伸びるので胸囲ジャストでも快適、一方冬のダウンは中綿の厚みで実寸より 1-2cm 縮む感覚。冬服は夏服より 1 サイズ大きめ、または冬服専用 SKU を選んでください。",
+          },
+        ],
+        itemsEn: [
+          {
+            q: "What if I don't know my mixed dog's parent breeds?",
+            a: "You don't need to. Just measure chest, neck, and back length and pick the size whose stated range covers your numbers.",
+          },
+          {
+            q: "Should I buy big for a growing puppy?",
+            a: "No. Loose clothes slip and discourage the dog from wearing anything. Buy correctly-sized pieces and replace as the dog grows — net cost is similar, comfort is much higher.",
+          },
+          {
+            q: "Can I return clothes that don't fit?",
+            a: "Depends on the merchant. Amazon allows 30-day try-on returns in most cases. Rakuten policies vary by shop. Always check before buying and keep tags/packaging.",
+          },
+          {
+            q: "Does sizing differ for summer vs winter clothes?",
+            a: "Yes. Mesh summer wear stretches, so a snug fit works. Down jackets effectively run smaller because of the fill. Size up by one for winter, or use brands with winter-specific SKUs.",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    slug: "outdoor-camping-guide",
+    titleJa: "犬とのアウトドア・キャンプ・長時間散歩 完全ガイド",
+    titleEn: "Outdoor adventures with dogs — camping, hiking, long walks",
+    leadJa:
+      "アクティブな飼い主と一緒に山を歩く犬は、平凡な散歩しかしない犬の 3 倍長生きするとも言われます (US ペット予防医学会 2024)。とはいえ装備なしで連れ出すと脱水・足裏の怪我・夜間の事故などリスクは多い。本ガイドでは長時間散歩から本格キャンプ・防災避難まで、安全に楽しむための装備をわんプロブレムの 200 商品から厳選してご紹介します。",
+    leadEn:
+      "Active dogs that hike with their humans live up to 3× longer than couch-only dogs, per 2024 pet preventive medicine research (US). But unequipped trips risk dehydration, paw injuries, and night-time accidents. This guide covers gear from long walks to serious camping to disaster evacuation — all narrowed down from our 200-product catalog.",
+    publishedAt: "2026-05-10",
+    authorJa: "わんプロブレム編集部",
+    authorEn: "WanProblem editorial team",
+    productQuery: {
+      categories: ["env", "apparel", "toy"],
+      concerns: [
+        "outdoor-camping",
+        "disaster-prep",
+        "long-walker",
+        "dog-run",
+        "active-sports",
+        "multi-dog",
+      ],
+      limit: 6,
+    },
+    sections: [
+      { kind: "lead", bodyJa: "", bodyEn: "" },
+      {
+        kind: "points",
+        titleJa: "アウトドア装備の優先順位 5 段階",
+        titleEn: "Five tiers of outdoor gear priority",
+        itemsJa: [
+          {
+            headline: "Tier 1: 給水ボトル + 折りたたみボウル (必須)",
+            body:
+              "犬は人より 5 倍熱中症になりやすい。30 分以上の屋外活動なら水は絶対必要です。Ruffwear Quencher のような折りたたみシリコンボウルは丸めてリュックに入る。500ml ペットボトル + ボウルで 中型犬 1 時間分。",
+          },
+          {
+            headline: "Tier 2: 反射 / LED 装備 (夜散歩・キャンプで命を守る)",
+            body:
+              "夕方以降の散歩・キャンプ場では犬の存在を 30m 手前で他人に分からせる必要があります。Mighty Paw LED カラーは USB 充電式で点滅 / 点灯切替、雨天対応。これがないと自転車・車との接触事故リスクが跳ね上がります。",
+          },
+          {
+            headline: "Tier 3: バックパック / ハーネス (中長距離向け)",
+            body:
+              "1 時間以上歩くなら胴に重さが分散するアクティブハーネス + (中型 ~ 大型なら) 犬用バックパックを。Kurgo Dog Backpack は犬自身が水・おやつ・処理袋を背負う設計で、人間の荷物が劇的に減ります。Ruffwear Front Range と組み合わせるとフィットも安定。",
+          },
+          {
+            headline: "Tier 4: ロングリード + ペン (オフリード代替 + 多頭飼育)",
+            body:
+              "ドッグラン以外でオフリードは法律 / マナー違反。9m ロングリード (Mighty Paw) で「ほぼフリー」 を実現し、休憩時には MidWest 折りたたみペンで多頭飼育の犬同士を分離。キャンプサイトでは必須。",
+          },
+          {
+            headline: "Tier 5: 防災キット (年に 1 回点検する)",
+            body:
+              "Bivvy Pet Emergency Kit のようなパッケージは 7 日分の最低限 (フード缶 / 水 / 折りたたみボウル / ID タグ / リード) を 1 つにまとめてくれる。普段は玄関・車に置きっぱなしで OK。年 1 回中身の有効期限チェックを。",
+          },
+        ],
+        itemsEn: [
+          {
+            headline: "Tier 1: Water bottle + collapsible bowl (non-negotiable)",
+            body:
+              "Dogs overheat 5× faster than people. Any outing over 30 minutes needs water. A silicone collapsible bowl (Ruffwear Quencher) packs flat in a backpack. 500ml + bowl = ~1 hour for a medium dog.",
+          },
+          {
+            headline: "Tier 2: Reflective / LED gear (life-safety after dusk)",
+            body:
+              "Walks and campsites after dusk need 30m visibility. Mighty Paw's USB-rechargeable LED collar runs steady or flashing, weather-resistant. Without this, bike/car incident risk spikes.",
+          },
+          {
+            headline: "Tier 3: Backpack / active harness (for distance)",
+            body:
+              "Walks over an hour need load-spreading active harness + (for medium/large dogs) a pack the dog carries. Kurgo Dog Backpack lets the dog haul their own water, treats, and waste bags — drops human load drastically.",
+          },
+          {
+            headline: "Tier 4: Long line + pen (off-leash alternative + multi-dog)",
+            body:
+              "Off-leash outside dog runs is illegal/rude in most JP locations. A 9m line (Mighty Paw) gives 'effective freedom'. Pair with a foldable pen (MidWest) at rest stops to separate dogs in multi-dog setups. Essential at campsites.",
+          },
+          {
+            headline: "Tier 5: Disaster kit (audit yearly)",
+            body:
+              "Bivvy Pet Emergency Kit packages 7 days of basics (canned food, water, folding bowl, ID tag, leash) in one bag. Keep at the door or in the car. Audit expirations annually.",
+          },
+        ],
+      },
+      {
+        kind: "top_picks",
+        titleJa: "編集部のおすすめアイテム",
+        titleEn: "Editor's picks",
+        productIds: [],
+      },
+      {
+        kind: "faq",
+        titleJa: "よくある質問",
+        titleEn: "FAQ",
+        itemsJa: [
+          {
+            q: "犬用シューズは本当に必要ですか?",
+            a: "夏のアスファルト (60℃ 以上で肉球火傷)、冬の融雪剤 (化学やけど)、雪山のクラスト氷 (切創) ではほぼ必須。普通の散歩なら不要です。シューズ嫌いな子は、まず室内で短時間着けて慣らす段階から。",
+          },
+          {
+            q: "ドッグラン専用の装備とは?",
+            a: "首輪 + 簡易リード + 水ボトルがあれば最低限十分。リードはランの中では外しますが、移動時に必要。あと意外と忘れがちなのが処理袋とウェットティッシュ。地面に座らせるなら携帯マットも便利です。",
+          },
+          {
+            q: "災害時に犬を連れて避難所に入れますか?",
+            a: "自治体によります。多くは「同行避難」 (避難所まで同行 OK、ただし犬は別エリア収容) は可、「同伴避難」 (室内で一緒) は限定的。事前に地元自治体の指針確認 + キャリー・ID タグ・3 日分のフード備蓄が必須です。",
+          },
+          {
+            q: "多頭飼育のキャンプで気をつけることは?",
+            a: "テント内では犬同士の距離を 1m 以上確保し、給餌・水飲みは別ボウル。サイト内ではロングリード同士の絡まり防止のため動線を分離。慣れない環境で犬同士の喧嘩リスクが上がるので、最初の数時間は飼い主が必ず目を離さないこと。",
+          },
+        ],
+        itemsEn: [
+          {
+            q: "Does my dog really need shoes?",
+            a: "For summer asphalt (60°C+ burns paws), winter de-icing salt (chemical burn), or snowy crusty ice (cuts) — yes. For normal walks, no. Shoe-resistant dogs: introduce indoors first, short sessions.",
+          },
+          {
+            q: "What's the minimum dog-run kit?",
+            a: "Collar, simple leash, water bottle. The leash comes off in the run but you need it in transit. People forget poo bags and wipes. Bring a portable mat if your dog will sit on the ground.",
+          },
+          {
+            q: "Can I bring my dog to a Japanese disaster shelter?",
+            a: "Depends on the municipality. Most allow 'companion evacuation' (dog stays in a separate area at the shelter); fewer allow 'cohabitation evacuation' (in the same room). Check your local government's policy in advance. Always have a carrier, ID tag, and 3+ days of food ready.",
+          },
+          {
+            q: "Multi-dog camping tips?",
+            a: "Inside the tent, keep dogs at least 1m apart and feed/water from separate bowls. Outside, separate the long lines so they don't tangle. Dog-dog conflict spikes in unfamiliar settings — supervise the first few hours actively.",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 /**
