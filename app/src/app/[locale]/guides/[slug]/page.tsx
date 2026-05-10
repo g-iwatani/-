@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProductCard } from "@/components/ProductCard";
 import { ShareButtons } from "@/components/ShareButtons";
+import { chipLabel, getConcern } from "@/lib/concerns";
 import { format, formatLastUpdated } from "@/lib/format";
 import { type Guide, getGuide, guides, pickProductsForGuide } from "@/lib/guides";
 import { absoluteUrl, localizedAlternates, site } from "@/lib/site";
@@ -152,6 +153,13 @@ export default async function GuidePage({
           />
         ))}
       </div>
+
+      <hr className="my-10 border-border" />
+
+      {/* 関連する悩み別 LP への送り。記事本文 → 該当悩みの専用 LP →
+          そこから他の悩みへの横展開、という SEO 内部リンクを作る。
+          /concerns/[id] が canonical SEO 着地点なので必ず含める。 */}
+      <RelatedConcerns guide={guide} locale={locale} />
 
       <hr className="my-10 border-border" />
 
@@ -325,6 +333,47 @@ function SectionRenderer({
     );
   }
   return null;
+}
+
+/**
+ * 記事末尾の「関連する悩み別ページ」 chip 列。
+ * guide.productQuery.concerns を /concerns/[id] LP へのリンクに変換する。
+ * SEO 上、記事 → LP の横展開導線で内部リンクトポロジを密にする。
+ */
+function RelatedConcerns({
+  guide,
+  locale,
+}: {
+  guide: Guide;
+  locale: "ja" | "en";
+}) {
+  const concerns = guide.productQuery.concerns
+    .map((id) => getConcern(id))
+    .filter((c): c is NonNullable<typeof c> => c !== undefined);
+  if (concerns.length === 0) return null;
+  return (
+    <section>
+      <h2 className="t-section mb-1">
+        {locale === "ja" ? "関連する悩み別ページ" : "Related concern pages"}
+      </h2>
+      <p className="t-section-sub">
+        {locale === "ja"
+          ? "それぞれの悩みに合う商品をまとめた専用ページがあります"
+          : "Each concern has a dedicated landing page with matching products"}
+      </p>
+      <div className="mt-4 flex flex-wrap gap-2">
+        {concerns.map((c) => (
+          <Link
+            key={c.id}
+            href={`/${locale}/concerns/${c.id}`}
+            className="inline-flex shrink-0 items-center rounded-full border border-border bg-card px-4 py-2 text-xs font-bold text-muted-fg transition-colors hover:border-primary hover:text-primary md:text-sm"
+          >
+            {chipLabel(c, locale)}
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
 }
 
 // Reference for typing only

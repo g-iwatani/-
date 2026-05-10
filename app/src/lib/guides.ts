@@ -619,6 +619,26 @@ export function getGuide(slug: string): Guide | undefined {
 }
 
 /**
+ * ある悩み (concern id) を扱っている guide を返す。
+ * /concerns/[id] LP で「この悩みに関連するガイド」 セクションを描画する用途。
+ *
+ * SEO 上、悩み LP → 関連ガイド の双方向リンクで内部リンクトポロジが密になる
+ * (各悩みが「商品 + 編集記事」 の両方の入口を持つ)。
+ */
+export function findGuidesForConcern(concernId: string): Guide[] {
+  return guides.filter((g) => g.productQuery.concerns.includes(concernId));
+}
+
+/**
+ * ある guide が扱う悩み id 配列を返す (= guide.productQuery.concerns の薄い alias)。
+ * /guides/[slug] 詳細ページで「関連する悩み別ページ」 chip 列を描画する用途。
+ */
+export function getConcernIdsForGuide(slug: string): string[] {
+  const g = getGuide(slug);
+  return g ? g.productQuery.concerns : [];
+}
+
+/**
  * top_picks 用の商品選定。explicit な productIds が空なら productQuery で自動選定。
  * 戻り値は ProductCard が要求する ProductMatch 形に薄く整える。
  */

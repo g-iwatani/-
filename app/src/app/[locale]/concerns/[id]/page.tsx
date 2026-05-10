@@ -14,7 +14,7 @@ import {
   getPopularConcerns,
 } from "@/lib/concerns";
 import { buildFeedItems } from "@/lib/feed";
-import { guides } from "@/lib/guides";
+import { findGuidesForConcern, guides } from "@/lib/guides";
 import { absoluteUrl, localizedAlternates } from "@/lib/site";
 import {
   StructuredData,
@@ -88,6 +88,12 @@ export default async function ConcernPage({
     .filter((c) => c.id !== id)
     .sort((a, b) => b.popularity - a.popularity)
     .slice(0, 6);
+
+  // この悩みを直接扱うガイド。1 件以上ヒットすれば優先表示し、ゼロなら
+  // 全ガイド rail にフォールバックする (LP のコンテンツ厚みを保つため)。
+  const relatedGuides = findGuidesForConcern(id);
+  const guidesToShow = relatedGuides.length > 0 ? relatedGuides : guides;
+  const guidesAreFiltered = relatedGuides.length > 0;
 
   // 人気悩み (フッタ動線): TOP 8
   const popular = getPopularConcerns(8);
@@ -175,18 +181,32 @@ export default async function ConcernPage({
       {/* カテゴリ surface (TOP と同じ) */}
       <CategoryGrid locale={locale} />
 
-      {/* 選び方ガイド: SEO 内部リンクのため必ず置く */}
+      {/* 選び方ガイド: SEO 内部リンクの主動線。relatedGuides がヒットすれば
+          「この悩みに関連するガイド」 として narrow に出し、ゼロなら全ガイド
+          rail にフォールバック。 */}
       <Rail
-        title={locale === "ja" ? "選び方ガイド" : "Buying guides"}
+        title={
+          locale === "ja"
+            ? guidesAreFiltered
+              ? `「${label}」 に関連するガイド`
+              : "選び方ガイド"
+            : guidesAreFiltered
+              ? `Guides related to ${label}`
+              : "Buying guides"
+        }
         subtitle={
           locale === "ja"
-            ? "編集部が悩み別に書き下ろし"
-            : "Editor-written, concern-first"
+            ? guidesAreFiltered
+              ? "この悩みを扱った編集部のロングフォーム記事"
+              : "編集部が悩み別に書き下ろし"
+            : guidesAreFiltered
+              ? "Editorial long-form covering this concern"
+              : "Editor-written, concern-first"
         }
-        viewAllHref={`${root}/guides/${guides[0]?.slug ?? ""}`}
+        viewAllHref={`${root}/guides/${guidesToShow[0]?.slug ?? ""}`}
         viewAllLabel={locale === "ja" ? "全ガイドを見る" : "All guides"}
       >
-        {guides.map((g) => (
+        {guidesToShow.map((g) => (
           <RailItem key={g.slug}>
             <GuideCard guide={g} locale={locale} />
           </RailItem>
