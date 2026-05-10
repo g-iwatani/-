@@ -81,20 +81,10 @@ function FeedCard({ item, locale }: { item: FeedItem; locale: Locale }) {
           loading="lazy"
           className="h-full w-full object-cover object-center transition-transform group-hover:scale-105"
         />
-        {/* 景表法ステマ規制 (内閣府告示第19号, 2023年10月施行) は「広告で
-            あることを一般消費者が容易に判別できる表示を、目立つ場所に行う」
-            ことを要求。直 external の楽天/Amazon はもちろん、内部 /products/[id]
-            経由の Amazon・編集 カードも最終的にアフィリ送客するため、すべての
-            カードに PR バッジを出す。 */}
-        <span
-          aria-label="ad"
-          className="absolute left-1.5 top-1.5 rounded bg-foreground/85 px-1 py-0.5 text-[9px] font-bold text-background"
-        >
-          PR
-        </span>
         {item.isExternal && (
-          // 外部サイトへ離脱する旨を矢印アイコンだけで示す。テキストでも
-          // alt/aria で読み上げ可能。
+          // 外部サイトへ離脱する旨を矢印アイコンだけで示す。PR と違い
+          // 法定表示ではなく UX 上の「サイトを離れる」予告なので、画像隅に
+          // 控えめに置く。
           <span
             aria-label={locale === "ja" ? "外部サイトへ" : "External site"}
             className="absolute right-1.5 top-1.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-background/90 text-[10px] text-foreground shadow-sm"
@@ -105,6 +95,17 @@ function FeedCard({ item, locale }: { item: FeedItem; locale: Locale }) {
       </div>
       <div className="flex flex-1 flex-col gap-0.5 px-2 py-2">
         <p className="text-[10px] font-bold uppercase tracking-wide text-muted-fg line-clamp-1">
+          {/* 景表法ステマ規制 (内閣府告示第19号, 2023年10月施行) は「広告で
+              あることを一般消費者が容易に判別できる表示を、目立つ場所に行う」
+              ことを要求。直 external の楽天/Amazon はもちろん、内部 /products/[id]
+              経由の Amazon・編集 カードも最終的にアフィリ送客するため、すべての
+              カードで brand 行頭に PR バッジを出す (商品画像を隠さない位置)。 */}
+          <span
+            aria-label="ad"
+            className="mr-1 inline-flex translate-y-[-0.5px] items-center rounded bg-foreground/85 px-1 py-px text-[8px] font-bold text-background align-middle"
+          >
+            PR
+          </span>
           {item.brand}
         </p>
         <p className="line-clamp-2 text-[11px] font-bold leading-snug text-foreground group-hover:text-primary md:text-xs">

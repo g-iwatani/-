@@ -68,17 +68,9 @@ export function PopularProductCard({
             {rank}
           </span>
         )}
-        <span
-          aria-label="ad"
-          className={`absolute ${rank !== undefined ? "right-2" : "left-2"} top-2 rounded-md bg-foreground/85 px-1.5 py-0.5 text-[10px] font-bold text-background`}
-        >
-          PR
-        </span>
         {off > 0 && (
-          // rank 表示時は PR が right-2 に来るので、割引は bottom-right に逃がして
-          // 重なりを避ける。rank 無しなら PR が left-2 なので右上で OK。
           <span
-            className={`absolute ${rank !== undefined ? "bottom-2 right-2" : "right-2 top-2"} rounded-md bg-rose-500 px-1.5 py-0.5 text-[10px] font-bold text-white`}
+            className="absolute right-2 top-2 rounded-md bg-rose-500 px-1.5 py-0.5 text-[10px] font-bold text-white"
           >
             -{off}%
           </span>
@@ -86,6 +78,14 @@ export function PopularProductCard({
       </div>
       <div className="px-3 py-2.5">
         <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-fg line-clamp-1">
+          {/* 景表法ステマ規制対応。商品画像を隠さないようカード内 shop 行頭に
+              インライン配置。 */}
+          <span
+            aria-label="ad"
+            className="mr-1 inline-flex translate-y-[-0.5px] items-center rounded bg-foreground/85 px-1 py-px text-[8px] font-bold text-background align-middle"
+          >
+            PR
+          </span>
           {displayShopName(product.shopName)}
         </p>
         <p className="mt-0.5 line-clamp-2 text-sm font-bold leading-snug text-foreground group-hover:text-primary">
