@@ -111,7 +111,6 @@ export default async function ProductPage({
 
   const name = locale === "ja" ? product.nameJa : product.nameEn;
   const desc = locale === "ja" ? product.descJa : product.descEn;
-  const tags = locale === "ja" ? product.tagsJa : product.tagsEn;
 
   const breedIds = parseIds(sp.breeds);
   const concernIds = parseIds(sp.concerns);
@@ -179,55 +178,56 @@ export default async function ProductPage({
         </Link>
       </div>
 
-      <div className="grid gap-10 md:grid-cols-[1.1fr_1fr] md:items-start">
-        <div className="space-y-4">
+      <div className="grid gap-8 md:grid-cols-[1.1fr_1fr] md:items-start md:gap-10">
+        <div>
           <ProductGallery
             images={product.imageUrl ? [product.imageUrl] : []}
             palette={product.imagePalette}
             emoji={product.imageEmoji}
             alt={name}
           />
-          <div className="flex flex-wrap gap-2 text-xs">
-            {tags.map((t) => (
-              <span
-                key={t}
-                className="rounded-full bg-muted px-3 py-1 font-semibold text-muted-fg"
-              >
-                #{t}
-              </span>
-            ))}
-          </div>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-5">
+          {/* ヘッダー: brand kicker は brandCountry / 最終更新 pill を排除して
+              純粋な ID 行に絞る。「Kong · US · 2026/05」 のような並びは混雑
+              するうえ Amazon 取込商品で brandCountry="Unknown" がそのまま
+              出る事故もあった。最終更新は trust note 側に移管。 */}
           <div>
-            <div className="flex flex-wrap items-center gap-2">
-              <p className="text-xs font-bold uppercase tracking-wide text-muted-fg">
-                {product.brand} · {product.brandCountry}
-              </p>
-              <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-bold text-muted-fg">
-                {formatLastUpdated(
-                  site.lastUpdated.year,
-                  site.lastUpdated.month,
-                  locale,
-                )}
-              </span>
-            </div>
-            <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+            <p className="t-card-meta">{product.brand}</p>
+            <h1 className="mt-1.5 text-2xl font-extrabold leading-tight tracking-tight text-foreground md:text-3xl">
               {name}
             </h1>
-            <p className="mt-3 text-sm leading-relaxed text-muted-fg md:text-base">
-              {desc}
-            </p>
           </div>
 
+          {/* 解決する悩み: 大箱 → ヘッダーレスの薄い chip 列に圧縮。
+              旧実装は p-5 + h3 「addresses_concerns」 で hero 並みに重かった。 */}
+          {concernHits.length > 0 && (
+            <ul className="flex flex-wrap gap-1.5">
+              {concernHits.map((cid) => {
+                const c = getConcern(cid);
+                if (!c) return null;
+                return (
+                  <li
+                    key={cid}
+                    className="rounded-full bg-primary-soft px-2.5 py-1 text-[11px] font-semibold text-primary"
+                  >
+                    {locale === "ja" ? `✓ ${c.labelJa}` : `✓ ${c.labelEn}`}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+
+          {/* Recommended size: searchParams で犬プロファイルがある時のみ表示。
+              Buy の上に置いて「合うサイズ → そのサイズで買う」 の連続性を作る。 */}
           {bestSize && bestSize.fitScore >= 60 && (
-            <div className="rounded-3xl border border-accent/40 bg-accent-soft p-5">
-              <p className="text-xs font-bold uppercase tracking-wide text-accent">
+            <div className="rounded-2xl border border-accent/40 bg-accent-soft p-4">
+              <p className="text-[10px] font-bold uppercase tracking-wide text-accent">
                 {dict.product_detail.size_recommended_for_dog}
               </p>
-              <div className="mt-2 flex items-baseline gap-3">
-                <span className="text-4xl font-extrabold text-accent">
+              <div className="mt-1 flex items-baseline gap-3">
+                <span className="text-3xl font-extrabold text-accent">
                   {bestSize.size.label}
                 </span>
                 <span className="text-sm font-semibold text-accent">
@@ -240,40 +240,20 @@ export default async function ProductPage({
             </div>
           )}
 
-          {concernHits.length > 0 && (
-            <div className="rounded-3xl border border-card-border bg-card p-5">
-              <h3 className="text-xs font-bold uppercase tracking-wide text-muted-fg">
-                {dict.product_detail.addresses_concerns}
-              </h3>
-              <ul className="mt-3 flex flex-wrap gap-2">
-                {concernHits.map((cid) => {
-                  const c = getConcern(cid);
-                  if (!c) return null;
-                  return (
-                    <li
-                      key={cid}
-                      className="rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary"
-                    >
-                      {locale === "ja" ? c.labelJa : c.labelEn}
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          )}
+          {/* Buy compare: ATF コンバージョン要素として右カラム上位に配置。
+              元実装では desc/concern/size 箱の後ろに埋もれていた。 */}
+          <BuyOptionsCompare
+            options={product.buyOptions}
+            locale={locale}
+            buyAtTemplate={dict.product_card.buy_at}
+          />
 
-          <div className="space-y-3">
-            <h3 className="text-xs font-bold uppercase tracking-wide text-muted-fg">
-              {dict.product_detail.buy_options}
-            </h3>
-            {/* Trivago / 価格.com 流の販売店比較。複数 shop の時は最安値
-                ハイライト + 「販売店比較 N件」 ヘッダ。元実装は縦リストで
-                「ただ並べるだけ」 だったため moat が機能していなかった。 */}
-            <BuyOptionsCompare
-              options={product.buyOptions}
-              locale={locale}
-              buyAtTemplate={dict.product_card.buy_at}
-            />
+          {/* 説明文 + 外部リンク注意書き: Buy の下に押し下げ。読み物だが
+              CTA より優先する内容ではない。 */}
+          <div className="space-y-2">
+            <p className="text-sm leading-relaxed text-foreground md:text-base">
+              {desc}
+            </p>
             <p className="text-[11px] leading-relaxed text-muted-fg">
               {dict.product_detail.external_disclaimer}
             </p>
@@ -290,12 +270,14 @@ export default async function ProductPage({
       {/* Editor's verification notes — what we actually did to vet this product */}
       <TrustNotes product={product} dict={dict} locale={locale} />
 
-      {/* Size chart */}
+      {/* Size chart: 採寸が意味のある商品 (= 服・ハーネス類で sizes が 2 件以上、
+          かつ chestMax が 200 未満 = レンジが定義されてる) でのみ出す。
+          ブラシ・歯磨き粉・ベッドなどの単一汎用サイズ品では表示すると
+          全行 "—" の空テーブルになり、UI ノイズになるため抑制。 */}
+      {product.sizes.length >= 2 && product.sizes.some((s) => s.chestMax < 200) && (
       <section className="mt-12">
-        <h2 className="text-xl font-extrabold tracking-tight text-foreground md:text-2xl">
-          {dict.product_detail.size_chart}
-        </h2>
-        <div className="mt-4 overflow-x-auto rounded-3xl border border-card-border bg-card">
+        <h2 className="t-section">{dict.product_detail.size_chart}</h2>
+        <div className="mt-4 overflow-x-auto rounded-2xl border border-card-border bg-card">
           <table className="min-w-full text-sm">
             <thead className="bg-muted/60 text-xs uppercase tracking-wide text-muted-fg">
               <tr>
@@ -359,6 +341,7 @@ export default async function ProductPage({
           </table>
         </div>
       </section>
+      )}
 
       {/* Mobile sticky bottom CTA — JP コマースの定番、CVR への寄与が大きい。
           デスクトップでは購入ボタンが本文中で常に見えるので非表示。
@@ -487,24 +470,29 @@ function TrustNotes({
     items.push(dict.trust.source_curated);
   }
   if (trust.hasVerifiedAsin) items.push(dict.trust.verified_asin);
+
+  // 旧実装は「編集部の確認したこと」 大見出し + bordered card で 1-2 行の
+  // 内容に対して大袈裟だった。横並びの inline pill 列に圧縮し、ratings
+  // disclaimer は同じ横列の最後に muted で添える。
   return (
-    <section className="mt-12">
-      <h2 className="text-xl font-extrabold tracking-tight text-foreground md:text-2xl">
-        {dict.trust.section_title}
-      </h2>
-      <ul className="mt-4 space-y-2 rounded-3xl border border-card-border bg-card p-5">
+    <section className="mt-10 rounded-2xl border border-card-border bg-card p-4 md:p-5">
+      <p className="t-card-meta mb-2.5">{dict.trust.section_title}</p>
+      <ul className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
         {items.map((line, i) => (
-          <li key={i} className="flex items-start gap-2 text-sm text-foreground">
-            <span aria-hidden className="mt-0.5 text-emerald-600">
+          <li
+            key={i}
+            className="flex items-center gap-1.5 text-xs text-foreground md:text-sm"
+          >
+            <span aria-hidden className="text-emerald-600">
               ✓
             </span>
             <span>{line}</span>
           </li>
         ))}
-        <li className="mt-3 border-t border-border pt-3 text-[11px] leading-relaxed text-muted-fg">
-          {dict.trust.no_ratings_disclaimer}
-        </li>
       </ul>
+      <p className="mt-2 border-t border-border pt-2 text-[11px] leading-relaxed text-muted-fg">
+        {dict.trust.no_ratings_disclaimer}
+      </p>
     </section>
   );
 }
