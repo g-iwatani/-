@@ -64,16 +64,38 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* Category icon grid (Mercari/ZOZO 流の 1-tap カテゴリ動線) */}
+      {/* Mercari 風 interleaved reel:
+          商品 → カテゴリ → 商品 → 履歴 → 商品 → ガイド → 商品 の縦シーケンス。
+          最初の chunk から商品を出すことで「ファーストビューに商品」 を満たす。 */}
+
+      {/* chunk 1: 上位 12 件 (= mobile で 6 行、ファーストビューに 2-3 行入る) */}
+      <ProductFeed
+        items={feedItems.slice(0, 12)}
+        locale={locale}
+        showHeader
+      />
+
+      {/* intermission 1: カテゴリアイコン (1 タップでフィルタへ) */}
       <CategoryGrid locale={locale} />
 
-      {/* Recently viewed (localStorage、空なら非表示) */}
+      {/* chunk 2: 次の 12 件 (見出しなし、reel 続行) */}
+      <ProductFeed
+        items={feedItems.slice(12, 24)}
+        locale={locale}
+        showHeader={false}
+      />
+
+      {/* intermission 2: 最近見た商品 (履歴ゼロなら自動で非表示) */}
       <RecentRail locale={locale} lookup={recentLookup} />
 
-      {/* メルカリ風 reel: Amazon + 楽天 + 編集部商品の縦無限 grid (mock 60件) */}
-      <ProductFeed items={feedItems} locale={locale} />
+      {/* chunk 3: 24 件 (深め) */}
+      <ProductFeed
+        items={feedItems.slice(24, 48)}
+        locale={locale}
+        showHeader={false}
+      />
 
-      {/* Buying guides rail (1 つだけ残す。コンテンツ surface 露出) */}
+      {/* intermission 3: 選び方ガイド (コンテンツ surface) */}
       <Rail
         title={locale === "ja" ? "選び方ガイド" : "Buying guides"}
         subtitle={
@@ -92,6 +114,13 @@ export default async function HomePage({
           </RailItem>
         ))}
       </Rail>
+
+      {/* chunk 4: tail (残り) */}
+      <ProductFeed
+        items={feedItems.slice(48)}
+        locale={locale}
+        showHeader={false}
+      />
 
       {/* Brands list (フッター手前のサブ動線) */}
       <Rail

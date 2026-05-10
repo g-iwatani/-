@@ -19,6 +19,8 @@ export type FeedItem = {
 type Props = {
   items: FeedItem[];
   locale: Locale;
+  /** ヘッダ + 「もっと見る」 を出すか。中段に挟み込む chunk では false。 */
+  showHeader?: boolean;
   titleJa?: string;
   titleEn?: string;
 };
@@ -29,11 +31,16 @@ type Props = {
  *
  * - 2 col (mobile) / 3 (sm) / 4 (md) / 5 (lg) / 6 (xl)
  * - 各カード正方形画像 + ソースバッジ + 価格 + 名前
- * - 横スクロール rail を捨ててコマース感を最大化
- *
- * 「もっと見る」 で /popular へジャンプ (深掘り surface)。
+ * - showHeader=true でヘッダ + 「もっと見る」 link 付き、false で grid のみ
+ *   → 同一 reel を chunk 化して間にカテゴリ/履歴を挿入する用途で使う
  */
-export function ProductFeed({ items, locale, titleJa, titleEn }: Props) {
+export function ProductFeed({
+  items,
+  locale,
+  showHeader = true,
+  titleJa,
+  titleEn,
+}: Props) {
   if (items.length === 0) return null;
   const title =
     locale === "ja"
@@ -41,19 +48,21 @@ export function ProductFeed({ items, locale, titleJa, titleEn }: Props) {
       : (titleEn ?? "Trending now");
 
   return (
-    <section className="mt-6 md:mt-8">
+    <section className={showHeader ? "mt-6 md:mt-8" : "mt-3 md:mt-4"}>
       <div className="mx-auto max-w-7xl px-5">
-        <div className="mb-4 flex items-baseline justify-between">
-          <h2 className="text-base font-extrabold tracking-tight text-foreground md:text-xl">
-            {title}
-          </h2>
-          <Link
-            href={`/${locale}/popular`}
-            className="text-xs font-semibold text-primary hover:underline md:text-sm"
-          >
-            {locale === "ja" ? "もっと見る →" : "See more →"}
-          </Link>
-        </div>
+        {showHeader && (
+          <div className="mb-4 flex items-baseline justify-between">
+            <h2 className="text-base font-extrabold tracking-tight text-foreground md:text-xl">
+              {title}
+            </h2>
+            <Link
+              href={`/${locale}/popular`}
+              className="text-xs font-semibold text-primary hover:underline md:text-sm"
+            >
+              {locale === "ja" ? "もっと見る →" : "See more →"}
+            </Link>
+          </div>
+        )}
         <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {items.map((item) => (
             <li key={item.key}>
