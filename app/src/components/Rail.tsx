@@ -19,19 +19,13 @@ export function Rail({
     <section className="mt-10 md:mt-14">
       <div className="mx-auto flex max-w-7xl items-end justify-between gap-4 px-5">
         <div>
-          <h2 className="text-lg font-extrabold tracking-tight text-foreground md:text-2xl">
-            {title}
-          </h2>
-          {subtitle && (
-            <p className="mt-0.5 text-xs text-muted-fg md:text-sm">
-              {subtitle}
-            </p>
-          )}
+          <h2 className="t-section">{title}</h2>
+          {subtitle && <p className="mt-0.5 t-section-sub">{subtitle}</p>}
         </div>
         {viewAllHref && (
           <Link
             href={viewAllHref}
-            className="hidden whitespace-nowrap text-sm font-semibold text-primary hover:underline md:inline"
+            className="whitespace-nowrap text-xs font-semibold text-primary hover:underline md:text-sm"
           >
             {viewAllLabel ?? "もっと見る"} →
           </Link>

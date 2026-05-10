@@ -2,71 +2,26 @@ import Link from "next/link";
 import type { Locale } from "@/app/[locale]/dictionaries";
 
 type Item = {
-  href: string;
+  /** /[locale]/concerns/[id] へジャンプする concern id */
+  concernId: string;
   emoji: string;
   labelJa: string;
   labelEn: string;
-  /** ボタン背景色 (Tailwind classes 直書き — preset 8 色を category ごとに割当) */
-  tone: string;
 };
 
+// UI レビュー指摘「pastel 8 色 (sky/indigo/cyan/violet を含む) がブランドの
+// warm cream 背景と衝突して dirty に見える」 への対応で、背景色を統一
+// (bg-card 白 + 共通 border) に変更。色味は emoji の絵柄が担うので、
+// タイル側はモノトーンで cohesion を確保する。
 const ITEMS: Item[] = [
-  {
-    href: "?concerns=pulls-leash",
-    emoji: "🦮",
-    labelJa: "ハーネス",
-    labelEn: "Harness",
-    tone: "bg-emerald-50 text-emerald-700 hover:bg-emerald-100",
-  },
-  {
-    href: "?concerns=cold-winter",
-    emoji: "🧥",
-    labelJa: "冬服・防寒",
-    labelEn: "Winter coats",
-    tone: "bg-sky-50 text-sky-700 hover:bg-sky-100",
-  },
-  {
-    href: "?concerns=hot-summer",
-    emoji: "☀️",
-    labelJa: "夏の暑さ対策",
-    labelEn: "Summer cooling",
-    tone: "bg-amber-50 text-amber-700 hover:bg-amber-100",
-  },
-  {
-    href: "?concerns=rainy-walk",
-    emoji: "☔",
-    labelJa: "雨の日散歩",
-    labelEn: "Rainy walks",
-    tone: "bg-indigo-50 text-indigo-700 hover:bg-indigo-100",
-  },
-  {
-    href: "?concerns=destroys-toys",
-    emoji: "🎾",
-    labelJa: "おもちゃ",
-    labelEn: "Toys",
-    tone: "bg-rose-50 text-rose-700 hover:bg-rose-100",
-  },
-  {
-    href: "?concerns=dental-care",
-    emoji: "🦷",
-    labelJa: "歯みがき",
-    labelEn: "Dental",
-    tone: "bg-cyan-50 text-cyan-700 hover:bg-cyan-100",
-  },
-  {
-    href: "?concerns=heavy-shedding",
-    emoji: "🪮",
-    labelJa: "抜け毛ケア",
-    labelEn: "Shedding",
-    tone: "bg-violet-50 text-violet-700 hover:bg-violet-100",
-  },
-  {
-    href: "?concerns=senior-dog",
-    emoji: "🧓",
-    labelJa: "シニア犬",
-    labelEn: "Senior care",
-    tone: "bg-orange-50 text-orange-700 hover:bg-orange-100",
-  },
+  { concernId: "pulls-leash",     emoji: "🦮", labelJa: "ハーネス",      labelEn: "Harness" },
+  { concernId: "cold-winter",     emoji: "🧥", labelJa: "冬服・防寒",    labelEn: "Winter coats" },
+  { concernId: "hot-summer",      emoji: "☀️", labelJa: "夏の暑さ",      labelEn: "Summer cooling" },
+  { concernId: "rainy-walk",      emoji: "☔", labelJa: "雨の日散歩",    labelEn: "Rainy walks" },
+  { concernId: "destroys-toys",   emoji: "🎾", labelJa: "おもちゃ",      labelEn: "Toys" },
+  { concernId: "dental-care",     emoji: "🦷", labelJa: "歯みがき",      labelEn: "Dental" },
+  { concernId: "heavy-shedding",  emoji: "🪮", labelJa: "抜け毛ケア",    labelEn: "Shedding" },
+  { concernId: "senior-dog",      emoji: "🧓", labelJa: "シニア犬",      labelEn: "Senior care" },
 ];
 
 type Props = {
@@ -89,15 +44,13 @@ export function CategoryGrid({ locale, titleJa, titleEn }: Props) {
   return (
     <section className="mt-10 md:mt-12">
       <div className="mx-auto max-w-7xl px-5">
-        <h2 className="mb-4 text-base font-extrabold tracking-tight text-foreground md:text-xl">
-          {title}
-        </h2>
+        <h2 className="t-section mb-4">{title}</h2>
         <ul className="grid grid-cols-4 gap-2 md:grid-cols-8 md:gap-3">
           {ITEMS.map((item) => (
-            <li key={item.href}>
+            <li key={item.concernId}>
               <Link
-                href={`${root}/results${item.href}`}
-                className={`flex flex-col items-center gap-1.5 rounded-2xl px-2 py-3 text-center transition-all md:gap-2 md:py-4 ${item.tone}`}
+                href={`${root}/concerns/${item.concernId}`}
+                className="flex flex-col items-center gap-1.5 rounded-2xl border border-card-border bg-card px-2 py-3 text-center text-foreground transition-all hover:-translate-y-0.5 hover:border-primary hover:text-primary md:gap-2 md:py-4"
               >
                 <span aria-hidden className="text-2xl md:text-3xl">
                   {item.emoji}

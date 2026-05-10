@@ -48,8 +48,11 @@ export function PopularProductCard({
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={product.imageUrl}
-          alt={product.nameJa}
+          alt=""
+          width={400}
+          height={400}
           loading="lazy"
+          decoding="async"
           className="h-full w-full object-cover object-center transition-transform group-hover:scale-105"
         />
         {rank !== undefined && (
@@ -77,7 +80,7 @@ export function PopularProductCard({
         )}
       </div>
       <div className="px-3 py-2.5">
-        <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-fg line-clamp-1">
+        <p className="t-card-meta line-clamp-1">
           {/* 景表法ステマ規制対応。商品画像を隠さないようカード内 shop 行頭に
               インライン配置。 */}
           <span
@@ -88,7 +91,7 @@ export function PopularProductCard({
           </span>
           {displayShopName(product.shopName)}
         </p>
-        <p className="mt-0.5 line-clamp-2 text-sm font-bold leading-snug text-foreground group-hover:text-primary">
+        <p className="mt-0.5 t-card-title line-clamp-2 group-hover:text-primary">
           {product.nameJa}
         </p>
         <div className="mt-1.5 flex items-center justify-between gap-2">
@@ -100,7 +103,7 @@ export function PopularProductCard({
           )}
         </div>
         <div className="mt-2 flex items-baseline gap-2">
-          <span className="text-base font-extrabold text-primary">{price}</span>
+          <span className="t-price">{price}</span>
           {original && (
             <span className="text-xs text-muted-fg line-through">{original}</span>
           )}

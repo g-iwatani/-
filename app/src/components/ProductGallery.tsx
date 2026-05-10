@@ -58,7 +58,10 @@ export function ProductGallery({ images, palette, emoji, alt }: Props) {
                 <img
                   src={url}
                   alt=""
+                  width={64}
+                  height={64}
                   loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover object-center"
                 />
               </button>

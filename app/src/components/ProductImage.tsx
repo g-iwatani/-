@@ -30,11 +30,17 @@ export function ProductImage({
           sizeClasses[size]
         } ${className ?? ""}`}
       >
+        {/* width/height は CLS 防止のため明示。実比率は様々だが
+            object-cover で aspect ratio に合わせてトリミングされるので
+            正方形ダミー寸法で OK。 */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={imageUrl}
           alt={alt ?? ""}
+          width={400}
+          height={400}
           loading="lazy"
+          decoding="async"
           className="h-full w-full object-cover object-center"
         />
       </div>
