@@ -87,7 +87,9 @@ export default async function ConcernPage({
   const label = locale === "ja" ? concern.labelJa : concern.labelEn;
   const desc = locale === "ja" ? concern.descJa : concern.descEn;
 
-  // この悩みに該当する商品 (Amazon + curated, 楽天は concern メタ無いので除外)
+  // この悩みに該当する商品 (Amazon + curated + 楽天人気)。
+  // 楽天 popular は concern メタを商品名キーワード推論で付与しているため、
+  // フィルタ ON でも適切なものが流入する (詳細は feed.ts のコメント参照)。
   const feedItems = buildFeedItems(locale, id);
 
   // 関連悩み: 同じカテゴリ内の他悩み (popularity 順、最大 6)
@@ -151,7 +153,7 @@ export default async function ConcernPage({
 
       {feedItems.length > 0 ? (
         <ProductFeed
-          items={feedItems.slice(0, 60)}
+          items={feedItems.slice(0, 120)}
           locale={locale}
           showHeader
           titleJa="この悩みに合うアイテム"

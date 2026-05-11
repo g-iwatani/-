@@ -41,10 +41,12 @@ export default async function HomePage({
   const concernChips = getPopularConcerns(8);
 
   // メルカリ風 reel の元データを構築。Amazon / 楽天 / 編集部 の商品をミックス
-  // して popularity 順で 60 件まで切り出す。TOP は常に「全悩み混合」 の
+  // して popularity 順で 120 件まで切り出す。TOP は常に「全悩み混合」 の
   // 概観なので concern filter は適用しない。各悩みの絞り込みは
   // /concerns/[id] 側で実施。
-  const feedItems = buildFeedItems(locale).slice(0, 60);
+  // 120 件は SSR HTML +30KB 程度。LCP 影響は <Image priority> されてる
+  // hero 領域のみで、reel の下層は loading="lazy" なので問題なし。
+  const feedItems = buildFeedItems(locale).slice(0, 120);
 
   return (
     <div className="pb-12">

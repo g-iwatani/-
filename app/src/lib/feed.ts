@@ -65,8 +65,8 @@ export function buildFeedItems(
   }
 
   const rakutenSource = concernFilter
-    ? popularByConcern(concernFilter, 40)
-    : topPopular(40);
+    ? popularByConcern(concernFilter, 100)
+    : topPopular(100);
   for (const p of rakutenSource) {
     if (!p.imageUrl) continue;
     rakutenGroup.push({
