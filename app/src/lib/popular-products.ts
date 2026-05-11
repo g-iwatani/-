@@ -11,6 +11,7 @@
  */
 
 import { buildAffiliateUrl } from "./affiliate";
+import { inferConcerns } from "./concern-inference";
 import generated from "./popular-products.generated.json";
 
 export type PopularProductCategory =
@@ -41,6 +42,8 @@ type BasePopularProduct = {
   topRanks: Record<string, number>;
   bestRank: number;
   internalCategory: PopularProductCategory;
+  /** 商品名キーワードから推論した concerns。空配列の場合は悩み LP でヒットしない。 */
+  concerns: string[];
 };
 
 /**
@@ -126,6 +129,11 @@ const basePopularProducts: BasePopularProduct[] = raw.map((p) => ({
   id: `${p.shopCode}/${p.itemCode}`,
   bestRank: bestRankOf(p.topRanks),
   internalCategory: classify(p),
+  // 商品名から concerns を推論。悩み LP の Rakuten ヒット率を上げるため。
+  // Rakuten 元データには concern メタが無いので、ここで一度だけ計算する。
+  concerns: inferConcerns(p.nameJa, {
+    category: p.categories.join(" "),
+  }),
 }));
 
 function withAffiliateUrl(p: BasePopularProduct): PopularProduct {
@@ -213,5 +221,19 @@ export function topPopular(n: number): PopularProduct[] {
   return [...basePopularProducts]
     .sort((a, b) => a.bestRank - b.bestRank)
     .slice(0, n)
+    .map(withAffiliateUrl);
+}
+
+/**
+ * 悩み LP 用: 指定 concern にヒットする楽天人気商品をランキング順で返す。
+ * concerns は商品名キーワード推論で付与されているため、悩みカバーは
+ * 完璧ではない (例: 「噛む」と書かれていない頑丈おもちゃは destroys-toys
+ * にヒットしない)。limit で上限を切り、過剰描画を防ぐ。
+ */
+export function popularByConcern(concernId: string, limit: number): PopularProduct[] {
+  return [...basePopularProducts]
+    .filter((p) => p.concerns.includes(concernId))
+    .sort((a, b) => a.bestRank - b.bestRank)
+    .slice(0, limit)
     .map(withAffiliateUrl);
 }

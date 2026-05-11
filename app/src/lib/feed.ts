@@ -7,10 +7,12 @@
  * curated 50-95) ため単純 sort だと楽天が上位を独占する問題を回避する。
  *
  * concernFilter 指定時は Product 側 concerns に含まれる物だけ通す。
- * 楽天 popular は concern メタを持たないのでフィルタ ON 時は除外。
+ * 楽天 popular は元データに concern メタを持たないが、商品名キーワード
+ * 推論で付与した concerns を使ってフィルタ可能 (悩み LP のカバー率を
+ * 拡大するため)。推論ヒットが無い popular はフィルタ ON 時は除外される。
  */
 
-import { topPopular, displayShopName } from "./popular-products";
+import { popularByConcern, topPopular, displayShopName } from "./popular-products";
 import { visibleProducts as products } from "./products";
 
 export type FeedItem = {
@@ -62,29 +64,30 @@ export function buildFeedItems(
     (isAmazon ? amazonGroup : curatedGroup).push(entry);
   }
 
-  if (!concernFilter) {
-    for (const p of topPopular(40)) {
-      if (!p.imageUrl) continue;
-      rakutenGroup.push({
-        item: {
-          key: `rkt-${p.id}`,
-          source: "rakuten",
-          href: p.affiliateUrl,
-          isExternal: true,
-          imageUrl: p.imageUrl,
-          brand: displayShopName(p.shopName),
-          name: p.nameJa,
-          priceJpy: p.priceJpy,
-          // 楽天 Item Search API 由来の評価値・件数。アフィリ担当レビュー
-          // 「ratingAvg/ratingCount を捨てている、★+件数 表示で CTR
-          // +15-25% 取れる」 への対応で feed まで持ち越す。
-          ratingAvg: p.ratingAvg,
-          ratingCount: p.ratingCount,
-        },
-        // bestRank: 1 (最良) ≈ 99、20位 ≈ 80。100 - bestRank で popularity 0-100 化
-        pop: Math.max(0, 100 - p.bestRank),
-      });
-    }
+  const rakutenSource = concernFilter
+    ? popularByConcern(concernFilter, 40)
+    : topPopular(40);
+  for (const p of rakutenSource) {
+    if (!p.imageUrl) continue;
+    rakutenGroup.push({
+      item: {
+        key: `rkt-${p.id}`,
+        source: "rakuten",
+        href: p.affiliateUrl,
+        isExternal: true,
+        imageUrl: p.imageUrl,
+        brand: displayShopName(p.shopName),
+        name: p.nameJa,
+        priceJpy: p.priceJpy,
+        // 楽天 Item Search API 由来の評価値・件数。アフィリ担当レビュー
+        // 「ratingAvg/ratingCount を捨てている、★+件数 表示で CTR
+        // +15-25% 取れる」 への対応で feed まで持ち越す。
+        ratingAvg: p.ratingAvg,
+        ratingCount: p.ratingCount,
+      },
+      // bestRank: 1 (最良) ≈ 99、20位 ≈ 80。100 - bestRank で popularity 0-100 化
+      pop: Math.max(0, 100 - p.bestRank),
+    });
   }
 
   amazonGroup.sort((a, b) => b.pop - a.pop);

@@ -2,6 +2,17 @@ import type { AffiliateTarget } from "./affiliate";
 import manualImagesData from "./manual-images.json";
 import generatedImages from "./rakuten-images.generated.json";
 import { amazonBestsellers } from "./amazon-bestsellers.generated";
+import { mergeInferredConcerns } from "./concern-inference";
+
+// Amazon ベストセラーは CSV 由来の concerns しか持たず、coverage が薄い。
+// 商品名キーワード推論で union して悩み LP のヒット率を上げる。
+const amazonBestsellersEnriched = amazonBestsellers.map((p) => ({
+  ...p,
+  concerns: mergeInferredConcerns(p.concerns, p.nameJa, {
+    brand: p.brand,
+    category: p.category,
+  }),
+}));
 
 /**
  * 楽天 Webservice API でビルド時に取得した商品画像URL。
@@ -2220,7 +2231,7 @@ function addRakutenSearchFallback(list: Product[]): Product[] {
 }
 
 export const products: Product[] = addRakutenSearchFallback(
-  enrichAmazonSearchTargets([...rawProducts, ...amazonBestsellers]),
+  enrichAmazonSearchTargets([...rawProducts, ...amazonBestsellersEnriched]),
 );
 
 /**
