@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MobileConcernChips } from "@/components/MobileConcernChips";
+import { MyDogProfileSaver } from "@/components/MyDogProfileSync";
 import { ResultsView } from "@/components/ResultsView";
 import { SideConcernsNav } from "@/components/SideConcernsNav";
 import { breeds, getBreed } from "@/lib/breeds";
@@ -174,6 +175,15 @@ export default async function ResultsPage({
     <div className="mx-auto grid max-w-7xl gap-6 px-5 lg:grid-cols-[260px_1fr]">
       <StructuredData
         items={[itemListSchema(matches.slice(0, 20).map((m) => m.product.id), locale)]}
+      />
+      {/* /my-dog から submit された結果はここで「うちの子」として localStorage に保存。
+          次回 /my-dog に直接アクセスすると自動でこの URL に復元される。 */}
+      <MyDogProfileSaver
+        breedIds={breedIds}
+        chest={chest != null ? String(chest) : undefined}
+        back={back != null ? String(back) : undefined}
+        neck={neck != null ? String(neck) : undefined}
+        concernIds={concernIds}
       />
       <aside className="hidden pt-5 lg:block">
         <div className="sticky top-20">

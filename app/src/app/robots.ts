@@ -14,9 +14,10 @@ export default function robots(): MetadataRoute.Robots {
         //              page.tsx 側でも meta robots noindex が指定済だが、
         //              robots.txt でクロール自体を抑制しクォータを節約。
         //
-        // /search /results は意図的に索引対象 (sitemap でも公開している)
-        // ため disallow しない。canonical の concern LP に集約させたい
-        // query パターンは概要を sitemap 側で /concerns/[id] に流している。
+        // /results は意図的に索引対象 (sitemap でも公開している) ため
+        // disallow しない。canonical の concern LP に集約させたい query
+        // パターンは概要を sitemap 側で /concerns/[id] に流している。
+        // /search は /my-dog に 308 redirect 済み (next.config.ts)。
         disallow: ["/api/", "/*/find"],
       },
     ],

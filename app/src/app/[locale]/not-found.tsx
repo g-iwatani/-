@@ -28,7 +28,7 @@ export default async function NotFound() {
           {dict.not_found.cta_home}
         </Link>
         <Link
-          href={`${root}/search`}
+          href={`${root}/my-dog`}
           className="inline-flex items-center justify-center rounded-full border border-border bg-card px-5 py-2.5 text-sm font-semibold text-foreground hover:border-primary hover:text-primary"
         >
           {dict.not_found.cta_search}

@@ -12,6 +12,23 @@ type Props = {
   dict: Dictionary;
   breeds: Breed[];
   concerns: Concern[];
+  /**
+   * submit 後の遷移先 URL prefix。デフォルトは `/[locale]/results` だが、
+   * 「うちの子から探す」 (/my-dog) では同 URL に query を載せ替えて inline
+   * 表示するため、`/[locale]/my-dog` を渡す。
+   */
+  submitPath?: string;
+  /**
+   * 初期値。`/my-dog` で localStorage / URL から復元するときに使う。
+   * 通常の `/search` では undefined (空のウィザード)。
+   */
+  initial?: {
+    breedIds?: string[];
+    chest?: string;
+    back?: string;
+    neck?: string;
+    concernIds?: string[];
+  };
 };
 
 type Step = 0 | 1 | 2;
@@ -90,19 +107,37 @@ const concernIcon: Record<string, string> = {
   leaf: "🍃",
 };
 
-export function SearchFlow({ locale, dict, breeds, concerns }: Props) {
+export function SearchFlow({
+  locale,
+  dict,
+  breeds,
+  concerns,
+  submitPath,
+  initial,
+}: Props) {
   const router = useRouter();
-  const [step, setStep] = useState<Step>(0);
+  // initial 指定時 (= 戻り訪問) は最後のステップ (悩み選択) から始める。
+  // ユーザーは前回の選択を見て微調整したいケースが多いため。
+  const hasInitial = Boolean(
+    (initial?.breedIds && initial.breedIds.length > 0) ||
+      initial?.chest ||
+      (initial?.concernIds && initial.concernIds.length > 0),
+  );
+  const [step, setStep] = useState<Step>(hasInitial ? 2 : 0);
   const [breedQuery, setBreedQuery] = useState("");
   const [activeBreedSize, setActiveBreedSize] = useState<BreedSize | "all">(
     "all",
   );
-  const [selectedBreedIds, setSelectedBreedIds] = useState<string[]>([]);
-  const [chest, setChest] = useState<string>("");
-  const [back, setBack] = useState<string>("");
-  const [neck, setNeck] = useState<string>("");
+  const [selectedBreedIds, setSelectedBreedIds] = useState<string[]>(
+    initial?.breedIds ?? [],
+  );
+  const [chest, setChest] = useState<string>(initial?.chest ?? "");
+  const [back, setBack] = useState<string>(initial?.back ?? "");
+  const [neck, setNeck] = useState<string>(initial?.neck ?? "");
   const [weight, setWeight] = useState<string>("");
-  const [selectedConcerns, setSelectedConcerns] = useState<string[]>([]);
+  const [selectedConcerns, setSelectedConcerns] = useState<string[]>(
+    initial?.concernIds ?? [],
+  );
   const [concernQuery, setConcernQuery] = useState("");
   const [activeConcernCategory, setActiveConcernCategory] =
     useState<ConcernCategory | "all">("all");
@@ -225,8 +260,9 @@ export function SearchFlow({ locale, dict, breeds, concerns }: Props) {
     if (neck) params.set("neck", neck);
     if (selectedConcerns.length > 0)
       params.set("concerns", selectedConcerns.join(","));
+    const target = submitPath ?? `/${locale}/results`;
     startTransition(() =>
-      router.push(`/${locale}/results?${params.toString()}`),
+      router.push(`${target}?${params.toString()}`),
     );
   }
 

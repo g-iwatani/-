@@ -24,7 +24,7 @@ export function BreedChip({ breed, locale }: Props) {
 
   return (
     <Link
-      href={`/${locale}/search?breed=${breed.id}`}
+      href={`/${locale}/breeds/${breed.id}`}
       className="group block w-[152px] overflow-hidden rounded-2xl border border-card-border bg-card transition-all hover:-translate-y-0.5 hover:shadow-md md:w-[180px]"
     >
       <div

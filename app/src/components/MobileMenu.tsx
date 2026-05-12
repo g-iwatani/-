@@ -107,7 +107,9 @@ export function MobileMenu({ navItems, ctaHref, ctaLabel, dict }: Props) {
 
             <form
               method="GET"
-              action={ctaHref.replace(/\/search$/, "/find")}
+              // ctaHref は /my-dog (うちの子) 等を指すが、検索フォームは常に /find に飛ばす。
+              // /my-dog の locale prefix だけ流用するため、末尾を /find に差し替える。
+              action={ctaHref.replace(/\/[^/]+$/, "/find")}
               role="search"
               aria-label={dict.find.header_aria}
               className="mx-3 mt-3 flex items-center rounded-full border border-border bg-background px-3 py-2 focus-within:border-primary"

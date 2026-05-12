@@ -68,14 +68,14 @@ export function Header({ locale, dict }: Props) {
           </form>
           <LocaleSwitcher current={locale} />
           <Link
-            href={`${root}/search`}
+            href={`${root}/my-dog`}
             className="hidden rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-fg transition-opacity hover:opacity-90 md:inline-flex"
           >
             {dict.hero.cta_primary}
           </Link>
           <MobileMenu
             navItems={navItems}
-            ctaHref={`${root}/search`}
+            ctaHref={`${root}/my-dog`}
             ctaLabel={dict.hero.cta_primary}
             dict={dict}
           />

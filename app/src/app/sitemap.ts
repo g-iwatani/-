@@ -7,7 +7,6 @@ import { absoluteUrl, site } from "@/lib/site";
 
 const STATIC_PATHS = [
   "",
-  "/search",
   "/results",
   "/popular",
   "/breeds",
@@ -109,19 +108,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
             site.locales.map((l) => [l, absoluteUrl(`/${l}/breeds/${b.id}`)]),
           ),
         },
-      });
-    }
-  }
-
-  // Breed-prefilled search pages (副系・低優先)
-  for (const locale of site.locales) {
-    for (const b of breeds) {
-      if (b.id === "mix" || b.id.startsWith("unknown-")) continue;
-      entries.push({
-        url: absoluteUrl(`/${locale}/search?breed=${b.id}`),
-        lastModified: now,
-        changeFrequency: "monthly",
-        priority: 0.3,
       });
     }
   }

@@ -66,7 +66,7 @@ export function SideConcernsNav({
       ))}
 
       <Link
-        href={`/${locale}/search`}
+        href={`/${locale}/my-dog`}
         className="mt-2 block rounded-full border border-border bg-background px-3 py-2 text-center text-xs font-bold text-muted-fg hover:border-primary hover:text-primary"
       >
         {dict.side_nav.see_all}

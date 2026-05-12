@@ -38,7 +38,7 @@ export function Footer({ locale, dict }: Props) {
               </Link>
             </li>
             <li>
-              <Link href={`${root}/search`} className="hover:text-primary">
+              <Link href={`${root}/my-dog`} className="hover:text-primary">
                 {dict.footer.links.search}
               </Link>
             </li>

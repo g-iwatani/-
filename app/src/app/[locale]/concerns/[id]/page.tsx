@@ -257,7 +257,7 @@ export default async function ConcernPage({
               : "Plug in breed, measurements, and concerns. We surface matching items across many brands."}
           </p>
           <Link
-            href={`${root}/search`}
+            href={`${root}/my-dog`}
             className="mt-6 inline-flex items-center justify-center rounded-full bg-background px-6 py-3 text-sm font-bold text-foreground transition-transform hover:-translate-y-0.5"
           >
             {locale === "ja" ? "採寸でフィット診断 →" : "Try sizing →"}

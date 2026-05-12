@@ -43,17 +43,17 @@ export function MobileBottomNav({ locale, dict }: Props) {
       href: `${root}/find`,
       label: dict.bottom_nav.search,
       icon: <SearchIcon />,
-      match: (p) =>
-        p.startsWith(`${root}/find`) ||
-        p.startsWith(`${root}/search`) ||
-        p.startsWith(`${root}/results`),
+      match: (p) => p.startsWith(`${root}/find`),
     },
     {
       href: `${root}/my-dog`,
       label: dict.bottom_nav.my_dog,
       icon: <PawIcon />,
       match: (p) =>
-        p.startsWith(`${root}/my-dog`) || p.startsWith(`${root}/breeds`),
+        p.startsWith(`${root}/my-dog`) ||
+        p.startsWith(`${root}/breeds`) ||
+        // 「うちの子」 submit からの結果ページ。検索タブではなくこちらに帰属。
+        p.startsWith(`${root}/results`),
     },
     {
       href: guidesHref,
