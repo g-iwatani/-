@@ -19,6 +19,8 @@
     "home": "Home",
     "search": "Search",
     "compare": "Compare",
+    "my_dog": "My dog",
+    "breeds": "Breeds",
     "guides": "Guides",
     "aria_label": "Bottom navigation"
   },

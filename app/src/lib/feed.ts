@@ -6,13 +6,16 @@
  * 各 source の popularity スケールが異なる (Amazon 50-80 / 楽天 80-99 /
  * curated 50-95) ため単純 sort だと楽天が上位を独占する問題を回避する。
  *
- * concernFilter 指定時は Product 側 concerns に含まれる物だけ通す。
+ * concernFilter は string (単一悩み LP) または string[] (犬種 LP の
+ * 複数悩み OR フィルタ) を受け取る。配列の場合は「いずれかの concern に
+ * ヒットすれば通す」 の OR 評価。
+ *
  * 楽天 popular は元データに concern メタを持たないが、商品名キーワード
  * 推論で付与した concerns を使ってフィルタ可能 (悩み LP のカバー率を
  * 拡大するため)。推論ヒットが無い popular はフィルタ ON 時は除外される。
  */
 
-import { popularByConcern, topPopular, displayShopName } from "./popular-products";
+import { popularByConcern, topPopular, displayShopName, type PopularProduct } from "./popular-products";
 import { visibleProducts as products } from "./products";
 
 export type FeedItem = {
@@ -37,15 +40,23 @@ export type FeedItem = {
 
 export function buildFeedItems(
   locale: "ja" | "en",
-  concernFilter?: string,
+  concernFilter?: string | string[],
 ): FeedItem[] {
   const amazonGroup: { item: FeedItem; pop: number }[] = [];
   const curatedGroup: { item: FeedItem; pop: number }[] = [];
   const rakutenGroup: { item: FeedItem; pop: number }[] = [];
 
+  const filterIds: string[] | null = concernFilter
+    ? Array.isArray(concernFilter)
+      ? concernFilter
+      : [concernFilter]
+    : null;
+  const matchesFilter = (concerns: readonly string[]) =>
+    !filterIds || filterIds.some((c) => concerns.includes(c));
+
   for (const p of products) {
     if (!p.imageUrl) continue;
-    if (concernFilter && !p.concerns.includes(concernFilter)) continue;
+    if (!matchesFilter(p.concerns)) continue;
     const isAmazon = p.id.startsWith("amz-");
     const lowest = Math.min(...p.buyOptions.map((b) => b.priceJpy));
     const entry = {
@@ -64,9 +75,21 @@ export function buildFeedItems(
     (isAmazon ? amazonGroup : curatedGroup).push(entry);
   }
 
-  const rakutenSource = concernFilter
-    ? popularByConcern(concernFilter, 100)
-    : topPopular(100);
+  // 楽天は concern 別関数しか持たないため、複数 concern の場合は union + dedup
+  let rakutenSource: PopularProduct[];
+  if (filterIds) {
+    const seen = new Set<string>();
+    rakutenSource = [];
+    for (const c of filterIds) {
+      for (const p of popularByConcern(c, 100)) {
+        if (seen.has(p.id)) continue;
+        seen.add(p.id);
+        rakutenSource.push(p);
+      }
+    }
+  } else {
+    rakutenSource = topPopular(100);
+  }
   for (const p of rakutenSource) {
     if (!p.imageUrl) continue;
     rakutenGroup.push({

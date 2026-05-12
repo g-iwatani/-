@@ -11,14 +11,16 @@ type Props = {
 };
 
 /**
- * モバイル/タブレット 下部固定 5 タブナビ。スニダン / メルカリ / ZOZO 流の
- * 「コマース反射神経」 を持たせるため、検索・比較・ガイドへの 1 タップ動線を
+ * モバイル/タブレット 下部固定 4 タブナビ。スニダン / メルカリ / ZOZO 流の
+ * 「コマース反射神経」 を持たせるため、検索・うちの子・ガイドへの 1 タップ動線を
  * 全ページで提供する。
  *
  * - md+ では非表示 (Header の nav が代替)
- * - z-30 で本文より上、CompareStickyBar / StickyMobileCta (z-40) より下
- *   → 比較バーや CTA が出現すると、それらは bottom-16 で nav の上に重なる
+ * - z-30 で本文より上、StickyMobileCta (z-40) より下
  * - safe-area-inset-bottom 対応で iPhone notch/indicator を回避
+ *
+ * NOTE: 旧「比較」タブは UX 低品質のため撤去。/compare ページ自体は
+ * ブックマーク互換のため残しているが nav 動線は無い。
  */
 export function MobileBottomNav({ locale, dict }: Props) {
   const pathname = usePathname();
@@ -47,10 +49,11 @@ export function MobileBottomNav({ locale, dict }: Props) {
         p.startsWith(`${root}/results`),
     },
     {
-      href: `${root}/compare`,
-      label: dict.bottom_nav.compare,
-      icon: <ScaleIcon />,
-      match: (p) => p.startsWith(`${root}/compare`),
+      href: `${root}/my-dog`,
+      label: dict.bottom_nav.my_dog,
+      icon: <PawIcon />,
+      match: (p) =>
+        p.startsWith(`${root}/my-dog`) || p.startsWith(`${root}/breeds`),
     },
     {
       href: guidesHref,
@@ -126,19 +129,19 @@ function SearchIcon() {
     </svg>
   );
 }
-function ScaleIcon() {
+function PawIcon() {
   return (
     <svg
       viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      fill="currentColor"
       className="h-5 w-5"
       aria-hidden
     >
-      <path d="M12 4v16M4 8h16M6 8l-3 6h6zM18 8l-3 6h6z" />
+      <ellipse cx="6" cy="9" rx="1.6" ry="2.2" />
+      <ellipse cx="10" cy="6" rx="1.6" ry="2.2" />
+      <ellipse cx="14" cy="6" rx="1.6" ry="2.2" />
+      <ellipse cx="18" cy="9" rx="1.6" ry="2.2" />
+      <path d="M12 11c-3 0-5 2.5-5 5 0 2 1.5 3 3 3 .8 0 1.3-.3 2-.3s1.2.3 2 .3c1.5 0 3-1 3-3 0-2.5-2-5-5-5z" />
     </svg>
   );
 }

@@ -12,11 +12,11 @@ type Props = {
 export function Header({ locale, dict }: Props) {
   const root = `/${locale}`;
   const navItems = [
-    { href: `${root}/search`, label: dict.nav.search },
+    { href: `${root}/breeds`, label: dict.bottom_nav.breeds },
+    { href: `${root}/my-dog`, label: dict.bottom_nav.my_dog },
     { href: `${root}/results`, label: dict.nav.browse },
     { href: `${root}/popular`, label: dict.nav.popular },
     { href: `${root}/guides/harness-buying-guide`, label: dict.nav.guides },
-    { href: `${root}/legal/about`, label: dict.nav.about },
   ];
 
   return (

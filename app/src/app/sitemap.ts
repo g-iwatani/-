@@ -10,6 +10,7 @@ const STATIC_PATHS = [
   "/search",
   "/results",
   "/popular",
+  "/breeds",
   "/legal/affiliate",
   "/legal/privacy",
   "/legal/terms",
@@ -93,7 +94,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  // Breed-prefilled search pages
+  // 犬種別 LP (canonical SEO surface)。?breed= の /search は param URL で
+  // canonical 集約しないため /breeds/[id] static page を SEO 主軸にする。
+  for (const locale of site.locales) {
+    for (const b of breeds) {
+      if (b.id === "mix" || b.id.startsWith("unknown-")) continue;
+      entries.push({
+        url: absoluteUrl(`/${locale}/breeds/${b.id}`),
+        lastModified: now,
+        changeFrequency: "weekly",
+        priority: 0.7,
+        alternates: {
+          languages: Object.fromEntries(
+            site.locales.map((l) => [l, absoluteUrl(`/${l}/breeds/${b.id}`)]),
+          ),
+        },
+      });
+    }
+  }
+
+  // Breed-prefilled search pages (副系・低優先)
   for (const locale of site.locales) {
     for (const b of breeds) {
       if (b.id === "mix" || b.id.startsWith("unknown-")) continue;
@@ -101,7 +121,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         url: absoluteUrl(`/${locale}/search?breed=${b.id}`),
         lastModified: now,
         changeFrequency: "monthly",
-        priority: 0.4,
+        priority: 0.3,
       });
     }
   }
