@@ -33,12 +33,11 @@ export default function OgImage() {
             letterSpacing: 0.5,
           }}
         >
-          <svg width="48" height="48" viewBox="0 0 32 32">
-            <ellipse cx="16" cy="22" rx="6.5" ry="5.5" fill="currentColor" />
-            <ellipse cx="7" cy="14" rx="3" ry="3.5" fill="currentColor" />
-            <ellipse cx="25" cy="14" rx="3" ry="3.5" fill="currentColor" />
-            <ellipse cx="11" cy="7" rx="2.5" ry="3" fill="currentColor" />
-            <ellipse cx="21" cy="7" rx="2.5" ry="3" fill="currentColor" />
+          <svg width="48" height="48" viewBox="0 0 32 32" fill="currentColor">
+            <path d="M5 4 L13.5 8.5 L11 17.5 Z" />
+            <path d="M27 4 L18.5 8.5 L21 17.5 Z" />
+            <ellipse cx="16" cy="19" rx="10" ry="9" />
+            <ellipse cx="16" cy="23.5" rx="4.5" ry="3" />
           </svg>
           <div style={{ display: "flex", gap: 12 }}>
             <span>{site.nameJa}</span>
