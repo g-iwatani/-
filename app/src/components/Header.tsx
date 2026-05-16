@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Dictionary, Locale } from "@/app/[locale]/dictionaries";
+import { BrandIcon } from "./BrandIcon";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { MobileMenu } from "./MobileMenu";
 import { PawMark } from "./PawMark";
@@ -68,9 +69,11 @@ export function Header({ locale, dict }: Props) {
             aria-label={dict.find.header_aria}
             className="hidden items-center rounded-full border border-border bg-card px-3 py-1.5 focus-within:border-primary md:flex"
           >
-            <span aria-hidden className="mr-1.5 text-muted-fg">
-              🔍
-            </span>
+            <BrandIcon
+              name="search"
+              size={16}
+              className="mr-1.5 text-muted-fg"
+            />
             <input
               type="search"
               name="q"

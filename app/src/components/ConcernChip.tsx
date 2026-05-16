@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Locale } from "@/app/[locale]/dictionaries";
 import type { Concern } from "@/lib/concerns";
+import { ConcernIcon } from "./BrandIcon";
 
 type Props = {
   concern: Concern;
@@ -38,7 +39,7 @@ export function ConcernChip({ concern, locale, href }: Props) {
         aria-hidden="true"
         className={`absolute left-0 top-0 h-full w-1 ${categoryAccent[concern.category]}`}
       />
-      <div className="mb-3 flex items-baseline gap-3">
+      <div className="mb-3 flex items-center gap-3">
         {number && (
           <span
             className={`font-mono text-xs font-bold tracking-wider ${categoryText[concern.category]}`}
@@ -46,6 +47,11 @@ export function ConcernChip({ concern, locale, href }: Props) {
             {number}
           </span>
         )}
+        <ConcernIcon
+          iconKey={concern.iconKey}
+          size={18}
+          className={categoryText[concern.category]}
+        />
         <span className="font-mono text-[9px] font-bold uppercase tracking-wider text-muted-fg">
           {concern.category}
         </span>

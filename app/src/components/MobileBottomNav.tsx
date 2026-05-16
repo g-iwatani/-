@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Dictionary, Locale } from "@/app/[locale]/dictionaries";
 import { guides } from "@/lib/guides";
+import { BrandIcon } from "./BrandIcon";
 
 type Props = {
   locale: Locale;
@@ -36,19 +37,19 @@ export function MobileBottomNav({ locale, dict }: Props) {
     {
       href: root,
       label: dict.bottom_nav.home,
-      icon: <HomeIcon />,
+      icon: <BrandIcon name="home" size={20} />,
       match: (p) => p === root || p === `${root}/`,
     },
     {
       href: `${root}/find`,
       label: dict.bottom_nav.search,
-      icon: <SearchIcon />,
+      icon: <BrandIcon name="search" size={20} />,
       match: (p) => p.startsWith(`${root}/find`),
     },
     {
       href: `${root}/my-dog`,
       label: dict.bottom_nav.my_dog,
-      icon: <PawIcon />,
+      icon: <BrandIcon name="paw" size={20} />,
       match: (p) =>
         p.startsWith(`${root}/my-dog`) ||
         p.startsWith(`${root}/breeds`) ||
@@ -58,7 +59,7 @@ export function MobileBottomNav({ locale, dict }: Props) {
     {
       href: guidesHref,
       label: dict.bottom_nav.guides,
-      icon: <BookIcon />,
+      icon: <BrandIcon name="book" size={20} />,
       match: (p) => p.startsWith(`${root}/guides`),
     },
   ];
@@ -96,68 +97,3 @@ export function MobileBottomNav({ locale, dict }: Props) {
   );
 }
 
-function HomeIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-5 w-5"
-      aria-hidden
-    >
-      <path d="M3 11l9-8 9 8M5 10v10h14V10" />
-    </svg>
-  );
-}
-function SearchIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-5 w-5"
-      aria-hidden
-    >
-      <circle cx="11" cy="11" r="7" />
-      <path d="M20 20l-3.5-3.5" />
-    </svg>
-  );
-}
-function PawIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="h-5 w-5"
-      aria-hidden
-    >
-      <ellipse cx="6" cy="9" rx="1.6" ry="2.2" />
-      <ellipse cx="10" cy="6" rx="1.6" ry="2.2" />
-      <ellipse cx="14" cy="6" rx="1.6" ry="2.2" />
-      <ellipse cx="18" cy="9" rx="1.6" ry="2.2" />
-      <path d="M12 11c-3 0-5 2.5-5 5 0 2 1.5 3 3 3 .8 0 1.3-.3 2-.3s1.2.3 2 .3c1.5 0 3-1 3-3 0-2.5-2-5-5-5z" />
-    </svg>
-  );
-}
-function BookIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="h-5 w-5"
-      aria-hidden
-    >
-      <path d="M4 4h7a3 3 0 013 3v13a2 2 0 00-2-2H4zM20 4h-7a3 3 0 00-3 3v13a2 2 0 012-2h8z" />
-    </svg>
-  );
-}

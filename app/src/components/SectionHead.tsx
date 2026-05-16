@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandIcon } from "./BrandIcon";
 
 type Props = {
   /** "01 · BREEDS" のような mono kicker。leading line 付きで描画される。 */
@@ -48,9 +49,10 @@ export function SectionHead({
       {viewAllHref && (
         <Link
           href={viewAllHref}
-          className="whitespace-nowrap text-xs font-semibold text-primary hover:underline md:text-sm"
+          className="inline-flex items-center gap-1 whitespace-nowrap text-xs font-semibold text-primary hover:underline md:text-sm"
         >
-          {viewAllLabel ?? "もっと見る"} →
+          {viewAllLabel ?? "もっと見る"}
+          <BrandIcon name="chevron-right" size={14} />
         </Link>
       )}
     </div>
