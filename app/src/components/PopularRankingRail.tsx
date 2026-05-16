@@ -22,7 +22,9 @@ export async function PopularRankingRail({ locale, limit = 10 }: Props) {
 
   return (
     <Rail
+      kicker="00 · WEEKLY RANKING"
       title={locale === "ja" ? "今週よく売れている" : "Best-sellers · this week"}
+      titleEn={locale === "ja" ? "Best-sellers · this week" : "Updated daily"}
       subtitle={
         locale === "ja"
           ? "楽天市場 犬用品ランキングから集計 · 毎日更新"

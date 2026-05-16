@@ -131,6 +131,38 @@ body {
   }
 }
 
+/* Eyebrow with leading line — editorial kicker pattern */
+.t-eyebrow-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: var(--font-mono, ui-monospace), monospace;
+  font-size: 0.6875rem; /* 11px */
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.t-eyebrow-line::before {
+  content: "";
+  width: 1.75rem;
+  height: 1px;
+  background: currentColor;
+}
+
+/* EN sub label next to a JA section h2 */
+.t-section-en {
+  font-size: 0.875rem; /* 14px */
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  color: var(--muted-fg);
+}
+@media (min-width: 768px) {
+  .t-section-en {
+    font-size: 1rem; /* 16px */
+  }
+}
+
 .prose-legal {
   color: var(--foreground);
   line-height: 1.75;
