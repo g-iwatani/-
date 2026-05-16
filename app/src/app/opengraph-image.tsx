@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { site } from "@/lib/site";
+import { absoluteUrl, site } from "@/lib/site";
 
 // Cloudflare Workers + OpenNext で next/og を動かすために必要
 export const runtime = "edge";
@@ -12,6 +12,7 @@ export default function OgImage() {
     (
       <div
         style={{
+          position: "relative",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -22,8 +23,24 @@ export default function OgImage() {
           fontFamily: "sans-serif",
         }}
       >
+        {/* デザイナー納品の OG 背景パターン。グラデの上に重ねて質感を足す。 */}
+        <img
+          src={absoluteUrl("/brand/og-templates/og-bg-pattern.png")}
+          alt=""
+          width={1200}
+          height={630}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            opacity: 0.55,
+          }}
+        />
         <div
           style={{
+            position: "relative",
             display: "flex",
             alignItems: "center",
             gap: 16,
@@ -49,6 +66,7 @@ export default function OgImage() {
 
         <div
           style={{
+            position: "relative",
             marginTop: "auto",
             display: "flex",
             flexDirection: "column",
@@ -85,6 +103,7 @@ export default function OgImage() {
 
         <div
           style={{
+            position: "relative",
             display: "flex",
             gap: 12,
             marginTop: 36,

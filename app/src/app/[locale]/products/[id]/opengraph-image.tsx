@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { getProduct } from "@/lib/products";
-import { site } from "@/lib/site";
+import { absoluteUrl, site } from "@/lib/site";
 import { defaultLocale, hasLocale } from "../../dictionaries";
 
 // Cloudflare Workers では Edge Runtime 必須 (Node 専用 API を持つ next/og の
@@ -41,6 +41,7 @@ export default async function ProductOg({
     (
       <div
         style={{
+          position: "relative",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -49,31 +50,48 @@ export default async function ProductOg({
           fontFamily: "sans-serif",
         }}
       >
-        {/* Left: product image (when available) */}
-        {imageUrl && (
-          <div
-            style={{
-              width: 540,
-              height: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: 40,
-              background: "#fff",
-            }}
-          >
-            <img
-              src={imageUrl}
-              alt=""
-              width={460}
-              height={460}
-              style={{ objectFit: "contain", borderRadius: 24 }}
-            />
-          </div>
-        )}
+        {/* デザイナー納品の OG 背景パターン */}
+        <img
+          src={absoluteUrl("/brand/og-templates/og-bg-pattern.png")}
+          alt=""
+          width={1200}
+          height={630}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            opacity: 0.55,
+          }}
+        />
+        {/* Left: product image (when available) — 画像が無ければ paw print frame をフォールバックで表示 */}
+        <div
+          style={{
+            position: "relative",
+            width: 540,
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 40,
+            background: imageUrl ? "#fff" : "transparent",
+          }}
+        >
+          <img
+            src={
+              imageUrl ?? absoluteUrl("/brand/og-templates/og-frame-product.svg")
+            }
+            alt=""
+            width={460}
+            height={460}
+            style={{ objectFit: "contain", borderRadius: 24 }}
+          />
+        </div>
         {/* Right: text */}
         <div
           style={{
+            position: "relative",
             flex: 1,
             display: "flex",
             flexDirection: "column",
