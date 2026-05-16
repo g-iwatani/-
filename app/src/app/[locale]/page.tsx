@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CategoryGrid } from "@/components/CategoryGrid";
 import { GuideCard } from "@/components/GuideCard";
+import { PopularRankingRail } from "@/components/PopularRankingRail";
 import { ProductFeed } from "@/components/ProductFeed";
 import { Rail, RailItem } from "@/components/Rail";
 import { RecentRail } from "@/components/RecentRail";
@@ -90,6 +91,9 @@ export default async function HomePage({
           </div>
         </div>
       </section>
+
+      {/* 売れ筋ランキング rail — chunk 1 (商品 reel) より先に「今売れているもの」を提示。 */}
+      <PopularRankingRail locale={locale} />
 
       {/* Mercari 風 interleaved reel:
           商品 → カテゴリ → 商品 → 履歴 → 商品 → ガイド → 商品 の縦シーケンス。
