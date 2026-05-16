@@ -58,13 +58,17 @@ function RankRailCard({
   locale: Locale;
   href: string;
 }) {
-  const isPodium = rank <= 3;
   const price = formatPrice(product.priceJpy, locale);
   const shop = displayShopName(product.shopName);
 
   return (
     <Link
       href={href}
+      aria-label={
+        locale === "ja"
+          ? `${rank}位 ${product.nameJa}`
+          : `Rank ${rank}: ${product.nameJa}`
+      }
       className="group relative block w-[200px] flex-shrink-0 md:w-[228px]"
     >
       <div className="relative overflow-hidden rounded-2xl border border-card-border bg-card transition-all group-hover:-translate-y-0.5 group-hover:shadow-md">
@@ -91,23 +95,6 @@ function RankRailCard({
           </p>
         </div>
       </div>
-      {/* 大型ランク番号 — カードの左上にオーバーラップ */}
-      <span
-        aria-hidden="true"
-        className={`pointer-events-none absolute -left-2 -top-3 select-none font-extrabold leading-[0.8] tracking-[-0.06em] ${
-          isPodium
-            ? "text-[120px] text-primary md:text-[140px]"
-            : "text-[88px] text-transparent [-webkit-text-stroke:1.5px_#d97a4e] md:text-[104px]"
-        }`}
-        style={{
-          textShadow: isPodium
-            ? "0 2px 0 #fff9f2, 0 -2px 0 #fff9f2, 2px 0 0 #fff9f2, -2px 0 0 #fff9f2"
-            : undefined,
-        }}
-      >
-        {String(rank).padStart(2, "0")}
-      </span>
-      <span className="sr-only">{rank}位</span>
     </Link>
   );
 }
