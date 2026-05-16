@@ -25,12 +25,25 @@ export function Header({ locale, dict }: Props) {
         <Link
           href={root}
           className="flex items-center gap-2 text-foreground transition-opacity hover:opacity-80"
+          aria-label={dict.brand.name}
         >
-          <span className="text-primary">
-            <PawMark size={26} />
-          </span>
-          <span className="text-base font-extrabold tracking-tight">
-            {dict.brand.name}
+          {/* md+ ではデザイナー納品の lockup (paw print + わんプロブレム / WanProblem)。
+              mobile では帯幅を取りすぎるので、従来の PawMark + 短縮テキストに留める。 */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/lockup.svg"
+            alt=""
+            width={260}
+            height={40}
+            className="hidden h-9 w-auto md:block"
+          />
+          <span className="flex items-center gap-2 md:hidden">
+            <span className="text-primary">
+              <PawMark size={26} />
+            </span>
+            <span className="text-base font-extrabold tracking-tight">
+              {dict.brand.name}
+            </span>
           </span>
         </Link>
 

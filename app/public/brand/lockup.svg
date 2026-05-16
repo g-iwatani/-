@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 80" aria-hidden="true">
+  <g fill="#d97a4e" transform="translate(8, 16) scale(1.5)">
+    <path d="M16 13.5 C19.5 13.5 23 16 24.5 19 C26 22 25.5 25.5 23 26.8 C20.5 28 18 26 16 26 C14 26 11.5 28 9 26.8 C6.5 25.5 6 22 7.5 19 C9 16 12.5 13.5 16 13.5 Z"></path>
+    <ellipse cx="8.5" cy="11" rx="3" ry="3.8"></ellipse>
+    <ellipse cx="12.5" cy="6.8" rx="3" ry="3.8"></ellipse>
+    <ellipse cx="19.5" cy="6.8" rx="3" ry="3.8"></ellipse>
+    <ellipse cx="23.5" cy="11" rx="3" ry="3.8"></ellipse>
+  </g>
+  <text x="72" y="52" font-family="&#39;M PLUS Rounded 1c&#39;, &#39;Hiragino Maru Gothic ProN&#39;, sans-serif" font-weight="800" font-size="36" letter-spacing="-0.5" fill="#2d1f1a">わんプロブレム</text>
+  <text x="330" y="52" font-family="&#39;Plus Jakarta Sans&#39;, sans-serif" font-weight="500" font-size="32" fill="#c9b89e">/</text>
+  <text x="354" y="52" font-family="&#39;Plus Jakarta Sans&#39;, system-ui, sans-serif" font-weight="800" font-size="34" letter-spacing="-0.8" fill="#d97a4e">WanProblem</text>
+</svg>
