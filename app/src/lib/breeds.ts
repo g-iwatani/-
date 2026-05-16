@@ -11,6 +11,8 @@ export type Breed = {
   backAvg: number;
   neckAvg: number;
   popular?: boolean;
+  /** チップ表示用 1 文字。未設定時は nameJa[0] を自動採用。 */
+  displayChar?: string;
 };
 
 /** サイズカテゴリ別のデフォルト採寸値(個別指定がない時のフォールバック) */

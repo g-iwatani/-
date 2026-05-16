@@ -8,10 +8,10 @@ type Props = {
   now?: Date;
 };
 
-const TONE_CLASS: Record<string, string> = {
-  warm: "from-amber-500 to-rose-500 text-white",
-  cool: "from-sky-500 to-indigo-600 text-white",
-  fresh: "from-emerald-500 to-teal-600 text-white",
+const toneAccentText: Record<string, string> = {
+  warm: "text-[#fbd9b9]",
+  cool: "text-[#d3e0ff]",
+  fresh: "text-[#dfe9cb]",
 };
 
 /**
@@ -31,7 +31,7 @@ export function SeasonalBanner({ locale, now }: Props) {
   const title = locale === "ja" ? campaign.titleJa : campaign.titleEn;
   const lead = locale === "ja" ? campaign.leadJa : campaign.leadEn;
   const cta = locale === "ja" ? campaign.ctaJa : campaign.ctaEn;
-  const toneClass = TONE_CLASS[campaign.tone] ?? TONE_CLASS.warm;
+  const accent = toneAccentText[campaign.tone] ?? toneAccentText.warm;
   const href = `/${locale}${campaign.href}`;
 
   return (
@@ -39,23 +39,30 @@ export function SeasonalBanner({ locale, now }: Props) {
       <div className="mx-auto max-w-7xl px-5">
         <Link
           href={href}
-          className={`block overflow-hidden rounded-3xl bg-gradient-to-br ${toneClass} p-6 transition-all hover:-translate-y-0.5 hover:shadow-xl md:p-8`}
+          className="group block overflow-hidden rounded-3xl bg-foreground p-8 text-background transition-all hover:-translate-y-0.5 hover:shadow-xl md:p-12"
         >
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-start gap-4 md:items-center">
-              <span aria-hidden className="text-4xl md:text-5xl">
-                {campaign.icon}
-              </span>
-              <div className="space-y-1.5">
-                <h2 className="text-xl font-extrabold leading-tight tracking-tight md:text-2xl">
-                  {title}
-                </h2>
-                <p className="text-sm leading-relaxed text-white/90 md:text-base">
-                  {lead}
-                </p>
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-col gap-4 md:max-w-2xl">
+              <div className="flex items-center gap-3">
+                <span className="h-px w-7 bg-primary" aria-hidden />
+                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
+                  {locale === "ja" ? "この季節の特集" : "Seasonal feature"}
+                </span>
               </div>
+              <h2 className="text-balance text-2xl font-extrabold leading-tight tracking-[-0.025em] text-background md:text-4xl">
+                {title.split(/、|, /).map((line, i, arr) => (
+                  <span key={i} className={i === arr.length - 1 ? accent : ""}>
+                    {line}
+                    {i < arr.length - 1 ? "、" : ""}
+                    {i < arr.length - 1 && <br />}
+                  </span>
+                ))}
+              </h2>
+              <p className="text-sm leading-relaxed text-background/70 md:text-base">
+                {lead}
+              </p>
             </div>
-            <span className="inline-flex shrink-0 items-center justify-center rounded-full bg-white/95 px-5 py-2.5 text-sm font-bold text-foreground transition-colors hover:bg-white">
+            <span className="inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-primary px-6 py-3 text-sm font-extrabold text-primary-fg md:self-auto">
               {cta} →
             </span>
           </div>

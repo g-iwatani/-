@@ -7,40 +7,34 @@ type Props = {
   locale: Locale;
 };
 
-const breedColorBySize: Record<
-  Breed["size"],
-  { from: string; to: string; emoji: string }
-> = {
-  tiny: { from: "#FCE6D8", to: "#D97A4E", emoji: "🐕" },
-  small: { from: "#FFE5C7", to: "#C9844C", emoji: "🐶" },
-  medium: { from: "#E8DFCE", to: "#8B7355", emoji: "🦮" },
-  large: { from: "#C9B89E", to: "#5C4A36", emoji: "🐕‍🦺" },
-  giant: { from: "#A89376", to: "#3F3120", emoji: "🐺" },
-};
-
 export function BreedChip({ breed, locale }: Props) {
   const name = locale === "ja" ? breed.nameJa : breed.nameEn;
-  const palette = breedColorBySize[breed.size];
+  const displayChar =
+    (breed as Breed & { displayChar?: string }).displayChar ??
+    breed.nameJa.charAt(0);
 
   return (
     <Link
       href={`/${locale}/breeds/${breed.id}`}
-      className="group block w-[152px] overflow-hidden rounded-2xl border border-card-border bg-card transition-all hover:-translate-y-0.5 hover:shadow-md md:w-[180px]"
+      className="group block w-[164px] flex-shrink-0 overflow-hidden rounded-2xl border border-card-border bg-card transition-all hover:-translate-y-0.5 hover:border-primary hover:shadow-md md:w-[196px]"
     >
-      <div
-        className="flex h-24 items-center justify-center text-4xl md:h-28 md:text-5xl"
-        style={{
-          backgroundImage: `linear-gradient(135deg, ${palette.from} 0%, ${palette.to} 100%)`,
-        }}
-      >
-        <span aria-hidden="true">{palette.emoji}</span>
+      <div className="relative flex h-28 items-center justify-center border-b border-card-border bg-muted md:h-36">
+        <span
+          aria-hidden="true"
+          className="text-[72px] font-extrabold leading-none tracking-[-0.05em] text-primary md:text-[96px]"
+        >
+          {displayChar}
+        </span>
+        <span className="absolute right-3 top-3 rounded bg-card px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-muted-fg">
+          {breed.size}
+        </span>
       </div>
-      <div className="px-3 py-2.5">
-        <p className="line-clamp-1 text-sm font-bold text-foreground group-hover:text-primary">
+      <div className="px-3 py-3 md:px-4">
+        <p className="line-clamp-1 text-sm font-extrabold tracking-[-0.01em] text-foreground group-hover:text-primary md:text-base">
           {name}
         </p>
-        <p className="mt-0.5 text-[10px] uppercase tracking-wide text-muted-fg">
-          {breed.size}
+        <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-wider text-muted-fg">
+          {breed.nameEn}
         </p>
       </div>
     </Link>

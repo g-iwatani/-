@@ -3,6 +3,8 @@ export type ConcernCategory = "size" | "season" | "behavior" | "purpose" | "care
 export type Concern = {
   id: string;
   category: ConcernCategory;
+  /** 編集側で振る通し番号 "01" - "15" 等。 */
+  number?: string;
   labelJa: string;
   labelEn: string;
   /**
