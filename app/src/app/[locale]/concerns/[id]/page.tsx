@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CategoryGrid } from "@/components/CategoryGrid";
+import { CauseMatrix } from "@/components/CauseMatrix";
 import { GuideCard } from "@/components/GuideCard";
 import { ProductFeed } from "@/components/ProductFeed";
 import { Rail, RailItem } from "@/components/Rail";
+import { getCausesForConcern } from "@/lib/concern-causes";
 import {
   type Concern,
   chipLabel,
@@ -92,6 +94,10 @@ export default async function ConcernPage({
   // フィルタ ON でも適切なものが流入する (詳細は feed.ts のコメント参照)。
   const feedItems = buildFeedItems(locale, id);
 
+  // 編集側で登録された「原因マトリクス」 がある場合のみ表示。
+  // (data 未登録の concern は section ごと非表示で副作用ゼロ。)
+  const causes = getCausesForConcern(id);
+
   // 関連悩み: 同じカテゴリ内の他悩み (popularity 順、最大 6)
   const related = getConcernsByCategory(concern.category)
     .filter((c) => c.id !== id)
@@ -150,6 +156,10 @@ export default async function ConcernPage({
           </p>
         </div>
       </section>
+
+      {causes && (
+        <CauseMatrix causes={causes} locale={locale} concernLabel={label} />
+      )}
 
       {feedItems.length > 0 ? (
         <ProductFeed
