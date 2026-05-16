@@ -1,7 +1,12 @@
-import Link from "next/link";
+import { SectionHead } from "./SectionHead";
 
 type Props = {
   title: string;
+  /** mono kicker (任意). 例 "01 · BREEDS" */
+  kicker?: string;
+  /** EN サブタイトル (任意). 例 "Browse by breed" */
+  titleEn?: string;
+  /** 既存 subtitle はそのまま (lead として扱う). */
   subtitle?: string;
   viewAllHref?: string;
   viewAllLabel?: string;
@@ -10,6 +15,8 @@ type Props = {
 
 export function Rail({
   title,
+  kicker,
+  titleEn,
   subtitle,
   viewAllHref,
   viewAllLabel,
@@ -17,22 +24,16 @@ export function Rail({
 }: Props) {
   return (
     <section className="mt-10 md:mt-14">
-      <div className="mx-auto flex max-w-7xl items-end justify-between gap-4 px-5">
-        <div>
-          <h2 className="t-section">{title}</h2>
-          {subtitle && <p className="mt-0.5 t-section-sub">{subtitle}</p>}
-        </div>
-        {viewAllHref && (
-          <Link
-            href={viewAllHref}
-            className="whitespace-nowrap text-xs font-semibold text-primary hover:underline md:text-sm"
-          >
-            {viewAllLabel ?? "もっと見る"} →
-          </Link>
-        )}
-      </div>
+      <SectionHead
+        kicker={kicker}
+        title={title}
+        titleEn={titleEn}
+        lead={subtitle}
+        viewAllHref={viewAllHref}
+        viewAllLabel={viewAllLabel}
+      />
 
-      <div className="relative mt-3">
+      <div className="relative mt-5">
         <div
           className="rail-scroll flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth px-5 pb-3 md:gap-4"
           style={{ scrollbarWidth: "none" }}

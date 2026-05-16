@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Locale } from "@/app/[locale]/dictionaries";
 import type { Concern } from "@/lib/concerns";
+import { ConcernIcon } from "./BrandIcon";
 
 type Props = {
   concern: Concern;
@@ -8,62 +9,57 @@ type Props = {
   href: string;
 };
 
-const iconMap: Record<string, string> = {
-  ruler: "📏",
-  alert: "⚠️",
-  compass: "🧭",
-  sun: "☀️",
-  snowflake: "❄️",
-  "cloud-rain": "🌧️",
-  footprints: "🐾",
-  anchor: "⚓",
-  shield: "🛡️",
-  heart: "💛",
-  moon: "🌙",
-  sparkles: "✨",
-  mountain: "⛰️",
-  wind: "🌬️",
-  leaf: "🍃",
+const categoryAccent: Record<Concern["category"], string> = {
+  size: "bg-primary",
+  season: "bg-[#c98c47]",
+  behavior: "bg-[#a85530]",
+  purpose: "bg-[#8b7355]",
+  care: "bg-accent",
 };
-
-const categoryGradient: Record<
-  Concern["category"],
-  { from: string; to: string }
-> = {
-  size: { from: "#FCE6D8", to: "#D97A4E" },
-  season: { from: "#E8EEDB", to: "#6B8E4E" },
-  behavior: { from: "#F5E0D5", to: "#B85B36" },
-  purpose: { from: "#E8DFCE", to: "#8B7355" },
-  care: { from: "#E0EAEA", to: "#4A6670" },
+const categoryText: Record<Concern["category"], string> = {
+  size: "text-primary",
+  season: "text-[#c98c47]",
+  behavior: "text-[#a85530]",
+  purpose: "text-[#8b7355]",
+  care: "text-accent",
 };
 
 export function ConcernChip({ concern, locale, href }: Props) {
   const label = locale === "ja" ? concern.labelJa : concern.labelEn;
   const desc = locale === "ja" ? concern.descJa : concern.descEn;
-  const icon = iconMap[concern.iconKey] ?? "❓";
-  const palette = categoryGradient[concern.category];
+  const number =
+    (concern as Concern & { number?: string }).number ?? "";
 
   return (
     <Link
       href={href}
-      className="group block w-[260px] overflow-hidden rounded-2xl border border-card-border bg-card transition-all hover:-translate-y-0.5 hover:shadow-md md:w-[300px]"
+      className="group relative block overflow-hidden rounded-2xl border border-card-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary hover:shadow-md md:p-6"
     >
-      <div
-        className="flex h-24 items-center justify-center text-4xl"
-        style={{
-          backgroundImage: `linear-gradient(135deg, ${palette.from} 0%, ${palette.to} 100%)`,
-        }}
-      >
-        <span aria-hidden="true">{icon}</span>
+      <span
+        aria-hidden="true"
+        className={`absolute left-0 top-0 h-full w-1 ${categoryAccent[concern.category]}`}
+      />
+      <div className="mb-3 flex items-center gap-3">
+        {number && (
+          <span
+            className={`font-mono text-xs font-bold tracking-wider ${categoryText[concern.category]}`}
+          >
+            {number}
+          </span>
+        )}
+        <ConcernIcon
+          iconKey={concern.iconKey}
+          size={18}
+          className={categoryText[concern.category]}
+        />
+        <span className="font-mono text-[9px] font-bold uppercase tracking-wider text-muted-fg">
+          {concern.category}
+        </span>
       </div>
-      <div className="px-4 py-3">
-        <p className="line-clamp-2 text-sm font-bold leading-snug text-foreground group-hover:text-primary">
-          {label}
-        </p>
-        <p className="mt-1 line-clamp-2 text-[11px] leading-relaxed text-muted-fg">
-          {desc}
-        </p>
-      </div>
+      <p className="text-base font-extrabold tracking-[-0.015em] leading-snug text-foreground group-hover:text-primary md:text-lg">
+        {label}
+      </p>
+      <p className="mt-2 text-xs leading-relaxed text-muted-fg">{desc}</p>
     </Link>
   );
 }

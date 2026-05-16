@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CategoryGrid } from "@/components/CategoryGrid";
 import { GuideCard } from "@/components/GuideCard";
+import { PopularRankingRail } from "@/components/PopularRankingRail";
 import { ProductFeed } from "@/components/ProductFeed";
 import { Rail, RailItem } from "@/components/Rail";
 import { RecentRail } from "@/components/RecentRail";
@@ -56,24 +57,21 @@ export default async function HomePage({
 
       {/* Hero: 圧縮 + 悩み chip フィルタ。chip タップで reel が絞り込まれる。
           メイン CTA はやめて chip 列を action surface にする (mybest/メルカリ流)。 */}
-      <section className="relative border-b border-border bg-gradient-to-b from-primary-soft/30 to-background">
-        <div className="mx-auto max-w-5xl px-5 py-5 md:py-7">
-          <div className="text-center">
-            <p className="inline-flex items-center rounded-full border border-primary/30 bg-primary-soft px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-primary md:text-xs">
-              {dict.hero.eyebrow}
-            </p>
-            <h1 className="mt-3 whitespace-pre-line text-xl font-extrabold leading-tight tracking-tight text-foreground md:text-3xl">
-              {dict.hero.title}
-            </h1>
-            <p className="mt-2 text-xs leading-relaxed text-muted-fg md:text-sm">
-              {dict.hero.tagline}
-            </p>
-          </div>
+      {/* Hero: 左寄せエディトリアル風。kicker line + 巨大 JA + 圧縮 chip 列。 */}
+      <section className="border-b border-border bg-background">
+        <div className="mx-auto max-w-7xl px-5 py-10 md:py-16">
+          <span className="t-eyebrow-line">{dict.hero.eyebrow}</span>
+          <h1 className="mt-5 max-w-3xl whitespace-pre-line text-balance text-3xl font-extrabold leading-[1.15] tracking-[-0.025em] text-foreground md:text-5xl">
+            {dict.hero.title}
+          </h1>
+          <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-fg md:text-base">
+            {dict.hero.tagline}
+          </p>
           {/* chip 列。TOP は active 状態を持たない (絞り込み無し)。各 chip は
               /concerns/[id] 静的 LP に navigate する。SEO 上の理由は
               concernChips 算出箇所のコメントを参照。 */}
           <div
-            className="mt-4 -mx-5 flex gap-2 overflow-x-auto px-5 pb-1"
+            className="mt-7 -mx-5 flex gap-2 overflow-x-auto px-5 pb-1"
             style={{ scrollbarWidth: "none" }}
             role="group"
             aria-label={
@@ -90,6 +88,9 @@ export default async function HomePage({
           </div>
         </div>
       </section>
+
+      {/* 売れ筋ランキング rail — chunk 1 (商品 reel) より先に「今売れているもの」を提示。 */}
+      <PopularRankingRail locale={locale} />
 
       {/* Mercari 風 interleaved reel:
           商品 → カテゴリ → 商品 → 履歴 → 商品 → ガイド → 商品 の縦シーケンス。
@@ -127,7 +128,9 @@ export default async function HomePage({
 
       {/* intermission 3: 選び方ガイド (コンテンツ surface) */}
       <Rail
+        kicker="EDITORIAL · GUIDES"
         title={locale === "ja" ? "選び方ガイド" : "Buying guides"}
+        titleEn={locale === "ja" ? "Editor-written buying guides" : undefined}
         subtitle={
           locale === "ja"
             ? "編集部が悩み別に書き下ろし"
@@ -154,6 +157,7 @@ export default async function HomePage({
 
       {/* Brands list (フッター手前のサブ動線) */}
       <Rail
+        kicker={locale === "ja" ? "BRANDS · 横断比較" : "BRANDS · CROSS-COMPARE"}
         title={locale === "ja" ? "ブランド一覧" : "Brands we cover"}
         subtitle={
           locale === "ja"

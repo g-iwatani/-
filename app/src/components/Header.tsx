@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Dictionary, Locale } from "@/app/[locale]/dictionaries";
+import { BrandIcon } from "./BrandIcon";
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { MobileMenu } from "./MobileMenu";
 import { PawMark } from "./PawMark";
@@ -25,12 +26,25 @@ export function Header({ locale, dict }: Props) {
         <Link
           href={root}
           className="flex items-center gap-2 text-foreground transition-opacity hover:opacity-80"
+          aria-label={dict.brand.name}
         >
-          <span className="text-primary">
-            <PawMark size={26} />
-          </span>
-          <span className="text-base font-extrabold tracking-tight">
-            {dict.brand.name}
+          {/* md+ ではデザイナー納品の lockup (paw print + わんプロブレム / WanProblem)。
+              mobile では帯幅を取りすぎるので、従来の PawMark + 短縮テキストに留める。 */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/lockup.svg"
+            alt=""
+            width={260}
+            height={40}
+            className="hidden h-9 w-auto md:block"
+          />
+          <span className="flex items-center gap-2 md:hidden">
+            <span className="text-primary">
+              <PawMark size={26} />
+            </span>
+            <span className="text-base font-extrabold tracking-tight">
+              {dict.brand.name}
+            </span>
           </span>
         </Link>
 
@@ -55,9 +69,11 @@ export function Header({ locale, dict }: Props) {
             aria-label={dict.find.header_aria}
             className="hidden items-center rounded-full border border-border bg-card px-3 py-1.5 focus-within:border-primary md:flex"
           >
-            <span aria-hidden className="mr-1.5 text-muted-fg">
-              🔍
-            </span>
+            <BrandIcon
+              name="search"
+              size={16}
+              className="mr-1.5 text-muted-fg"
+            />
             <input
               type="search"
               name="q"

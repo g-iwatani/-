@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Dictionary } from "@/app/[locale]/dictionaries";
+import { BrandIcon } from "./BrandIcon";
 
 type Props = {
   navItems: { href: string; label: string }[];
@@ -49,17 +50,7 @@ export function MobileMenu({ navItems, ctaHref, ctaLabel, dict }: Props) {
         onClick={() => setOpen(true)}
         className="inline-flex h-9 w-9 items-center justify-center rounded-full text-foreground hover:bg-muted md:hidden"
       >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          className="h-5 w-5"
-          aria-hidden
-        >
-          <path d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
+        <BrandIcon name="menu" size={20} />
       </button>
 
       {open && (
@@ -91,17 +82,7 @@ export function MobileMenu({ navItems, ctaHref, ctaLabel, dict }: Props) {
                 onClick={() => setOpen(false)}
                 className="inline-flex h-8 w-8 items-center justify-center rounded-full text-muted-fg hover:bg-muted"
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  className="h-5 w-5"
-                  aria-hidden
-                >
-                  <path d="M6 6l12 12M18 6L6 18" />
-                </svg>
+                <BrandIcon name="close" size={20} />
               </button>
             </div>
 
@@ -115,9 +96,11 @@ export function MobileMenu({ navItems, ctaHref, ctaLabel, dict }: Props) {
               className="mx-3 mt-3 flex items-center rounded-full border border-border bg-background px-3 py-2 focus-within:border-primary"
               onSubmit={() => setOpen(false)}
             >
-              <span aria-hidden className="mr-2 text-muted-fg">
-                🔍
-              </span>
+              <BrandIcon
+                name="search"
+                size={18}
+                className="mr-2 text-muted-fg"
+              />
               <input
                 type="search"
                 name="q"

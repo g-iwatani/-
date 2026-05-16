@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Locale } from "@/app/[locale]/dictionaries";
 import type { Concern } from "@/lib/concerns";
+import { ConcernIcon } from "./BrandIcon";
 
 type Props = {
   concern: Concern;
@@ -8,28 +9,9 @@ type Props = {
   href: string;
 };
 
-const iconMap: Record<string, string> = {
-  ruler: "📏",
-  alert: "⚠️",
-  compass: "🧭",
-  sun: "☀️",
-  snowflake: "❄️",
-  "cloud-rain": "🌧️",
-  footprints: "🐾",
-  anchor: "⚓",
-  shield: "🛡️",
-  heart: "💛",
-  moon: "🌙",
-  sparkles: "✨",
-  mountain: "⛰️",
-  wind: "🌬️",
-  leaf: "🍃",
-};
-
 export function ConcernCard({ concern, locale, href }: Props) {
   const label = locale === "ja" ? concern.labelJa : concern.labelEn;
   const desc = locale === "ja" ? concern.descJa : concern.descEn;
-  const icon = iconMap[concern.iconKey] ?? "❓";
 
   return (
     <Link
@@ -37,8 +19,8 @@ export function ConcernCard({ concern, locale, href }: Props) {
       className="group flex h-full flex-col gap-3 rounded-3xl border border-card-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary hover:shadow-md"
     >
       <div className="flex items-start gap-3">
-        <span className="grid h-12 w-12 flex-none place-items-center rounded-2xl bg-primary-soft text-2xl">
-          {icon}
+        <span className="grid h-12 w-12 flex-none place-items-center rounded-2xl bg-primary-soft text-primary">
+          <ConcernIcon iconKey={concern.iconKey} size={24} />
         </span>
         <div>
           <h3 className="text-sm font-bold leading-snug text-foreground group-hover:text-primary">

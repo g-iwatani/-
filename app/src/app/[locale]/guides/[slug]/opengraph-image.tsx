@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { getGuide } from "@/lib/guides";
-import { site } from "@/lib/site";
+import { absoluteUrl, site } from "@/lib/site";
 import { defaultLocale, hasLocale } from "../../dictionaries";
 
 // 同上 — Cloudflare Workers + OpenNext で next/og を動かすため明示
@@ -56,6 +56,7 @@ export default async function GuideOg({
     (
       <div
         style={{
+          position: "relative",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -67,8 +68,24 @@ export default async function GuideOg({
           justifyContent: "space-between",
         }}
       >
+        {/* デザイナー納品の OG 背景パターン。暗色グラデの上では低 opacity で texture として効かせる。 */}
+        <img
+          src={absoluteUrl("/brand/og-templates/og-bg-pattern.png")}
+          alt=""
+          width={1200}
+          height={630}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            opacity: 0.18,
+          }}
+        />
         <div
           style={{
+            position: "relative",
             display: "flex",
             alignItems: "center",
             gap: 16,
@@ -80,7 +97,14 @@ export default async function GuideOg({
           <span>選び方ガイド · {site.nameJa}</span>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            gap: 24,
+          }}
+        >
           <div
             style={{
               fontSize: 60,
