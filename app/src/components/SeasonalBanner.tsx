@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Locale } from "@/app/[locale]/dictionaries";
 import { site } from "@/lib/site";
+import { BannerIcon } from "./BrandIcon";
 
 type Props = {
   locale: Locale;
@@ -12,6 +13,13 @@ const toneAccentText: Record<string, string> = {
   warm: "text-[#fbd9b9]",
   cool: "text-[#d3e0ff]",
   fresh: "text-[#dfe9cb]",
+};
+
+/** tone (warm/cool/fresh) → BannerIcon name。tone 未定義時は summer フォールバック。 */
+const toneIconName: Record<string, "summer" | "winter" | "spring-autumn"> = {
+  warm: "summer",
+  cool: "winter",
+  fresh: "spring-autumn",
 };
 
 /**
@@ -32,6 +40,7 @@ export function SeasonalBanner({ locale, now }: Props) {
   const lead = locale === "ja" ? campaign.leadJa : campaign.leadEn;
   const cta = locale === "ja" ? campaign.ctaJa : campaign.ctaEn;
   const accent = toneAccentText[campaign.tone] ?? toneAccentText.warm;
+  const bannerIcon = toneIconName[campaign.tone] ?? "summer";
   const href = `/${locale}${campaign.href}`;
 
   return (
@@ -44,6 +53,7 @@ export function SeasonalBanner({ locale, now }: Props) {
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div className="flex flex-col gap-4 md:max-w-2xl">
               <div className="flex items-center gap-3">
+                <BannerIcon name={bannerIcon} size={32} className={accent} />
                 <span className="h-px w-7 bg-primary" aria-hidden />
                 <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
                   {locale === "ja" ? "この季節の特集" : "Seasonal feature"}

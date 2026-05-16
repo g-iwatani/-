@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="currentColor" aria-hidden="true">
+  
+  <ellipse cx="100" cy="112" rx="58" ry="30"></ellipse>
+  <circle cx="158" cy="92" r="28"></circle>
+  <polygon points="142,68 132,50 150,58"></polygon>
+  <polygon points="174,68 184,50 166,58"></polygon>
+  <circle cx="168" cy="97" r="3" fill="#fff9f2"></circle>
+  <path d="M186 87 Q193 86 192 92" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"></path>
+  <rect x="62" y="135" width="7" height="38" rx="3"></rect>
+  <rect x="84" y="135" width="7" height="38" rx="3"></rect>
+  <rect x="118" y="135" width="7" height="38" rx="3"></rect>
+  <rect x="140" y="135" width="7" height="38" rx="3"></rect>
+  <path d="M44 108 Q28 92 38 76 Q50 70 58 84" stroke="currentColor" stroke-width="6" fill="none" stroke-linecap="round"></path>
+</svg>

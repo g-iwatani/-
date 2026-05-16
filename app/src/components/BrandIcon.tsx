@@ -328,3 +328,301 @@ export function ConcernIcon({ iconKey, size = 20, className }: ConcernIconProps)
     </svg>
   );
 }
+
+// ───────────────────────────────────────────────────────────────────
+// Breed silhouettes (A3) — viewBox 200x200、fill=currentColor 主体。
+// 目のハイライトに #fff9f2 を内包する。背景が #fff9f2 系の muted パーチ
+// メント上で映える前提でデザインされている。
+// ───────────────────────────────────────────────────────────────────
+
+type BreedSilhouetteSize = "tiny" | "small" | "medium" | "large" | "giant";
+
+function BreedSilhouettePaths({ size }: { size: BreedSilhouetteSize }) {
+  switch (size) {
+    case "tiny":
+      return (
+        <>
+          <ellipse cx="118" cy="125" rx="36" ry="22" />
+          <circle cx="150" cy="100" r="22" />
+          <polygon points="138,82 132,68 144,76" />
+          <polygon points="162,82 168,68 156,76" />
+          <circle cx="158" cy="103" r="2" fill="#fff9f2" />
+          <rect x="92" y="143" width="5" height="22" rx="2" />
+          <rect x="106" y="143" width="5" height="22" rx="2" />
+          <rect x="126" y="143" width="5" height="22" rx="2" />
+          <rect x="140" y="143" width="5" height="22" rx="2" />
+          <path d="M82 122 Q70 110 78 100" />
+        </>
+      );
+    case "small":
+      return (
+        <>
+          <ellipse cx="110" cy="118" rx="50" ry="26" />
+          <circle cx="156" cy="98" r="25" />
+          <polygon points="142,76 134,60 150,68" />
+          <polygon points="170,76 178,60 162,68" />
+          <circle cx="164" cy="102" r="2.5" fill="#fff9f2" />
+          <rect x="76" y="138" width="6" height="30" rx="2.5" />
+          <rect x="94" y="138" width="6" height="30" rx="2.5" />
+          <rect x="124" y="138" width="6" height="30" rx="2.5" />
+          <rect x="142" y="138" width="6" height="30" rx="2.5" />
+          <path d="M64 116 Q50 105 56 90" />
+        </>
+      );
+    case "medium":
+      return (
+        <>
+          <ellipse cx="100" cy="112" rx="58" ry="30" />
+          <circle cx="158" cy="92" r="28" />
+          <polygon points="142,68 132,50 150,58" />
+          <polygon points="174,68 184,50 166,58" />
+          <circle cx="168" cy="97" r="3" fill="#fff9f2" />
+          <path
+            d="M186 87 Q193 86 192 92"
+            stroke="currentColor"
+            strokeWidth={3}
+            fill="none"
+            strokeLinecap="round"
+          />
+          <rect x="62" y="135" width="7" height="38" rx="3" />
+          <rect x="84" y="135" width="7" height="38" rx="3" />
+          <rect x="118" y="135" width="7" height="38" rx="3" />
+          <rect x="140" y="135" width="7" height="38" rx="3" />
+          <path
+            d="M44 108 Q28 92 38 76 Q50 70 58 84"
+            stroke="currentColor"
+            strokeWidth={6}
+            fill="none"
+            strokeLinecap="round"
+          />
+        </>
+      );
+    case "large":
+      return (
+        <>
+          <ellipse cx="98" cy="105" rx="64" ry="33" />
+          <circle cx="160" cy="86" r="30" />
+          <path d="M140 75 Q130 95 138 108 Q146 100 148 84 Z" />
+          <path d="M180 75 Q190 95 182 108 Q174 100 172 84 Z" />
+          <circle cx="170" cy="92" r="3.5" fill="#fff9f2" />
+          <path
+            d="M188 78 Q198 76 196 86"
+            stroke="currentColor"
+            strokeWidth={3.5}
+            fill="none"
+            strokeLinecap="round"
+          />
+          <rect x="56" y="132" width="8" height="42" rx="3.5" />
+          <rect x="80" y="132" width="8" height="42" rx="3.5" />
+          <rect x="116" y="132" width="8" height="42" rx="3.5" />
+          <rect x="140" y="132" width="8" height="42" rx="3.5" />
+          <path
+            d="M34 102 Q14 102 16 88"
+            stroke="currentColor"
+            strokeWidth={8}
+            fill="none"
+            strokeLinecap="round"
+          />
+        </>
+      );
+    case "giant":
+      return (
+        <>
+          <ellipse cx="96" cy="96" rx="70" ry="36" />
+          <circle cx="162" cy="74" r="33" />
+          <path d="M140 60 Q128 84 138 100 Q150 92 152 70 Z" />
+          <path d="M184 60 Q196 84 186 100 Q174 92 172 70 Z" />
+          <circle cx="172" cy="80" r="4" fill="#fff9f2" />
+          <path
+            d="M192 64 Q204 62 202 74"
+            stroke="currentColor"
+            strokeWidth={4}
+            fill="none"
+            strokeLinecap="round"
+          />
+          <rect x="52" y="128" width="10" height="50" rx="4" />
+          <rect x="78" y="128" width="10" height="50" rx="4" />
+          <rect x="116" y="128" width="10" height="50" rx="4" />
+          <rect x="142" y="128" width="10" height="50" rx="4" />
+          <path
+            d="M30 90 Q8 92 8 78"
+            stroke="currentColor"
+            strokeWidth={9}
+            fill="none"
+            strokeLinecap="round"
+          />
+        </>
+      );
+  }
+}
+
+export function BreedSilhouette({
+  size,
+  width,
+  height,
+  className,
+}: {
+  size: BreedSilhouetteSize;
+  /** width/height いずれかを指定。両方省略時はコンテナ充填 (100% / auto)。 */
+  width?: number | string;
+  height?: number | string;
+  className?: string;
+}) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 200 200"
+      width={width ?? "100%"}
+      height={height ?? "100%"}
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+    >
+      <BreedSilhouettePaths size={size} />
+    </svg>
+  );
+}
+
+// ───────────────────────────────────────────────────────────────────
+// Guide category icons (B1) — viewBox 48x48、stroke 2.2 主、一部 fill 混在。
+// GuideCard の slug-charcode 4 クラスローテに対応。
+// ───────────────────────────────────────────────────────────────────
+
+type GuideIconName = "harness" | "bath" | "senior" | "season";
+
+function GuideIconPaths({ name }: { name: GuideIconName }) {
+  switch (name) {
+    case "harness":
+      return (
+        <>
+          <path d="M16 14h16l-3 8 4 14h-6l-3-11-3 11h-6l4-14-3-8Z" />
+          <circle cx="24" cy="18" r="1.5" fill="currentColor" stroke="none" />
+          <path d="M14 22l-3 4M34 22l3 4" />
+        </>
+      );
+    case "bath":
+      return (
+        <>
+          <path d="M6 26h36v6a4 4 0 0 1-4 4H10a4 4 0 0 1-4-4v-6Z" />
+          <path d="M11 26V13a3 3 0 0 1 6 0v3" />
+          <circle cx="22" cy="9" r="2.2" fill="currentColor" stroke="none" />
+          <path d="M27 7l3-1M30 11l2 1M27 13l3 1" />
+          <path d="M14 40v3M22 40v3M30 40v3M38 40v3" />
+        </>
+      );
+    case "senior":
+      return (
+        <>
+          <circle cx="20" cy="26" r="11" />
+          <path d="M13 18l-1-4 5 2M27 18l1-4-5 2" />
+          <circle cx="17" cy="25" r="1.3" fill="currentColor" stroke="none" />
+          <circle cx="23" cy="25" r="1.3" fill="currentColor" stroke="none" />
+          <path d="M18 30c.5.7 1.2 1.1 2 1.1s1.5-.4 2-1.1" />
+          <path
+            d="M36 16c-2 0-3 1.4-3 3 0 2.5 3 5 3 5s3-2.5 3-5c0-1.6-1-3-3-3Z"
+            fill="currentColor"
+          />
+        </>
+      );
+    case "season":
+      return (
+        <>
+          <circle cx="17" cy="24" r="6" />
+          <path d="M17 13v-3M17 38v-3M6 24h-3M9 16l-2-2M9 32l-2 2" />
+          <path d="M34 14v20M28 17l6 4 6-4M28 31l6-4 6 4M28 20l6 4-6 4M40 20l-6 4 6 4" />
+        </>
+      );
+  }
+}
+
+export function GuideIcon({
+  name,
+  size = 48,
+  className,
+}: {
+  name: GuideIconName;
+  size?: number;
+  className?: string;
+}) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 48 48"
+      width={size}
+      height={size}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2.2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <GuideIconPaths name={name} />
+    </svg>
+  );
+}
+
+// ───────────────────────────────────────────────────────────────────
+// Seasonal banner icons (B2) — viewBox 64x64、stroke 3。
+// SeasonalBanner の tone (warm/cool/fresh) → summer/winter/spring-autumn。
+// ───────────────────────────────────────────────────────────────────
+
+type BannerIconName = "summer" | "winter" | "spring-autumn";
+
+function BannerIconPaths({ name }: { name: BannerIconName }) {
+  switch (name) {
+    case "summer":
+      return (
+        <>
+          <circle cx="32" cy="28" r="9" />
+          <path d="M32 12v-5M32 49v-5M16 28h-5M53 28h-5M20 16l-3.5-3.5M44 16l3.5-3.5M20 40l-3.5 3.5M44 40l3.5 3.5" />
+          <path d="M14 56c3-3 6 3 9 0s6 3 9 0 6 3 9 0 6 3 9 0" />
+        </>
+      );
+    case "winter":
+      return (
+        <>
+          <path d="M32 8v48M8 32h48M14 14l36 36M50 14L14 50" />
+          <path d="M24 12l8 4 8-4M24 52l8-4 8 4M12 24l4 8-4 8M52 24l-4 8 4 8" />
+        </>
+      );
+    case "spring-autumn":
+      return (
+        <>
+          <path d="M14 50C14 28 28 14 50 14c0 22-14 36-36 36Z" />
+          <path d="M14 50L34 30" />
+          <circle cx="44" cy="44" r="3" fill="currentColor" stroke="none" />
+          <path d="M44 38v-3M44 53v-3M38 44h-3M53 44h-3" />
+        </>
+      );
+  }
+}
+
+export function BannerIcon({
+  name,
+  size = 56,
+  className,
+}: {
+  name: BannerIconName;
+  size?: number;
+  className?: string;
+}) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 64 64"
+      width={size}
+      height={size}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={3}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <BannerIconPaths name={name} />
+    </svg>
+  );
+}
