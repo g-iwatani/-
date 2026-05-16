@@ -27,16 +27,17 @@ export default function Icon() {
         }}
       >
         <svg
-          width="24"
-          height="24"
+          width="22"
+          height="22"
           viewBox="0 0 32 32"
           fill="currentColor"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path d="M5 4 L13.5 8.5 L11 17.5 Z" />
-          <path d="M27 4 L18.5 8.5 L21 17.5 Z" />
-          <ellipse cx="16" cy="19" rx="10" ry="9" />
-          <ellipse cx="16" cy="23.5" rx="4.5" ry="3" />
+          <path d="M16 13.5 C19.5 13.5 23 16 24.5 19 C26 22 25.5 25.5 23 26.8 C20.5 28 18 26 16 26 C14 26 11.5 28 9 26.8 C6.5 25.5 6 22 7.5 19 C9 16 12.5 13.5 16 13.5 Z" />
+          <ellipse cx="8.5" cy="11" rx="3" ry="3.8" />
+          <ellipse cx="12.5" cy="6.8" rx="3" ry="3.8" />
+          <ellipse cx="19.5" cy="6.8" rx="3" ry="3.8" />
+          <ellipse cx="23.5" cy="11" rx="3" ry="3.8" />
         </svg>
       </div>
     ),

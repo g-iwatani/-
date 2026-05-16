@@ -4,11 +4,13 @@ type Props = {
 };
 
 /**
- * ブランドマーク。立ち耳の犬の顔シルエット。
+ * ブランドシンボル。犬の肉球 (paw print)。
  * - 単色 (currentColor)。Header の text-primary、OG の白文字、favicon の
  *   任意背景、いずれにも展開できる。
- * - viewBox 0 0 32 32 にフィット。16x16 まで耳と顔の輪郭で犬と判別可能。
- * - 名称は歴史的経緯で PawMark のまま (呼び出し側変更回避)。中身は犬の顔。
+ * - viewBox 0 0 32 32 / 16px まで 4 本指が独立して認識可能。
+ * - 中央 2 指は cx=12.5 / 19.5 で軽い隔たりを入れ、指の重なりを回避。
+ * - 名称は歴史的経緯で PawMark のまま (呼び出し側変更回避)。
+ *   中身は paw print (Phase 1 ブランドリフレッシュ · 2026年5月)。
  */
 export function PawMark({ className, size = 28 }: Props) {
   return (
@@ -21,14 +23,11 @@ export function PawMark({ className, size = 28 }: Props) {
       aria-hidden="true"
       className={className}
     >
-      {/* 左耳 (立ち耳・三角) */}
-      <path d="M5 4 L13.5 8.5 L11 17.5 Z" />
-      {/* 右耳 */}
-      <path d="M27 4 L18.5 8.5 L21 17.5 Z" />
-      {/* 顔 (やや幅広の楕円で柴犬っぽい輪郭) */}
-      <ellipse cx="16" cy="19" rx="10" ry="9" />
-      {/* 鼻先のアクセント (顔と同色だが下半円を少しだけ盛って "マズル感" を出す) */}
-      <ellipse cx="16" cy="23.5" rx="4.5" ry="3" />
+      <path d="M16 13.5 C19.5 13.5 23 16 24.5 19 C26 22 25.5 25.5 23 26.8 C20.5 28 18 26 16 26 C14 26 11.5 28 9 26.8 C6.5 25.5 6 22 7.5 19 C9 16 12.5 13.5 16 13.5 Z" />
+      <ellipse cx="8.5" cy="11" rx="3" ry="3.8" />
+      <ellipse cx="12.5" cy="6.8" rx="3" ry="3.8" />
+      <ellipse cx="19.5" cy="6.8" rx="3" ry="3.8" />
+      <ellipse cx="23.5" cy="11" rx="3" ry="3.8" />
     </svg>
   );
 }
