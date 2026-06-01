@@ -32,7 +32,7 @@ export const site = {
    * 表示し SEO + 信頼シグナルを稼ぐ (mybest 方式)。
    * 商品 CSV 取込やキュレーション差し込みのたびに手動でバンプ。
    */
-  lastUpdated: { year: 2026, month: 5 },
+  lastUpdated: { year: 2026, month: 6 },
   /**
    * 季節キャンペーンバナー。現在月 (1-12) に該当するエントリを SeasonalBanner が
    * ピックして表示する。複数エントリが該当する場合は配列の先頭優先。空配列で
